@@ -40,20 +40,22 @@ def get_element_color(element: Element, prefix="fill:") -> str | None:
 def get_unit_coordinates(
     unit_data: Element,
 ) -> tuple[float, float]:
-    path: Element = unit_data.find("{http://www.w3.org/2000/svg}path")
+    path = unit_data.find("{http://www.w3.org/2000/svg}path")
+    assert path is not None
 
     x = path.get("{http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd}cx")
     y = path.get("{http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd}cy")
     if x == None or y == None:
         # find all the points the objects are at
         # take the center of the bounding box
-        for path in unit_data.findall("{http://www.w3.org/2000/svg}path"):
-            pathstr = path.get("d")
-            coordinates = parse_path(pathstr, TransGL3(path))
-            coordinates = np.array(sum(coordinates, start = []))
-            minp = np.min(coordinates, axis=0)
-            maxp = np.max(coordinates, axis=0)
-            return ((minp + maxp) / 2).tolist()
+        path = unit_data.findall("{http://www.w3.org/2000/svg}path")[0]
+        pathstr = path.get("d")
+        assert pathstr is not None
+        coordinates = parse_path(pathstr, TransGL3(path))
+        coordinates = np.array(sum(coordinates, start = []))
+        minp = np.min(coordinates, axis=0)
+        maxp = np.max(coordinates, axis=0)
+        return ((minp + maxp) / 2).tolist()
 
     else:
         x = float(x)

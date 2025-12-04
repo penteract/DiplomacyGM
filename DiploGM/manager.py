@@ -3,7 +3,7 @@ import time
 import os
 from typing import Optional
 
-from discord import Member
+from discord import Member, User
 
 from DiploGM.utils import SingletonMeta
 from DiploGM.adjudicator.adjudicator import make_adjudicator
@@ -325,9 +325,11 @@ class Manager(metaclass=SingletonMeta):
         file, file_name = mapper.draw_current_map()
         return (message, file, file_name)
 
-    def get_member_player_object(self, member: Member) -> Player | None:
-            for role in member.roles:
-                for player in self.get_board(member.guild.id).players:
-                    if simple_player_name(player.name) == simple_player_name(role.name):
-                        return player
+    def get_member_player_object(self, member: Member | User) -> Player | None:
+        if not isinstance(member, Member):
             return None
+        for role in member.roles:
+            for player in self.get_board(member.guild.id).players:
+                if simple_player_name(player.name) == simple_player_name(role.name):
+                    return player
+        return None

@@ -487,6 +487,7 @@ class Parser:
             base_coordinates = tuple(
                 map(float, unit_data.findall(".//svg:path", namespaces=NAMESPACE)[0].get("d").split()[1].split(","))
             )
+            assert len(base_coordinates) == 2
             trans = TransGL3(unit_data)
             return trans.transform(base_coordinates)
 

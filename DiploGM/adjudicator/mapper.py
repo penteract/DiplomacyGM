@@ -2,6 +2,7 @@ import copy
 import itertools
 import re
 import sys
+from typing import Any
 from xml.etree.ElementTree import ElementTree, Element, register_namespace
 from xml.etree.ElementTree import tostring as elementToString
 
@@ -260,7 +261,9 @@ class Mapper:
         coasts = get_svg_element(root, self.board.data[SVG_CONFIG_KEY]["coast_markers"])
         def get_text_coordinate(e : etree.Element) -> tuple[float, float]:
             trans = TransGL3(e)
-            return trans.transform([float(e.attrib["x"]), float(e.attrib["y"])] + np.array([3.25, -3.576 / 2]))
+            x, y = e.attrib["x"], e.attrib["y"]
+            assert x is not None and y is not None
+            return trans.transform(tuple([float(x), float(y)] + np.array([3.25, -3.576 / 2])))
 
         def match(p: Province, e: Element, _:str | None):
             e.set("onclick", f'obj_clicked(event, "{p} {e[0].text}", false)')
@@ -981,6 +984,7 @@ class Mapper:
             elem.set("{http://www.inkscape.org/namespaces/inkscape}label", unit.province.name)
 
             group = self.cached_elements["unit_output"] if not use_moves_svg else self._moves_svg.getroot()
+            assert group is not None
             group.append(elem)
 
     def highlight_retreating_units(self, svg):
@@ -1016,7 +1020,9 @@ class Mapper:
         )
         self.scoreboard_power_locations: list[str] = []
         for power_element in all_power_banners_element or []:
-            self.scoreboard_power_locations.append(power_element.get("transform"))
+            transform = power_element.get("transform")
+            assert transform is not None
+            self.scoreboard_power_locations.append(transform)
 
         # each power is placed in the right spot based on the transform field which has value of "translate($x,$y)" where x,y
         # are floating point numbers; we parse these via regex and sort by y-value
@@ -1025,10 +1031,12 @@ class Mapper:
         )
 
     def add_arrow_definition_to_svg(self, svg: ElementTree) -> None:
-        defs: Element = svg.find("{http://www.w3.org/2000/svg}defs")
+        defs = svg.find("{http://www.w3.org/2000/svg}defs")
         if defs is None:
-            defs = create_element("defs", {})
-            svg.getroot().append(defs)
+            defs = self.create_element("defs", {})
+            root = svg.getroot()
+            assert root is not None
+            root.append(defs)
         # TODO: Check if 'arrow' id is already defined in defs
         arrow_marker: Element = self.create_element(
             "marker",
@@ -1139,12 +1147,12 @@ class Mapper:
             color = f"#{color}"
         if element.get(key) is not None:
             element.set(key, color)
-        if element.get("style") is not None and key in element.get("style"):
+        if element.get("style") is not None and key in (element.get("style") or ""):
             style = element.get("style")
+            assert style is not None
             style = re.sub(key + r":#[0-9a-fA-F]{6}", f"{key}:{color}", style)
             element.set("style", style)
-
-    def create_element(self, tag: str, attributes: dict[str, any]) -> etree.Element:
+    def create_element(self, tag: str, attributes: dict[str, Any]) -> etree.Element:
         attributes_str = {key: str(val) for key, val in attributes.items()}
         return etree.Element(tag, attributes_str)
 

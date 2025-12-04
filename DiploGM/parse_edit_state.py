@@ -44,7 +44,7 @@ logger = logging.getLogger(__name__)
 manager = Manager()
 
 
-def parse_edit_state(message: str, board: Board) -> tuple[str, str, bytes | None, str | None, int | None]:
+def parse_edit_state(message: str, board: Board) -> tuple[str, str, bytes | None, str | None, str | None]:
     invalid: list[tuple[str, Exception]] = []
     commands = str.splitlines(message)
     for command in commands:
@@ -244,6 +244,10 @@ def _create_unit(keywords: list[str], board: Board) -> None:
     if not player:
         raise ValueError(f"Unknown player: {keywords[1]}")
     province, coast = board.get_province_and_coast(" ".join(keywords[2:]))
+    if province.get_multiple_coasts() and coast not in province.get_multiple_coasts():
+        raise ValueError(f"Province '{province.name}' requires a valid coast.")
+    if not province.get_multiple_coasts():
+        coast = None
     # if unit_type == UnitType.FLEET and coast is None:
     #     coast_name = f"{province} coast"
     #     province, coast = board.get_province_and_coast(coast_name)
@@ -275,6 +279,10 @@ def _create_dislodged_unit(keywords: list[str], board: Board) -> None:
         if not player:
             raise ValueError(f"Unknown player: {keywords[1]}")
         province, coast = board.get_province_and_coast(keywords[2])
+        if province.get_multiple_coasts() and coast not in province.get_multiple_coasts():
+            raise ValueError(f"Province '{province.name}' requires a valid coast.")
+        if not province.get_multiple_coasts():
+            coast = None
         retreat_options = set(
             [board.get_province_and_coast(province_name) for province_name in keywords[3:]]
         )
@@ -351,6 +359,10 @@ def _move_unit(keywords: list[str], board: Board) -> None:
     if not unit:
         raise RuntimeError(f"No unit to move in {old_province}")
     new_province, new_coast = board.get_province_and_coast(keywords[1])
+    if new_province.get_multiple_coasts() and new_coast not in new_province.get_multiple_coasts():
+        raise ValueError(f"Province '{new_province.name}' requires a valid coast.")
+    if not new_province.get_multiple_coasts():
+        new_coast = None
     board.move_unit(unit, new_province, new_coast)
     get_connection().execute_arbitrary_sql(
         "DELETE FROM units WHERE board_id=? and phase=? and location=? and is_dislodged=?",
