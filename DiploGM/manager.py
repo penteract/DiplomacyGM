@@ -330,6 +330,7 @@ class Manager(metaclass=SingletonMeta):
             return None
         for role in member.roles:
             for player in self.get_board(member.guild.id).players:
-                if simple_player_name(player.name) == simple_player_name(role.name):
+                if (simple_player_name(player.name) == simple_player_name(role.name)
+                    or simple_player_name(player.get_name()) == simple_player_name(role.name)):
                     return player
         return None
