@@ -1,4 +1,5 @@
 from DiploGM.models.board import Board
+from DiploGM.models.game import Game
 from DiploGM.manager import Manager
 from DiploGM.models.order import (
     Core,
@@ -28,7 +29,8 @@ class BoardBuilder():
         except:
             pass
         manager.create_game(0, "classic")
-        self.board: Board = manager.get_board(0)
+        self._g = manager.get_game(0)
+        self.board: Board = manager.get_game(0).get_board(Turn(year=0))
         self.board.delete_all_units()
 
         # here an illegal move is one that is caught and turned into a hold order, which includes supports and convoys 
@@ -330,4 +332,5 @@ class BoardBuilder():
 class GameBuilder():
     def __init__(self):
         self.bb = BoardBuilder()
-        self.game = Game([(Turn(), bb.board)]
+        self.game = self.bb._g
+        # To consider: make games with more than 1 board

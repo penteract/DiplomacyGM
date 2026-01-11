@@ -8,6 +8,7 @@ from typing import Optional
 from DiploGM.map_parser.vector.vector import get_parser
 from DiploGM.models.turn import Turn
 from DiploGM.models.board import Board
+from DiploGM.models.game import Game
 from DiploGM.models.order import (
     Core,
     NMR,
@@ -91,11 +92,11 @@ class _DatabaseConnection:
             )
             if board_id not in games:
                 games[board_id]=[]
-            games[board_id].append( (turn, board) )
+            games[board_id].append( (current_turn, board) )
 
         cursor.close()
         logger.info("Successfully loaded")
-        return games
+        return {k:Game(v) for k,v in games.items()}
     """
     def get_board(
         self,

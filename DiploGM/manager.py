@@ -11,6 +11,7 @@ from DiploGM.adjudicator.mapper import Mapper
 from DiploGM.map_parser.vector.vector import get_parser
 from DiploGM.models.turn import Turn
 from DiploGM.models.board import Board
+from DiploGM.models.game import Game
 from DiploGM.db import database
 from DiploGM.models.player import Player
 from DiploGM.models.spec_request import SpecRequest
@@ -76,7 +77,7 @@ class Manager(metaclass=SingletonMeta):
 
         return "Approved request Logged!"
 
-    def get_board(self, server_id: int) -> Board:
+    def get_game(self, server_id: int) -> Game:
         # NOTE: Temporary for Meme's Severence Diplomacy Event
         if server_id == SEVERENCE_B_ID:
             server_id = SEVERENCE_A_ID
@@ -265,7 +266,7 @@ class Manager(metaclass=SingletonMeta):
         elapsed = time.time() - start
         logger.info(f"manager.draw_moves_map.{server_id}.{elapsed}s")
         return svg, file_name
-"""
+    """
     def rollback(self, server_id: int) -> tuple[str, bytes, str]:
         logger.info(f"Rolling back in server {server_id}")
         board = self.get_board(server_id)
@@ -324,7 +325,7 @@ class Manager(metaclass=SingletonMeta):
         message = f"Reloaded board for phase {loaded_board.turn.get_indexed_name()}"
         file, file_name = mapper.draw_current_map()
         return message, file, file_name
-"""
+    """
     def get_member_player_object(self, member: Member | User) -> Player | None:
         if isinstance(member, User):
             return None
