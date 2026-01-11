@@ -9,10 +9,10 @@ class PhaseName(Enum):
     WINTER_BUILDS = 4
 
 class Turn:
-    def __init__(self, year: int #= 1642,
-                 ,phase: PhaseName #= PhaseName.SPRING_MOVES,
-                 ,timeline:int #= 1,
-                 ,start_year: int #= 1642
+    def __init__(self, year: int = 1642
+                 ,phase: PhaseName = PhaseName.SPRING_MOVES
+                 ,start_year: int = 1642
+                 ,timeline:int = 1,
                  ):
         self.phase_names: dict[PhaseName, str] = {
             PhaseName.SPRING_MOVES: "Spring Moves",
@@ -42,7 +42,7 @@ class Turn:
         return f"{year_str} {self.phase_names[self.phase]}"
 
     def get_indexed_name(self) -> str:
-        return f"Timeline {self.get_year_index()} {self.phase_names[self.phase]}"
+        return f"{self.get_year_index()} {self.phase_names[self.phase]}"
     
     def get_short_name(self) -> str:
         return f"{str(self.year % 100)}{self.short_names[self.phase]}"
@@ -83,7 +83,7 @@ class Turn:
         split_index = turn_str.index(" ")
         year = int(turn_str[:split_index])
         phase_name = turn_str[split_index:].strip()
-        current_turn = Turn(year,phase=PhaseName.SPRING_MOVES, timeline=)
+        current_turn = Turn(year,phase=PhaseName.SPRING_MOVES)
         while current_turn.get_phase() != phase_name and current_turn.year == year:
             current_turn = current_turn.get_next_turn()
         if current_turn.year != year:
