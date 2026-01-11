@@ -25,6 +25,8 @@ unit_dict = {
     _fleet: ["f", "fleet", "boat", "ship"],
 }
 
+number_re = re.compile("[0-9]+")
+
 def sanitise_name(str):
     str = re.sub(r"[‘’`´′‛.']", "", str)
     str = re.sub(r"-", " ", str)
@@ -76,10 +78,30 @@ def get_unit_type(command: str) -> UnitType | None:
 def parse_season(
     arguments: list[str], default_turn: Turn
 ) -> Turn:
-    year, season, retreat = None, None, False
-    for s in arguments:
-        if s.isnumeric() and int(s) >= default_turn.start_year:
+    year, season, timeline, retreat = None, None, None, False
+
+    # split text up
+    args = []
+    for arg in arguments:
+        for s,n in zip(number_re.split(arg), number_re.findall(arg)+[""]):
+            for x in (s,n):
+                if x: args.append(x)
+    i=0
+    # join text back together under certain conditions
+    while i<len(args)-1:
+        if args[i].lower() in ["t","timeline"] and args[i+1].isnumeric():
+            args[i]="T"+args[i+1]
+            args[i+1]=""
+        i+=1
+    for s in args:
+        if s.startswith("T") and s[1:].isnumeric():
+            timeline = int(s[1:])
+            continue
+        if s.isnumeric(): #and int(s) >= default_turn.start_year:
+            if year is not None:
+                year="bad"
             year = int(s)
+            continue
 
         if s.lower() in ["spring", "s", "sm", "sr"]:
             season = PhaseName.SPRING_MOVES
@@ -90,22 +112,36 @@ def parse_season(
 
         retreat = retreat or s.lower() in ["retreat", "retreats", "r", "sr", "fr"]
 
-    if year is None:
+    print(arguments,args,timeline)
+    if timeline is None:
+        timeline=default_turn.timeline
+    if year is None or year=="bad":
         if season is None:
-            return default_turn
+            season = default_turn.season
         year = default_turn.year
     season = season or PhaseName.SPRING_MOVES
 
     if retreat and season != PhaseName.WINTER_BUILDS:
         season = PhaseName(season.value + 1)
-
+    """
     new_turn = Turn(year, season, default_turn.start_year)
     new_turn.year = min(new_turn.year, default_turn.year)
     if new_turn.year == default_turn.year and new_turn.phase.value > default_turn.phase.value:
         if new_turn.year == default_turn.start_year:
             return default_turn
         return Turn(new_turn.year - 1, season, default_turn.start_year)
-    return new_turn
+    """
+    if year >= default_turn.start_year:
+
+        print("a")
+        pass
+    elif year >= default_turn.start_year%100:
+        year += default_turn.start_year - default_turn.start_year%100
+        print("y")
+    else:
+        print("c")
+        year += default_turn.start_year
+    return Turn(year, season, start_year=default_turn.start_year,timeline=timeline)
 
 
 def get_value_from_timestamp(timestamp: str) -> int | None:

@@ -8,26 +8,28 @@ class PhaseName(Enum):
     FALL_RETREATS = 3
     WINTER_BUILDS = 4
 
-class Turn:
-    def __init__(self, year: int = 1642
-                 ,phase: PhaseName = PhaseName.SPRING_MOVES
-                 ,start_year: int = 1642
-                 ,timeline:int = 1,
-                 ):
-        self.phase_names: dict[PhaseName, str] = {
+PHASE_NAMES = {
             PhaseName.SPRING_MOVES: "Spring Moves",
             PhaseName.SPRING_RETREATS: "Spring Retreats",
             PhaseName.FALL_MOVES: "Fall Moves",
             PhaseName.FALL_RETREATS: "Fall Retreats",
             PhaseName.WINTER_BUILDS: "Winter Builds"
         }
-        self.short_names: dict[PhaseName, str] = {
+
+SHORT_PHASE_NAMES = {
             PhaseName.SPRING_MOVES: "sm",
             PhaseName.SPRING_RETREATS: "sr",
             PhaseName.FALL_MOVES: "fm",
             PhaseName.FALL_RETREATS: "fr",
             PhaseName.WINTER_BUILDS: "wa"
         }
+
+class Turn:
+    def __init__(self, year: int = 1642
+                 ,phase: PhaseName = PhaseName.SPRING_MOVES
+                 ,start_year: int = 1642
+                 ,timeline:int = 1,
+                 ):
         self.year: int = year
         self.phase: PhaseName = phase if phase in PhaseName else PhaseName.SPRING_MOVES
         self.timeline: int = timeline
@@ -39,53 +41,61 @@ class Turn:
             year_str =  f"{str(1-self.year)} BCE"
         else:
             year_str = str(self.year)
-        return f"{year_str} {self.phase_names[self.phase]}"
+        return f"{year_str} {PHASE_NAMES[self.phase]}"
 
     def get_indexed_name(self) -> str:
-        return f"{self.get_year_index()} {self.phase_names[self.phase]}"
+        return f"{self.get_year_index()} {PHASE_NAMES[self.phase]} Timeline {self.timeline}"
     
     def get_short_name(self) -> str:
-        return f"{str(self.year % 100)}{self.short_names[self.phase]}"
+        return f"{str(self.year % 100)}{SHORT_PHASE_NAMES[self.phase]} T{self.timeline}"
         
     def get_phase(self) -> str:
-        return self.phase_names[self.phase]
+        return PHASE_NAMES[self.phase]
     
     def get_short_phase(self) -> str:
-        return self.short_names[self.phase]
+        return SHORT_PHASE_NAMES[self.phase]
     
     def get_year_index(self) -> int:
         return self.year - self.start_year
     
     def get_next_turn(self) -> Turn:
         if self.phase == PhaseName.WINTER_BUILDS:
-            return Turn(self.year + 1, PhaseName.SPRING_MOVES, self.start_year)
-        return Turn(self.year, PhaseName(self.phase.value + 1), self.start_year)
+            return Turn(self.year + 1, PhaseName.SPRING_MOVES, self.start_year, self.timeline)
+        return Turn(self.year, PhaseName(self.phase.value + 1), self.start_year, self.timeline)
     
     def get_previous_turn(self):
         if self.phase == PhaseName.SPRING_MOVES:
-            return Turn(self.year - 1, PhaseName.WINTER_BUILDS, self.start_year)
-        return Turn(self.year, PhaseName(self.phase.value - 1), self.start_year)
+            return Turn(self.year - 1, PhaseName.WINTER_BUILDS, self.start_year,self.timeline)
+        return Turn(self.year, PhaseName(self.phase.value - 1), self.start_year,self.timeline)
 
     def is_moves(self) -> bool:
-        return "Moves" in self.phase_names[self.phase]
+        return "Moves" in PHASE_NAMES[self.phase]
         
     def is_retreats(self) -> bool:
-        return "Retreats" in self.phase_names[self.phase]
+        return "Retreats" in PHASE_NAMES[self.phase]
         
     def is_builds(self) -> bool:
-        return "Builds" in self.phase_names[self.phase]
+        return "Builds" in PHASE_NAMES[self.phase]
         
     def is_fall(self) -> bool:
-        return "Fall" in self.phase_names[self.phase]
+        return "Fall" in PHASE_NAMES[self.phase]
 
     @staticmethod
     def turn_from_string(turn_str: str) -> Turn | None:
         split_index = turn_str.index(" ")
         year = int(turn_str[:split_index])
         phase_name = turn_str[split_index:].strip()
-        current_turn = Turn(year,phase=PhaseName.SPRING_MOVES)
-        while current_turn.get_phase() != phase_name and current_turn.year == year:
-            current_turn = current_turn.get_next_turn()
-        if current_turn.year != year:
+        for n,ph in PHASE_NAMES.items():
+            if phase_name.startswith(n):
+                phase = ph
+                timeline_str = phase_name[len(n):].strip
+                break
+        else:
             return None
-        return current_turn
+        timeline_strs = timeline_str.split()
+        if len(timeline_strs)!=2 or timelinestrs[0]!="Timeline":
+            return None
+        return Turn(year=year,phase=phase,timeline=int(timeline_strs[1]))
+"""
+All instances of  Turn constructor 'Turn(' outside tests have been checked
+"""

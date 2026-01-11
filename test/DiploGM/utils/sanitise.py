@@ -27,3 +27,37 @@ class TestSanitise(unittest.TestCase):
             output_turn = parse_season(input_phase.split(" "), Turn(1903, PhaseName.SPRING_RETREATS))
             self.assertEqual(output_turn.year, expected_turn.year, f"Failed to get proper year for input '{input_phase}'")
             self.assertEqual(output_turn.get_phase(), expected_turn.get_phase(), f"Failed to get proper phase for input '{input_phase}'")
+    def test_parse_season_timeline(self):
+        input_phases = [
+            "T1S02",
+            "T1F02",
+            "T2F03",
+
+            "Timeline 2 Fall 1903",
+            "1903 Fall Timeline 2",
+            "Timeline 3, Spring 1902",
+            "T5'02S",
+            "T20W02",
+
+            "Timeline 5",
+            "Spring '02"
+        ]
+        output_turns = [
+            Turn(1902, PhaseName.SPRING_MOVES,timeline=1),
+            Turn(1902, PhaseName.FALL_MOVES,timeline=1),
+            Turn(1903, PhaseName.FALL_MOVES,timeline=2),
+
+            Turn(1903, PhaseName.FALL_MOVES,timeline=2),
+            Turn(1903, PhaseName.FALL_MOVES,timeline=2),
+            Turn(1902, PhaseName.SPRING_MOVES,timeline=3),
+            Turn(1902, PhaseName.SPRING_MOVES,timeline=5),
+            Turn(1902, PhaseName.WINTER_BUILDS,timeline=20),
+
+            Turn(1901, PhaseName.SPRING_MOVES,timeline=5),
+            Turn(1902, PhaseName.SPRING_MOVES,timeline=1),
+        ]
+        for input_phase, expected_turn in zip(input_phases, output_turns):
+            output_turn = parse_season(input_phase.split(" "), Turn(1901, PhaseName.SPRING_RETREATS,start_year=1901,timeline=1))
+            self.assertEqual(output_turn.year, expected_turn.year, f"Failed to get proper year for input '{input_phase}'")
+            self.assertEqual(output_turn.get_phase(), expected_turn.get_phase(), f"Failed to get proper phase for input '{input_phase}'")
+            self.assertEqual(output_turn.timeline, expected_turn.timeline, f"Failed to get proper timeline for input '{input_phase}'")
