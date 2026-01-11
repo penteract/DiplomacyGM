@@ -325,3 +325,9 @@ class BoardBuilder():
             test.assertTrue(notDisband not in removed_provinces, f"Expected province {notDisband} to not have unit removed")
 
         test.assertTrue(self.build_count == None or (len(self.board.units) - len(current_units)) == self.build_count, f"Expected {self.build_count} builds, got {len(self.board.units) - len(current_units)} builds")
+
+
+class GameBuilder():
+    def __init__(self):
+        self.bb = BoardBuilder()
+        self.game = Game([(Turn(), bb.board)]

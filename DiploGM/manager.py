@@ -26,7 +26,7 @@ class Manager(metaclass=SingletonMeta):
 
     def __init__(self, board_ids: Optional[list[int]]=None):
         self._database = database.get_connection()
-        self._boards: dict[int, Board] = self._database.get_boards(board_ids)
+        self._boards: dict[int, Game] = self._database.get_games(board_ids)
         self._spec_requests: dict[int, list[SpecRequest]] = (
             self._database.get_spec_requests()
         )
@@ -164,7 +164,7 @@ class Manager(metaclass=SingletonMeta):
         start = time.time()
 
         board = self.get_board(server_id)
-        old_board = self._database.get_board(
+        old_board = self._database.get_board( # TODO: Consider not reloading it
             server_id, board.turn, board.fish, board.name, board.datafile
         )
         assert old_board is not None
@@ -265,7 +265,7 @@ class Manager(metaclass=SingletonMeta):
         elapsed = time.time() - start
         logger.info(f"manager.draw_moves_map.{server_id}.{elapsed}s")
         return svg, file_name
-
+"""
     def rollback(self, server_id: int) -> tuple[str, bytes, str]:
         logger.info(f"Rolling back in server {server_id}")
         board = self.get_board(server_id)
@@ -324,7 +324,7 @@ class Manager(metaclass=SingletonMeta):
         message = f"Reloaded board for phase {loaded_board.turn.get_indexed_name()}"
         file, file_name = mapper.draw_current_map()
         return message, file, file_name
-
+"""
     def get_member_player_object(self, member: Member | User) -> Player | None:
         if isinstance(member, User):
             return None

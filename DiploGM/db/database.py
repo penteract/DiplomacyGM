@@ -57,7 +57,10 @@ class _DatabaseConnection:
             cursor.executescript(sql_file.read())
             cursor.close()
 
-    def get_boards(self, board_ids:Optional[list[int]]=None) -> dict[int, Board]:
+    def get_game(self, board_id: int) -> Game:
+        return get_games([board_id])[board_id]
+
+    def get_games(self, board_ids:Optional[list[int]]=None) -> dict[int, Game]:
         cursor = self._connection.cursor()
 
         if board_ids is not None:
@@ -69,7 +72,7 @@ class _DatabaseConnection:
 
         board_keys = [(row[0], row[1]) for row in board_data]
         logger.info(f"Loading {len(board_data)} boards from DB")
-        boards: dict[int, Board] = {}
+        games: dict[int, list[tuple[Turn,Board]]] = {}
         for board_row in board_data:
             board_id, phase_string, data_file, fish, name = board_row
 
@@ -77,8 +80,8 @@ class _DatabaseConnection:
             if current_turn is None:
                 logger.warning(f"Could not parse turn string '{phase_string}' for board {board_id}")
                 continue
-            if (board_id, str(current_turn.get_next_turn())) in board_keys:
-                continue
+            #if (board_id, str(current_turn.get_next_turn())) in board_keys:
+            #    continue
 
             if fish is None:
                 fish = 0
@@ -86,13 +89,14 @@ class _DatabaseConnection:
             board = self._get_board(
                 board_id, current_turn, fish, name, data_file, cursor, year_offset=True
             )
-
-            boards[board_id] = board
+            if board_id not in games:
+                games[board_id]=[]
+            games[board_id].append( (turn, board) )
 
         cursor.close()
         logger.info("Successfully loaded")
-        return boards
-
+        return games
+    """
     def get_board(
         self,
         board_id: int,
@@ -114,35 +118,7 @@ class _DatabaseConnection:
 
         board = self._get_board(board_id, turn, fish, name, data_file, cursor, clear_status=clear_status)
         cursor.close()
-        return board
-
-
-    def get_latest_board(self, server_id: int) -> Optional[Board]:
-        """ Such a bad function I hate it, but it should do its purpose """
-        raise DeprecationWarning
-
-        cursor = self._connection.cursor()
-        board_data = cursor.execute("SELECT * FROM boards WHERE board_id=?", (server_id,)).fetchall()
-        if len(board_data) == 0 or board_data is None:
-            return None
-
-        season_priority = {"Spring": 1, "Fall": 2, "Winter": 3}
-        phase_priority = {"Moves": 1, "Retreats": 2, "Builds": 3}
-
-        def parse_phase(string):
-            y, season, phase = string.split()
-            return int(y), season_priority[season], phase_priority[phase]
-
-        board_data.sort(key= lambda r: parse_phase(r[1]), reverse=True)
-        _, phase_str, data_file, fish, name = board_data[0]
-        phase_features = parse_phase(phase_str)
-        phaseobj = phase.get(f"{phase_features[1]} {phase_features[2]}")
-
-        init = get_parser(data_file).parse()
-
-        board = self._get_board(server_id, phaseobj, init.year+phase_features[0], fish, name, data_file, cursor)
-        cursor.close()
-        return board
+        return board"""
 
     def _get_board(
         self,
@@ -159,7 +135,7 @@ class _DatabaseConnection:
         # TODO - we should eventually store things like coords, adjacencies, etc
         #  so we don't have to reparse the whole board each time
         board = get_parser(data_file).parse()
-        board.turn = Turn(board.year_offset + turn.year, turn.phase, board.year_offset) if year_offset else turn
+        board.turn = Turn(board.year_offset + turn.year, turn.phase, board.year_offset, turn.timeline) if year_offset else turn
         board.fish = fish
         board.name = name
         board.board_id = board_id
