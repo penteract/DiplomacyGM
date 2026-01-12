@@ -73,7 +73,7 @@ class _DatabaseConnection:
 
         board_keys = [(row[0], row[1]) for row in board_data]
         logger.info(f"Loading {len(board_data)} boards from DB")
-        games: dict[int, list[tuple[Turn,Board]]] = {}
+        games: dict[int, tuple[str,list[tuple[Turn,Board]]]] = {}
         for board_row in board_data:
             board_id, phase_string, data_file, fish, name = board_row
 
@@ -91,12 +91,12 @@ class _DatabaseConnection:
                 board_id, current_turn, fish, name, data_file, cursor, year_offset=True
             )
             if board_id not in games:
-                games[board_id]=[]
-            games[board_id].append( (current_turn, board) )
+                games[board_id]=(data_file,[])
+            games[board_id][1].append( (current_turn, board) )
 
         cursor.close()
         logger.info("Successfully loaded")
-        return {k:Game(v) for k,v in games.items()}
+        return {k:Game(*v) for k,v in games.items()}
     """
     def get_board(
         self,
@@ -140,6 +140,8 @@ class _DatabaseConnection:
         board.fish = fish
         board.name = name
         board.board_id = board_id
+
+        # It's not the end of the world if we rebuild the params afresh for each board, although they could be calculated per game
 
         board_params = cursor.execute(
             "SELECT parameter_key, parameter_value FROM board_parameters WHERE board_id=?",

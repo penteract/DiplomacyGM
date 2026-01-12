@@ -112,12 +112,11 @@ def parse_season(
 
         retreat = retreat or s.lower() in ["retreat", "retreats", "r", "sr", "fr"]
 
-    print(arguments,args,timeline)
     if timeline is None:
         timeline=default_turn.timeline
     if year is None or year=="bad":
         if season is None:
-            season = default_turn.season
+            season = default_turn.phase
         year = default_turn.year
     season = season or PhaseName.SPRING_MOVES
 
@@ -133,13 +132,10 @@ def parse_season(
     """
     if year >= default_turn.start_year:
 
-        print("a")
         pass
     elif year >= default_turn.start_year%100:
         year += default_turn.start_year - default_turn.start_year%100
-        print("y")
     else:
-        print("c")
         year += default_turn.start_year
     return Turn(year, season, start_year=default_turn.start_year,timeline=timeline)
 

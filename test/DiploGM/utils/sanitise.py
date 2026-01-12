@@ -53,7 +53,7 @@ class TestSanitise(unittest.TestCase):
             Turn(1902, PhaseName.SPRING_MOVES,timeline=5),
             Turn(1902, PhaseName.WINTER_BUILDS,timeline=20),
 
-            Turn(1901, PhaseName.SPRING_MOVES,timeline=5),
+            Turn(1901, PhaseName.SPRING_RETREATS,timeline=5),
             Turn(1902, PhaseName.SPRING_MOVES,timeline=1),
         ]
         for input_phase, expected_turn in zip(input_phases, output_turns):

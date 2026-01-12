@@ -4,7 +4,7 @@ from DiploGM.models.board import Board
 from DiploGM.models.turn import Turn
 
 class Game():
-  def __init__(self, boards:list[tuple[Turn,Board]]):
+  def __init__(self, variant, boards:list[tuple[Turn,Board]]):
     self._boards = {(t.timeline,t.phase,t.year) : b for (t,b) in boards}
     mx = max(t[0].timeline for t in boards)
     allboards = [[] for x in range(mx)]
@@ -14,6 +14,7 @@ class Game():
     for r in allboards:
       r.sort(key=lambda t: (t.year,t.phase))
     self._all_boards = allboards
+    #TODO: add adjacencies
   def get_board(self, t:Turn) -> Board:
     # TODO: think about
     return self._boards[t.timeline,t.phase,t.year]

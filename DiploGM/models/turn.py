@@ -85,15 +85,15 @@ class Turn:
         split_index = turn_str.index(" ")
         year = int(turn_str[:split_index])
         phase_name = turn_str[split_index:].strip()
-        for n,ph in PHASE_NAMES.items():
+        for ph,n in PHASE_NAMES.items():
             if phase_name.startswith(n):
                 phase = ph
-                timeline_str = phase_name[len(n):].strip
+                timeline_str = phase_name[len(n):].strip()
                 break
         else:
             return None
         timeline_strs = timeline_str.split()
-        if len(timeline_strs)!=2 or timelinestrs[0]!="Timeline":
+        if len(timeline_strs)!=2 or timeline_strs[0]!="Timeline":
             return None
         return Turn(year=year,phase=phase,timeline=int(timeline_strs[1]))
 """
