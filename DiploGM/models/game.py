@@ -1,10 +1,31 @@
 from typing import Dict, Optional, TYPE_CHECKING
 
 from DiploGM.models.board import Board
-from DiploGM.models.turn import Turn
+from DiploGM.models.turn import Turn, PhaseName
+from itertools import chain
+
+"""def loose_chain(a,b):
+  if LOOSE_ADJACENCIES:
+    return chain(a,b)
+  else:
+    return a
+"""
+def prev_move_board(turn: Turn) -> Turn:
+  if turn.phase == PhaseName.SPRING_MOVES:
+    return Turn(phase=PhaseName.FALL_MOVES, year=turn.year-1, timeline=turn.timeline, start_year=turn.start_year)
+  if phase == PhaseName.FALL_MOVES:
+    Turn(phase=PhaseName.SPRING_MOVES, year=turn.year, timeline=turn.timeline, start_year=turn.start_year)
+
+def next_move_board(turn: Turn) -> Turn:
+  if turn.phase == PhaseName.SPRING_MOVES:
+    return Turn(phase=PhaseName.FALL_MOVES, year=turn.year, timeline=turn.timeline, start_year=turn.start_year)
+  if phase == PhaseName.FALL_MOVES:
+    Turn(phase=PhaseName.SPRING_MOVES, year=turn.year+1, timeline=turn.timeline, start_year=turn.start_year)
 
 class Game():
-  def __init__(self, variant, boards:list[tuple[Turn,Board]]):
+  def __init__(self, variant: Board, boards: list[tuple[Turn,Board]], LOOSE_ADJACENCIES: bool = True):
+    variant.units.clear() # a single 2D board for finding adjacencies
+    self.variant = variant
     self._boards = {(t.timeline,t.phase,t.year) : b for (t,b) in boards}
     mx = max(t[0].timeline for t in boards)
     allboards = [[] for x in range(mx)]
@@ -14,9 +35,49 @@ class Game():
     for r in allboards:
       r.sort(key=lambda t: (t.year,t.phase))
     self._all_boards = allboards
-    #TODO: add adjacencies
+
+
+    if LOOSE_ADJACENCIES:
+      loose_chain = chain
+    else:
+      def loose_chain(a,b):
+        return a
+    #add 5D adjacencies
+    for (t,board) in boards:
+      if t.phase == PhaseName.SPRING_MOVES or t.phase == PhaseName.FALL_MOVES:
+        for t in [prev_move_board(t),
+              next_move_board(t),
+              Turn(phase=t.phase, year=t.year, timeline=t.timeline+1, start_year=t.start_year),
+              Turn(phase=t.phase, year=t.year, timeline=t.timeline-1, start_year=t.start_year)
+              ]:
+          if (t.timeline,t.phase,t.year) not in allboards:
+            continue
+          other_board = self.get_board(t)
+          for p in board.provinces:
+            n = p.name.lower()
+            vp = variant.name_to_province[n]
+            for ap in loose_chain([vp],vp.adjacent):
+              p.adjacent.add(other_board.name_to_province[ap.name.lower()])
+            vpfa = vp.fleet_adjacent
+            if isinstance(fleets,dict):
+              #vpfa = {None:vpfa}
+              for coast,adjs in vpfa.items():
+                pfac = p.fleet_adjacent[coast]
+                for (ap, acoast) in loose_chain([(vp,coast)], adjs):
+                  pfac.add((other_board.name_to_province[ap.name.lower()] ,acoast))
+            else:
+              for (ap, acoast) in loose_chain([(vp,None)], vpfa):
+                p.fleet_adjacent.add((other_board.name_to_province[ap.name.lower()] ,acoast))
+            # Province.adjacent: set[Province]
+            # Province.fleet_adjacent: set[tuple[Province, str | None]] | dict[str, set[tuple[Province, str | None]]]
+
   def get_board(self, t:Turn) -> Board:
-    # TODO: think about
-    return self._boards[t.timeline,t.phase,t.year]
+    # TODO: think about returning boards full of fake provinces when t has no associated board
+    tdata = (t.timeline,t.phase,t.year)
+    if tdata in self._boards:
+      return self._boards[tdata]
+    else:
+      return variant # TODO: Modify so that provinces include turn information
+    #return self._boards[t.timeline,t.phase,t.year]
   def all_boards(self) -> list[list[Turn]]:
     return self._all_boards

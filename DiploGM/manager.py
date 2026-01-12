@@ -44,9 +44,10 @@ class Manager(metaclass=SingletonMeta):
             return f"Game {gametype} does not exist."
 
         logger.info(f"Creating new game in server {server_id}")
-        self._boards[server_id] = get_parser(gametype).parse()
-        self._boards[server_id].board_id = server_id
-        self._database.save_board(server_id, self._boards[server_id])
+        board = get_parser(gametype).parse()
+        board.board_id = server_id
+        self._database.save_board(server_id, board)
+        self._boards[server_id] = self._database.get_game(server_id)
 
         return f"{self._boards[server_id].data['name']} game created"
 

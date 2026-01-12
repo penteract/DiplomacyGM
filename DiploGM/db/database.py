@@ -91,7 +91,7 @@ class _DatabaseConnection:
                 board_id, current_turn, fish, name, data_file, cursor, year_offset=True
             )
             if board_id not in games:
-                games[board_id]=(data_file,[])
+                games[board_id]=(get_parser(data_file).parse(),[]) # TODO: don't reparse the file for every board
             games[board_id][1].append( (current_turn, board) )
 
         cursor.close()
