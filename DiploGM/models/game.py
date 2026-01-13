@@ -36,6 +36,8 @@ class Game():
       r.sort(key=lambda t: (t.year,t.phase))
     self._all_boards = allboards
 
+    self.data = self.get_board(allboards[0][0]).data # be nice for manager.create_game; TODO: this may sometimes need to change
+    self.board_id = self.get_board(allboards[0][0]).board_id
 
     if LOOSE_ADJACENCIES:
       loose_chain = chain

@@ -59,7 +59,7 @@ class _DatabaseConnection:
             cursor.close()
 
     def get_game(self, board_id: int) -> Game:
-        return get_games([board_id])[board_id]
+        return self.get_games([board_id])[board_id]
 
     def get_games(self, board_ids:Optional[list[int]]=None) -> dict[int, Game]:
         cursor = self._connection.cursor()
