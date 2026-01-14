@@ -36,6 +36,7 @@ class Province():
         owner: player.Player | None,
         local_unit: unit.Unit | None,  # TODO: probably doesn't make sense to init with a unit
     ):
+        self.isFake=False
         self.name: str = name
         self.geometry: Polygon | MultiPolygon = coordinates
         self.primary_unit_coordinates: dict[UnitType | str, tuple[float, float]] = primary_unit_coordinates
@@ -82,13 +83,15 @@ class Province():
             return self.primary_unit_coordinates[unit_type]
         return (0, 0)
 
+    def set_turn(self,turn: turn):
+        self.turn = turn
+
     def get_retreat_unit_coordinates(self, unit_type: UnitType, coast = None) -> tuple[float, float]:
         if coast in self.retreat_unit_coordinates:
             return self.retreat_unit_coordinates[coast]
         elif unit_type in self.retreat_unit_coordinates:
             return self.retreat_unit_coordinates[unit_type]
         return (0, 0)
-    
     def set_unit_coordinate(self, coord, is_primary, unit_type, coast = None):
         # Set default cooordinate if none are found
         if coord is None:

@@ -1,6 +1,6 @@
 from typing import Dict, Optional, TYPE_CHECKING
 
-from DiploGM.models.board import Board
+from DiploGM.models.board import Board, FakeBoard
 from DiploGM.models.turn import Turn, PhaseName
 from itertools import chain
 
@@ -23,10 +23,10 @@ def next_move_board(turn: Turn) -> Turn:
     Turn(phase=PhaseName.SPRING_MOVES, year=turn.year+1, timeline=turn.timeline, start_year=turn.start_year)
 
 class Game():
-  def __init__(self, variant: Board, boards: list[tuple[Turn,Board]], LOOSE_ADJACENCIES: bool = True):
+  def __init__(self, variant: Board, boards : list[tuple[Turn,Board]]):
     variant.units.clear() # a single 2D board for finding adjacencies
     self.variant = variant
-    self._boards = {(t.timeline,t.phase,t.year) : b for (t,b) in boards}
+    self._boards : dict[(int, PhaseName, int)] = {(t.timeline,t.phase,t.year) : b for (t,b) in boards}
     mx = max(t[0].timeline for t in boards)
     allboards = [[] for x in range(mx)]
     #boards.sort(key=lambda tb: (tb[0].year,tb[0] )
@@ -39,20 +39,22 @@ class Game():
     self.data = self.get_board(allboards[0][0]).data # be nice for manager.create_game; TODO: this may sometimes need to change
     self.board_id = self.get_board(allboards[0][0]).board_id
 
+  def add_adjacencies(self,LOOSE_ADJACENCIES: bool=True):
     if LOOSE_ADJACENCIES:
       loose_chain = chain
     else:
       def loose_chain(a,b):
         return a
     #add 5D adjacencies
-    for (t,board) in boards:
+    for board in self._boards.values():
+      t = board.turn
       if t.phase == PhaseName.SPRING_MOVES or t.phase == PhaseName.FALL_MOVES:
         for t in [prev_move_board(t),
               next_move_board(t),
               Turn(phase=t.phase, year=t.year, timeline=t.timeline+1, start_year=t.start_year),
               Turn(phase=t.phase, year=t.year, timeline=t.timeline-1, start_year=t.start_year)
               ]:
-          if (t.timeline,t.phase,t.year) not in allboards:
+          if (t.timeline,t.phase,t.year) not in self._all_boards:
             continue
           other_board = self.get_board(t)
           for p in board.provinces:
@@ -79,7 +81,7 @@ class Game():
     if tdata in self._boards:
       return self._boards[tdata]
     else:
-      return variant # TODO: Modify so that provinces include turn information
+      return FakeBoard(variant,t) # TODO: Modify so that provinces include turn information
     #return self._boards[t.timeline,t.phase,t.year]
   def all_boards(self) -> list[list[Turn]]:
     return self._all_boards

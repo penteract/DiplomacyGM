@@ -52,12 +52,14 @@ class Board:
         self.name_to_province: Dict[str, Province] = {}
         self.name_to_coast: Dict[str, tuple[Province, str | None]] = {}
         for location in self.provinces:
+            location.set_turn(turn)
             self.name_to_province[location.name.lower()] = location
             for coast in location.get_multiple_coasts():
                 self.name_to_coast[location.get_name(coast)] = (location, coast)
 
         for player in self.players:
             player.board = self
+        self.isFake = False
 
     def add_new_player(self, name: str, color: str):
         from DiploGM.models.player import Player
@@ -363,3 +365,30 @@ class Board:
             return self.get_cleaned_player(simple_player_name(name))
         except ValueError:
             return None
+
+
+class FakeBoard:
+    """A fake board has fake provinces which should be in the right places, but do not have adjacences and are not guarenteed to be comparable by identity"""
+    def __init__(self,variant,turn):
+        self.variant = variant
+        self.turn = turn
+        self.isFake = True
+    def get_province_and_coast(self, name: str) -> tuple[Province, str | None]:
+        (p,coast) = self.variant.get_province_and_coast(name)
+        #if p is None: return None
+
+        np = Province(
+            name = p.name,
+            coordinates = p.geometry,
+            primary_unit_coordinates = p.primary_unit_coordinates,
+            retreat_unit_coordinates = p.retreat_unit_coordinates,
+            province_type = p.province_type,
+            has_supply_center = p.has_supply_center,
+            adjacent = set(),
+            fleet_adjacent = p.fleet_adjacent,
+            core = p.core,
+            owner = p.owner,
+            local_unit = None,  # TODO: probably doesn't make sense to init with a unit
+        )
+        np.isFake=True
+        return (np,coast)

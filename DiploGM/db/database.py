@@ -87,16 +87,24 @@ class _DatabaseConnection:
             if fish is None:
                 fish = 0
 
-            board = self._get_board(
+            board = self._get_board_partial(
                 board_id, current_turn, fish, name, data_file, cursor, year_offset=True
             )
             if board_id not in games:
                 games[board_id]=(get_parser(data_file).parse(),[]) # TODO: don't reparse the file for every board
             games[board_id][1].append( (current_turn, board) )
 
-        cursor.close()
         logger.info("Successfully loaded")
-        return {k:Game(*v) for k,v in games.items()}
+        game_dict = {}
+        for k,v in games.items():
+            g = Game(*v)
+            for ts in g.all_boards():
+                for t in ts:
+                    self._finish_build_board(g.get_board(t), g, cursor)
+            game_dict[k] = g
+            g.add_adjacencies()
+        cursor.close()
+        return game_dict
     """
     def get_board(
         self,
@@ -121,7 +129,7 @@ class _DatabaseConnection:
         cursor.close()
         return board"""
 
-    def _get_board(
+    def _get_board_partial(
         self,
         board_id: int,
         turn: Turn,
@@ -129,7 +137,6 @@ class _DatabaseConnection:
         name: str | None,
         data_file: str,
         cursor,
-        clear_status: bool = False,
         year_offset: bool = False,
     ) -> Board:
         logger.info(f"Loading board with ID {board_id}")
@@ -141,7 +148,16 @@ class _DatabaseConnection:
         board.name = name
         board.board_id = board_id
 
+        return board
+    def _finish_build_board(
+        self,
+        board: Board,
+        game: Game, # dict[(int, PhaseName, int)],
+        cursor,
+        clear_status: bool = False,
+        ):
         # It's not the end of the world if we rebuild the params afresh for each board, although they could be calculated per game
+        board_id = board.board_id
 
         board_params = cursor.execute(
             "SELECT parameter_key, parameter_value FROM board_parameters WHERE board_id=?",
