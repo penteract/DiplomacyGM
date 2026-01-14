@@ -386,10 +386,10 @@ class _DatabaseConnection:
                     source_province, destination_province, destination_coast = None, None, None
                     if order_destination is not None:
                         destination_province, destination_coast = (
-                            board.get_province_and_coast(order_destination)
+                            game.get_turn_province_and_coast(order_destination)
                         )
                     if order_source is not None:
-                        source_province = board.get_province(order_source)
+                        source_province = game.get_turn_and_province(order_source)
                     if order_class == NMR:
                         continue
                     elif order_class in [Hold, Core, RetreatDisband]:

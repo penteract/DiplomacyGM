@@ -87,7 +87,7 @@ class Move(UnitOrder):
         return (self.destination, self.destination_coast)
     
     def get_destination_str(self) -> str:
-        return f"{self.destination}" + (f" {self.destination_coast}" if self.destination_coast else "")
+        return self.destination.order_str() + (f" {self.destination_coast}" if self.destination_coast else "")
 
 class ConvoyMove(UnitOrder):
     display_priority: int = 30
@@ -104,7 +104,7 @@ class ConvoyMove(UnitOrder):
         return (self.destination, None)
     
     def get_destination_str(self) -> str:
-        return f"{self.destination}"
+        return self.destination.order_str()
 
 
 class ConvoyTransport(ComplexOrder):
@@ -116,10 +116,10 @@ class ConvoyTransport(ComplexOrder):
         return f"Convoys {self.source} - {self.destination}"
     
     def get_source_str(self) -> str:
-        return f"{self.source}"
+        return self.source.order_str()
     
     def get_destination_str(self) -> str:
-        return f"{self.destination}"
+        return self.destination.order_str()
 
 
 class Support(ComplexOrder):
@@ -143,10 +143,10 @@ class Support(ComplexOrder):
         return (self.destination, self.destination_coast)
     
     def get_source_str(self) -> str:
-        return f"{self.source}"
+        return self.source.order_str()
     
     def get_destination_str(self) -> str:
-        return f"{self.destination}" + (f" {self.destination_coast}" if self.destination_coast else "")
+        return self.destination.order_str() + (f" {self.destination_coast}" if self.destination_coast else "")
 
 
 class RetreatMove(UnitOrder):
@@ -162,7 +162,7 @@ class RetreatMove(UnitOrder):
         return (self.destination, self.destination_coast)
 
     def get_destination_str(self) -> str:
-        return f"{self.destination}" + (f" {self.destination_coast}" if self.destination_coast else "")
+        return self.destination.order_str() + (f" {self.destination_coast}" if self.destination_coast else "")
 
 class RetreatDisband(UnitOrder):
     def __init__(self):
