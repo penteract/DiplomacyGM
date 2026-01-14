@@ -85,3 +85,6 @@ class Game():
     #return self._boards[t.timeline,t.phase,t.year]
   def all_boards(self) -> list[list[Turn]]:
     return self._all_boards
+
+  def is_retreats(self) -> bool:
+    return True
