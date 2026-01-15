@@ -893,3 +893,6 @@ def make_adjudicator(board: Board) -> Adjudicator:
         return BuildsAdjudicator(board)
     else:
         raise ValueError("Board is in invalid phase")
+
+def boards_equal(b1 : Board, b2 : Board):
+    return False

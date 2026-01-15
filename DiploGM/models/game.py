@@ -102,7 +102,7 @@ class Game():
         p = self.get_board(t).get_province(p)
         assert not p.isFake
         return p
-    def get_board(self, t:Turn) -> Board:
+    def get_board(self, t:Turn) -> Board | FakeBoard:
         # TODO: think about returning boards full of fake provinces when t has no associated board
         tdata = (t.timeline,t.phase,t.year)
         if tdata in self._boards:
