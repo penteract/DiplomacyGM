@@ -108,7 +108,8 @@ class Game():
         if tdata in self._boards:
             return self._boards[tdata]
         else:
-            return FakeBoard(variant,t) # TODO: Modify so that provinces include turn information
+            # return self.get_board(self.all_boards()[0][0])
+            return FakeBoard(self.variant,t) # TODO: Modify so that provinces include turn information
         #return self._boards[t.timeline,t.phase,t.year]
     def all_boards(self) -> list[list[Turn]]:
         return self._all_boards

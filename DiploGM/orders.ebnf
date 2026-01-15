@@ -136,6 +136,17 @@ retreat_unit : (DESCRIPTOR)? province
 
 DESCRIPTOR.2 : /a|army|cannon|f|fleet|boat|ship/i WS
 
-province : PROVINCE (WS PROVINCE) ~ 0..3
+province : (timeline_specifier)? PROVINCE (WS PROVINCE) ~ 0..3
 
 PROVINCE : /(?![fFaA]\s)[a-zA-Z0-9\._‘’`´′‛'-]+(?=\s)/
+
+timeline_specifier: TIMELINE WS? NUMBER WS? PUNCTUATION? WS? SEASON WS? PUNCTUATION? YEAR WS? PUNCTUATION? WS?
+
+YEAR.2 : /[0-9]{2,4}/
+
+SEASON.2: /s|spring|a|autumn|f|fall|w|winter/i WS
+
+TIMELINE.2 : /t|timeline/i
+
+PUNCTUATION: /[,;:‘’`´′‛'-—]/
+

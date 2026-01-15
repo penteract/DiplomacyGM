@@ -3,27 +3,34 @@ import unittest
 from DiploGM.models.order import ConvoyTransport, Core, Hold, Move, Support
 from DiploGM.models.unit import UnitType
 from DiploGM.parse_order import parse_order, parse_remove_order
-from test.utils import BoardBuilder
+from test.utils import BoardBuilder, GameBuilder
 
 class TestParseOrder(unittest.TestCase):
-    def test_order(self):
-        b = BoardBuilder()
+    def test_move_order(self):
+        g = GameBuilder()
+        b = g.bb
+        
         f_black_sea = b.fleet("Black Sea", b.russia)
         a_sevastopol = b.army("Sevastopol", b.russia)
         a_armenia = b.army("Armenia", b.russia)
         f_rumania = b.fleet("Rumania", b.russia)
         a_moscow = b.army("Moscow", b.russia)
         p_ankara = b.board.get_province("Ankara")
-
+    
+        
         order = ".order\n" + \
+            "Timeline 1: Spring 1642\n" + \
             "A Sevastopol - Ankara\n" + \
             "black sea convoy sevastopol to ankara\n" + \
+            "Timeline 10: Autumn 1643\n" + \
             "armen s sEvAsToPoL to ankara\n" + \
             "f rumania s black sea holds\n" + \
             "a Moscow h"
+            
+        game = g.game
+        game.variant = BoardBuilder()
         
-        
-        parsed_orders = parse_order(order, b.russia, b.board)
+        parsed_orders = parse_order(order, b.russia, game)
 
         self.assertIsInstance(a_sevastopol.order, Move, "Sevastopol army order not parsed correctly")
         assert isinstance(a_sevastopol.order, Move)
@@ -45,6 +52,32 @@ class TestParseOrder(unittest.TestCase):
         self.assertEqual(f_rumania.order.destination, f_black_sea.province, "Rumania fleet support destination incorrect")
         
         self.assertIsInstance(a_moscow.order, Hold, "Moscow army order not parsed correctly")
+
+    def test_build_order(self):
+        g = GameBuilder()
+        b = g.bb
+        b.board.turn = b.board.turn.get_next_turn()
+        b.board.turn = b.board.turn.get_next_turn()
+
+        p_mar = b.board.get_province("Marseille")
+        p_par = b.board.get_province("Paris")
+        p_bre = b.board.get_province("Brest")
+    
+        order = ".order\n" + \
+            "\n" + \
+            "build f marsaille\n" + \
+            "B A PaRiS\n" + \
+            "b f bre"
+            
+        game = g.game
+        game.variant = BoardBuilder()
+        
+        parsed_orders = parse_order(order, b.france, game)
+        
+        self.assertIsInstance(a_sevastopol.order, Move, "Sevastopol army order not parsed correctly")
+        assert isinstance(a_sevastopol.order, Move)
+        self.assertEqual(a_sevastopol.order.destination, p_ankara, "Sevastopol army move destination incorrect")
+        
 
     def test_remove_order(self):
         b = BoardBuilder()
