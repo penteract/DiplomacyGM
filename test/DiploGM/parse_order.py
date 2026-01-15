@@ -19,16 +19,16 @@ class TestParseOrder(unittest.TestCase):
     
         
         order = ".order\n" + \
-            "Timeline 1: Spring 1642\n" + \
+            "Timeline 1: Spring 1901\n" + \
             "A Sevastopol - Ankara\n" + \
             "black sea convoy sevastopol to ankara\n" + \
-            "Timeline 10: Autumn 1643\n" + \
+            "Timeline 10: Autumn 1901\n" + \
             "armen s sEvAsToPoL to ankara\n" + \
             "f rumania s black sea holds\n" + \
             "a Moscow h"
             
         game = g.game
-        game.variant = BoardBuilder()
+        #game.variant = BoardBuilder()
         
         parsed_orders = parse_order(order, b.russia, game)
 
