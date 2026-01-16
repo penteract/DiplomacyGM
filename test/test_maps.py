@@ -6,16 +6,25 @@ from DiploGM.manager import Manager
 from DiploGM.models.unit import UnitType
 from test.utils import BoardBuilder
 
-class TestMaps(unittest.TestCase):
-    def test_maps_1(self):
+class TestMaps(unittest.TestCase):        
+    def test_1(self):
+        print("<h1>TEST 1</h1>")
         b = BoardBuilder()
 
-        print(b.manager.draw_map(0)[0].decode("utf-8"))
-        
-        # a_rumania = b.core(b.germany, UnitType.ARMY, "Rumania")
-        # p_rumania = b.board.get_province("Rumania")
+        b.output()       
 
-        # b.assertIllegal(a_rumania)
-        # b.moves_adjudicate(self)
-        # self.assertFalse(p_rumania.half_core == b.germany, "Rumania shouldn't be cored")
-        pass
+    def test_2(self):
+        print("<h1>TEST 2</h1>")
+        b = BoardBuilder()
+
+        b.build(b.germany, (UnitType.FLEET, "Kiel"))
+        b.build(b.germany, (UnitType.ARMY, "Mun"))
+        b.builds_adjudicate(self)
+        b.output()
+
+        f_kiel = b.move(b.germany, UnitType.FLEET, "Kiel", "Berlin")
+        b.supportMove(b.germany, UnitType.ARMY, "Munich", f_kiel, "Berlin")
+        b.output()
+
+        b.moves_adjudicate(self)
+        b.output()
