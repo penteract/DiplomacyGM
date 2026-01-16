@@ -23,7 +23,7 @@ class TreeToOrder(Transformer):
     def set_state(self, game: Game, player_restriction: Player | None, turn: Turn):
         self.game = game
         self.turn = turn
-        #self.build_options = self.game.variant.data.get("build_options", "classic")
+        self.build_options = self.game.variant.data.get("build_options", "classic")
         self.player_restriction = player_restriction
         
     def get_current_board(self) -> Board:
@@ -44,7 +44,7 @@ class TreeToOrder(Transformer):
     def l_unit(self, s) -> Province:
         # ignore the fleet/army signifier, if exists
         loc = s[-1][0]
-        if loc is not None and not self.board.fow:
+        if loc is not None and not self.game.variant.fow and not loc.isFake:
             unit = loc.unit
             if unit is None:
                 raise ValueError(f"No unit in {s[-1][0]}")
@@ -54,10 +54,9 @@ class TreeToOrder(Transformer):
     def unit(self, s) -> Unit:
         # ignore the fleet/army signifier, if exists
         loc = s[-1][0]
+        if loc.isFake:
+            raise ValueError(f"Can't order {loc.turn} {loc} because the board does not exist")
         print("unit",s,loc,loc.isFake,loc.turn)
-        albs = self.game.all_boards()
-        print(self.game.all_boards()[0][0])
-        print(self.game.get_board(albs[0][0]))
         unit = s[-1][0].unit
         if unit is None:
             raise ValueError(f"No unit in {s[-1][0]}")
@@ -241,7 +240,10 @@ class TreeToOrder(Transformer):
     def order(self, order) -> Unit:
         command = order[0]
         unit, order = command
-        if order.source != self.turn:
+        #print("order_", unit,unit.province)
+        #for t in self.board
+        print(unit.province.turn.start_year,self.turn.start_year)
+        if unit.province.turn != self.turn:
             raise Exception(f"Cannot specify timeline on individual moves")
         if self.player_restriction is not None and unit.player != self.player_restriction:
             raise PermissionError(
@@ -273,16 +275,17 @@ class TreeToOrder(Transformer):
 
     def year(self, s) -> int:
         year = int(s[0])
-        if year >= self.turn.start_year:
+        start_year = self.game.variant.year_offset
+        if year >= start_year:
             pass
-        elif year >= self.turn.start_year%100:
-            year += self.turn.start_year - self.turn.start_year%100
+        elif year >= start_year%100:
+            year += start_year - start_year%100
         else:
-            year += self.turn.start_year
+            year += start_year - 1 # S01 == Spring 1642
         return year
     
     def timeline_specifier(self, s) -> Turn:
-        print(s)
+        #print(s)
         #print(dir(s[0]))
         #print(s[0].type,s[0].title())
         # TIMELINE WS? NUMBER WS? PUNCTUATION? WS? SEASON WS? PUNCTUATION? YEAR WS? PUNCTUATION? WS?
@@ -326,6 +329,7 @@ def parse_order(message: str, player_restriction: Player | None, game: Game) -> 
     errors = []
 
     for order in orderlist:
+        print("parsing line", order)
         # Take a single-line timeline specifier if present
         try:
             cmd = timeline_specifier_parser.parse(order.strip().lower())
