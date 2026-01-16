@@ -30,10 +30,11 @@ class TreeToOrder(Transformer):
         return self.game.get_board(self.turn)
 
     def province(self, s) -> tuple[Province, str | None]:
-        print(s)
+        print("parse_province",s)
         if isinstance(s[0],Turn):
             # Timeline specifier
             board = self.game.get_board(s[0])
+            s=s[1:]
         else:
             board = self.get_current_board()
         name = " ".join(s[::2]).replace("_", " ").strip()
@@ -55,7 +56,7 @@ class TreeToOrder(Transformer):
         # ignore the fleet/army signifier, if exists
         loc = s[-1][0]
         if loc.isFake:
-            raise ValueError(f"Can't order {loc.turn} {loc} because the board does not exist")
+            raise ValueError(f"Can't order {loc.order_str()} because the board does not exist")
         print("unit",s,loc,loc.isFake,loc.turn)
         unit = s[-1][0].unit
         if unit is None:
@@ -368,9 +369,9 @@ def parse_order(message: str, player_restriction: Player | None, game: Game) -> 
             if not order.strip():
                 continue
             logger.debug(order)
-            cmd = parser.parse(order.strip().lower() + " ")
-            ordered_unit = generator.transform(cmd)
             try:
+                cmd = parser.parse(order.strip().lower() + " ")
+                ordered_unit = generator.transform(cmd)
                 movement.append(ordered_unit)
                 orderoutput.append(f"\u001b[0;32m{ordered_unit} {ordered_unit.order}")
             except VisitError as e:
