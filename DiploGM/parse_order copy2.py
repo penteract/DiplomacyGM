@@ -1,51 +1,37 @@
 import logging
-import re
 
 from discord.ext.commands import Paginator
-from lark import Lark, Transformer, UnexpectedEOF, UnexpectedCharacters,Token
+from lark import Lark, Transformer, UnexpectedEOF, UnexpectedCharacters
 from lark.exceptions import VisitError
 
 from DiploGM.config import ERROR_COLOUR, PARTIAL_ERROR_COLOUR
 from DiploGM.utils import get_unit_type, _manage_coast_signature
-from DiploGM.models.turn import Turn, PhaseName
+from DiploGM.models import turn
 from DiploGM.models import order
 from DiploGM.models.board import Board
-from DiploGM.models.game import Game
 from DiploGM.db.database import get_connection
 from DiploGM.models.player import Player
 from DiploGM.models.province import Province
 from DiploGM.models.unit import Unit, UnitType
-from DiploGM.utils.sanitise import parse_season
 
 logger = logging.getLogger(__name__)
 
 class TreeToOrder(Transformer):
-    def set_state(self, game: Game, player_restriction: Player | None, turn: Turn):
-        self.game = game
-        self.turn = turn
-        self.build_options = self.game.variant.data.get("build_options", "classic")
+    def set_state(self, board: Board, player_restriction: Player | None):
+        self.board = board
+        self.build_options =  board.data.get("build_options", "classic")
         self.player_restriction = player_restriction
         
-    def get_current_board(self) -> Board:
-        return self.game.get_board(self.turn)
-
     def province(self, s) -> tuple[Province, str | None]:
-        print("parse_province",s)
-        if isinstance(s[0],Turn):
-            # Timeline specifier
-            board = self.game.get_board(s[0])
-            s=s[1:]
-        else:
-            board = self.get_current_board()
         name = " ".join(s[::2]).replace("_", " ").strip()
         name = _manage_coast_signature(name)
-        return board.get_province_and_coast(name)
+        return self.board.get_province_and_coast(name)
 
     # used for supports, specifically FoW
     def l_unit(self, s) -> Province:
         # ignore the fleet/army signifier, if exists
         loc = s[-1][0]
-        if loc is not None and not self.game.variant.fow and not loc.isFake:
+        if loc is not None and not self.board.fow:
             unit = loc.unit
             if unit is None:
                 raise ValueError(f"No unit in {s[-1][0]}")
@@ -54,10 +40,6 @@ class TreeToOrder(Transformer):
 
     def unit(self, s) -> Unit:
         # ignore the fleet/army signifier, if exists
-        loc = s[-1][0]
-        if loc.isFake:
-            raise ValueError(f"Can't order {loc.order_str()} because the board does not exist")
-        print("unit",s,loc,loc.isFake,loc.turn)
         unit = s[-1][0].unit
         if unit is None:
             raise ValueError(f"No unit in {s[-1][0]}")
@@ -178,8 +160,6 @@ class TreeToOrder(Transformer):
 
     def build(self, s):
         build_order = s[0]
-        if build_order.turn != generator.turn:
-            raise Exception(f"Cannot set timelines on individual orders")
         if self.player_restriction is not None and self.player_restriction != build_order[1]:
             raise Exception(f"Cannot issue order for {build_order[0].name} as you do not control it")
         if isinstance(build_order[2], order.Waive):
@@ -208,7 +188,6 @@ class TreeToOrder(Transformer):
         return s[0], order.Move(s[-1][0], s[-1][1])
 
     def move_order(self, s) -> tuple[Unit, order.Move]:
-        print("move",s)
         return s[0], order.Move(s[-1][0], s[-1][1])
 
     def convoy_order(self, s) -> tuple[Unit, order.ConvoyTransport]:
@@ -241,11 +220,6 @@ class TreeToOrder(Transformer):
     def order(self, order) -> Unit:
         command = order[0]
         unit, order = command
-        #print("order_", unit,unit.province)
-        #for t in self.board
-        print(unit.province.turn.start_year,self.turn.start_year)
-        if unit.province.turn != self.turn:
-            raise Exception(f"Cannot specify timeline on individual moves")
         if self.player_restriction is not None and unit.player != self.player_restriction:
             raise PermissionError(
                 f"{self.player_restriction.name} does not control the unit in {unit.province.name}, it belongs to {unit.player.name}"
@@ -263,87 +237,33 @@ class TreeToOrder(Transformer):
         unit.order = order
         return unit
 
-    def season(self, s) -> PhaseName:
-        match s[0].lower():
-            case "s" | "spring":
-                return PhaseName.SPRING_MOVES
-            case "f" | "fall" | "a" | "autumn":
-                return PhaseName.FALL_MOVES
-            case "w" | "winter":
-                return PhaseName.WINTER_BUILDS
-    def number(self, s) -> int:
-        return int(s[0])
-
-    def year(self, s) -> int:
-        year = int(s[0])
-        start_year = self.game.variant.year_offset
-        if year >= start_year:
-            pass
-        elif year >= start_year%100:
-            year += start_year - start_year%100
-        else:
-            year += start_year - 1 # S01 == Spring 1642
-        return year
-    
-    def timeline_specifier(self, s) -> Turn:
-        #print(s)
-        #print(dir(s[0]))
-        #print(s[0].type,s[0].title())
-        # TIMELINE WS? NUMBER WS? PUNCTUATION? WS? SEASON WS? PUNCTUATION? YEAR WS? PUNCTUATION? WS?
-        #
-        #important_parts = [s[0], s[2], s[5], s[7]]
-        important_parts = []
-        for x in s:
-            if not isinstance(x,Token):
-                important_parts.append(x)
-        print(important_parts)
-        timeline, phase, year = important_parts
-        return Turn(start_year = self.turn.start_year, year=year, timeline=timeline, phase=phase) # parse_season(important_parts, self.turn)
-    
-    # def punctuation(self, s):
-    #     return s
-#/ --- /#
 
 generator = TreeToOrder()
+
 
 with open("DiploGM/orders.ebnf", "r") as f:
     ebnf = f.read()
 
-movement_parser           = Lark(ebnf, start="order",              parser="earley")
-retreats_parser           = Lark(ebnf, start="retreat",            parser="earley")
-builds_parser             = Lark(ebnf, start="build",              parser="earley")
-timeline_specifier_parser = Lark(ebnf, start="timeline_specifier", parser="earley")
+movement_parser = Lark(ebnf, start="order", parser="earley")
+retreats_parser = Lark(ebnf, start="retreat", parser="earley")
+builds_parser   = Lark(ebnf, start="build", parser="earley")
 
-def parse_order(message: str, player_restriction: Player | None, game: Game) -> dict[str, ...]:
+def parse_order(message: str, player_restriction: Player | None, board: Board) -> dict[str, ...]:
     ordertext = message.split(maxsplit=1)
-    if len(ordertext) == 1: # 
+    if len(ordertext) == 1:
         return {
             "message": "For information about entering orders, please use the "
                        "[player guide](https://docs.google.com/document/d/1SNZgzDViPB-7M27dTF0SdmlVuu_KYlqqzX0FQ4tWc2M/"
                        "edit#heading=h.7u3tx93dufet) for examples and syntax.",
             "embed_colour": ERROR_COLOUR
         }
-    generator.set_state(game, player_restriction, Turn(timeline=(float("nan"))))
     orderlist = ordertext[1].strip().splitlines()
     movement = []
     orderoutput = []
     errors = []
-
-    for order in orderlist:
-        print("parsing line", order)
-        # Take a single-line timeline specifier if present
-        try:
-            cmd = timeline_specifier_parser.parse(order.strip().lower())
-            new_turn = generator.transform(cmd)
-            generator.set_state(game, player_restriction, new_turn)
-            continue
-        except UnexpectedCharacters as e:
-            #print("UC", e)
-            #raise e
-            pass
-        #print(order)
-        if generator.turn.is_builds():
-            parser = retreats_parser
+    if board.turn.is_builds():
+        generator.set_state(board, player_restriction)
+        for order in orderlist:
             if not order.strip():
                 continue
             try:
@@ -359,17 +279,20 @@ def parse_order(message: str, player_restriction: Player | None, game: Game) -> 
             except UnexpectedCharacters as e:
                 orderoutput.append(f"\u001b[0;31m{order}")
                 errors.append(f"`{order}`: Please fix this order and try again")
-        elif generator.turn.is_moves() or generator.turn.is_retreats():
-            if generator.turn.is_moves():
-                print("moves")
-                parser = movement_parser
-            else:
-                parser = retreats_parser
+        database = get_connection()
+        database.save_build_orders_for_players(board, player_restriction)
+    elif board.turn.is_moves() or board.turn.is_retreats():
+        if board.turn.is_moves():
+            parser = movement_parser
+        else:
+            parser = retreats_parser
 
+        generator.set_state(board, player_restriction)
+        for order in orderlist:
             if not order.strip():
                 continue
-            logger.debug(order)
             try:
+                logger.debug(order)
                 cmd = parser.parse(order.strip().lower() + " ")
                 ordered_unit = generator.transform(cmd)
                 movement.append(ordered_unit)
@@ -383,19 +306,16 @@ def parse_order(message: str, player_restriction: Player | None, game: Game) -> 
             except UnexpectedCharacters as e:
                 orderoutput.append(f"\u001b[0;31m{order}")
                 errors.append(f"`{order}`: Please fix this order and try again")
-        else:
-            return {
-                "message": "The game is in an unknown phase. "
-                        "Something has gone very wrong with the bot. "
-                        "Please report this to a gm",
-                "embed_colour": ERROR_COLOUR,
-            }
-    database = get_connection()
-    timelines = game.all_boards()
-    # Save orders for all units on final boards
-    for turns in timelines:
-        board = game.get_board(turns[-1])
+        database = get_connection()
         database.save_order_for_units(board, movement)
+    else:
+        return {
+            "message": "The game is in an unknown phase. "
+                       "Something has gone very wrong with the bot. "
+                       "Please report this to a gm",
+            "embed_colour": ERROR_COLOUR,
+        }
+        
 
     paginator = Paginator(prefix="```ansi\n", suffix="```", max_size=4096)
     for line in orderoutput:

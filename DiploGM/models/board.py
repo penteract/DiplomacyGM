@@ -3,6 +3,7 @@ import re
 import logging
 import time
 from typing import Dict, Optional, TYPE_CHECKING
+from DiploGM.models.province import Province
 
 from discord import Thread, TextChannel
 from discord.ext import commands
@@ -382,7 +383,7 @@ class FakeBoard:
             coordinates = p.geometry,
             primary_unit_coordinates = p.primary_unit_coordinates,
             retreat_unit_coordinates = p.retreat_unit_coordinates,
-            province_type = p.province_type,
+            province_type = p.type,
             has_supply_center = p.has_supply_center,
             adjacent = set(),
             fleet_adjacent = p.fleet_adjacent,
@@ -391,4 +392,5 @@ class FakeBoard:
             local_unit = None,  # TODO: probably doesn't make sense to init with a unit
         )
         np.isFake=True
+        np.set_turn(self.turn)
         return (np,coast)

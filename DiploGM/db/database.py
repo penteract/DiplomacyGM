@@ -143,7 +143,8 @@ class _DatabaseConnection:
         # TODO - we should eventually store things like coords, adjacencies, etc
         #  so we don't have to reparse the whole board each time
         board = get_parser(data_file).parse()
-        board.turn = Turn(board.year_offset + turn.year, turn.phase, board.year_offset, turn.timeline) if year_offset else turn
+        print("_get_board_partial ",board.year_offset, turn,turn.timeline)
+        board.turn = Turn(turn.year, turn.phase, board.year_offset, turn.timeline) if year_offset else turn
         board.fish = fish
         board.name = name
         board.board_id = board_id

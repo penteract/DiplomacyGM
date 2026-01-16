@@ -33,7 +33,7 @@ class Turn:
         self.year: int = year
         self.phase: PhaseName = phase if phase in PhaseName else PhaseName.SPRING_MOVES
         self.timeline: int = timeline
-        self.start_year: int = start_year
+        self.start_year: int = None #start_year
         ## TODO: update everything except __init__
     
     def __str__(self):
@@ -41,7 +41,7 @@ class Turn:
             year_str =  f"{str(1-self.year)} BCE"
         else:
             year_str = str(self.year)
-        return f"{year_str} {PHASE_NAMES[self.phase]}"
+        return f"Timeline {self.timeline} {PHASE_NAMES[self.phase]} {year_str}"
 
     def get_indexed_name(self) -> str:
         return f"{self.get_year_index()} {PHASE_NAMES[self.phase]} Timeline {self.timeline}"
@@ -56,7 +56,7 @@ class Turn:
         return SHORT_PHASE_NAMES[self.phase]
     
     def get_year_index(self) -> int:
-        return self.year - self.start_year
+        return self.year# - self.start_year # Incompatibility :)
     
     def get_next_turn(self) -> Turn:
         if self.phase == PhaseName.WINTER_BUILDS:
@@ -79,6 +79,13 @@ class Turn:
         
     def is_fall(self) -> bool:
         return "Fall" in PHASE_NAMES[self.phase]
+
+    def __eq__(self,other) -> bool:
+        if not isinstance(other,Turn):
+            return NotImplemented
+        #if other.start_year != self.start_year:
+        #    raise Exception("Comparing Turns with different start years")
+        return other.timeline == self.timeline and other.year == self.year and other.phase == self.phase
 
     @staticmethod
     def turn_from_string(turn_str: str) -> Turn | None:

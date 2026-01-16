@@ -45,6 +45,7 @@ class Manager(metaclass=SingletonMeta):
 
         logger.info(f"Creating new game in server {server_id}")
         board = get_parser(gametype).parse()
+        #print(board.turn, board.turn.timeline, board.year_offset)
         board.board_id = server_id
         self._database.save_board(server_id, board)
         self._boards[server_id] = self._database.get_game(server_id)

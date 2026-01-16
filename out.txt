@@ -1,0 +1,14 @@
+..F
+======================================================================
+FAIL: test_remove_order (test.DiploGM.parse_order.TestParseOrder.test_remove_order)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/REDACTED/Documents/code-stuff/dddddiplomacy_gm/test/DiploGM/parse_order.py", line 71, in test_remove_order
+    self.assertIsNone(a_berlin.order, "Order removal failed for Berlin army")
+    ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: <DiploGM.models.order.Move object at 0x7f81785f83e0> is not None : Order removal failed for Berlin army
+
+----------------------------------------------------------------------
+Ran 3 tests in 0.647s
+
+FAILED (failures=1)

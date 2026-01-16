@@ -30,7 +30,7 @@ class BoardBuilder():
             pass
         manager.create_game(0, "classic")
         self._g = manager.get_game(0)
-        self.board: Board = manager.get_game(0).get_board(Turn(year=0))
+        self.board: Board = manager.get_game(0).get_board(Turn(year=1901))
         self.board.delete_all_units()
 
         # here an illegal move is one that is caught and turned into a hold order, which includes supports and convoys 
