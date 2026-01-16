@@ -37,7 +37,7 @@ class Manager(metaclass=SingletonMeta):
     def list_servers(self) -> set[int]:
         return set(self._boards.keys())
 
-    def create_game(self, server_id: int, gametype: str = "impdip") -> str:
+    def create_game(self, server_id: int, gametype: str = "impdip", empty: bool = False) -> str:
         if self._boards.get(server_id):
             return "A game already exists in this server."
         if not os.path.isdir(f"variants/{gametype}"):
@@ -45,6 +45,8 @@ class Manager(metaclass=SingletonMeta):
 
         logger.info(f"Creating new game in server {server_id}")
         board = get_parser(gametype).parse()
+        if empty:
+            board.delete_all_units()
         #print(board.turn, board.turn.timeline, board.year_offset)
         board.board_id = server_id
         self._database.save_board(server_id, board)

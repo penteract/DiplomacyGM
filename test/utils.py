@@ -22,16 +22,22 @@ import unittest
 # Allows for specifying units, uses the classic diplomacy board as that is used by DATC 
 # Only implements the subset of adjacencies necessary to run the DATC tests as of now
 class BoardBuilder():
+    def _save(self):
+        self.board.board_id=1
+        self._manager._database.save_board(1, self.board)
     def __init__(self, season: str = "Spring"):
         manager = Manager()
         try:
             manager.total_delete(0)
+            manager.total_delete(1)
         except:
             pass
-        manager.create_game(0, "classic")
+        manager.create_game(0, "classic", empty=True)
         self._g = manager.get_game(0)
         self.board: Board = manager.get_game(0).get_board(Turn(year=1901))
-        self.board.delete_all_units()
+        #for debugging:
+        self._manager = manager
+
 
         # here an illegal move is one that is caught and turned into a hold order, which includes supports and convoys 
         # which are missing the corresponding part

@@ -71,7 +71,7 @@ class Province():
     def order_str(self):
         return f"T{self.turn.timeline}{SHORT_PHASE_NAMES[self.turn.phase]}{self.turn.year} {self.name}"
     def __repr__(self):
-        return f"Province {self.name}"
+        return f"Province {self.order_str()}"
     
     def get_name(self, coast: str | None = None):
         if coast in self.fleet_adjacent:

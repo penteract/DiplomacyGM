@@ -16,6 +16,7 @@ class TestParseOrder(unittest.TestCase):
         f_rumania = b.fleet("Rumania", b.russia)
         a_moscow = b.army("Moscow", b.russia)
         p_ankara = b.board.get_province("Ankara")
+        b._save()
 
 
         order = ".order\n" + \
@@ -68,13 +69,14 @@ class TestParseOrder(unittest.TestCase):
         f_rumania = b.fleet("Rumania", b.russia)
         a_moscow = b.army("Moscow", b.russia)
         p_ankara = b.board.get_province("Ankara")
+        b._save()
 
 
         order = ".order\n" + \
             "Timeline 1: Spring 1901\n" + \
             "A Sevastopol - Ankara\n" + \
             "black sea convoy T1F01 sevastopol to ankara\n" + \
-            "armen s T10F21 sEvAsToPoL to T10F01 ankara\n" + \
+            "armen s T13F21 sEvAsToPoL to T13F01 ankara\n" + \
             "Timeline 3: Spring 1901\n" + \
             "f rumania s black sea holds\n" + \
             "Timeline 1: Spring 1903\n" + \
@@ -87,8 +89,8 @@ class TestParseOrder(unittest.TestCase):
         #print("test_move_order")
         #print(parsed_orders["messages"])
         messages = parsed_orders["messages"][0].split("\n")
-        for x in messages:
-            print(x)
+        # for x in messages:
+        #     print(x)
 
 
 
@@ -105,9 +107,19 @@ class TestParseOrder(unittest.TestCase):
         #self.assertIsInstance(f_rumania.order, Support, "Rumania fleet order not parsed correctly")
         self.assertEqual(f_rumania.order, None, "Rumania fleet order should have failed")
         self.assertEqual(a_moscow.order, None, "Moscow order should have failed")
-        #print(messages)
+        #print("["+",\n".join(map(repr,messages))+"]")
         self.assertEqual(messages,
-                         ['```ansi', '', '\x1b[0;32mA Sevastopol - T1sm1901 Ankara', '\x1b[0;32mF Black Sea Convoys Sevastopol - Ankara', '\x1b[0;32mA Armenia Supports Sevastopol - Ankara', '\x1b[0;31mf rumania s black sea holds', '\x1b[0;31ma Moscow h', '```', "`f rumania s black sea holds`: Can't order T3sm1901 Rumania because the board does not exist", "`a Moscow h`: Can't order T1sm1903 Moscow because the board does not exist"])
+                         ['```ansi',
+'',
+'\x1b[0;32mA Sevastopol - T1sm1901 Ankara',
+'\x1b[0;32mF Black Sea Convoys T1fm1901 Sevastopol - T1sm1901 Ankara',
+'\x1b[0;32mA Armenia Supports T13fm1921 Sevastopol - T13fm1901 Ankara',
+'\x1b[0;31mf rumania s black sea holds',
+'\x1b[0;31ma Moscow h',
+'```',
+"`f rumania s black sea holds`: Can't order T3sm1901 Rumania because the board does not exist",
+"`a Moscow h`: Can't order T1sm1903 Moscow because the board does not exist"]
+                         )
 
     def test_build_order(self):
         g = GameBuilder()
