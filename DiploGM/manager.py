@@ -171,8 +171,8 @@ class Manager(metaclass=SingletonMeta):
 
 
         turns = game.all_boards()
-        last_boards = {tl[-1] : game.get_board(tl[-1]) for tl in turns}
-        retreats = [(t, b) for t,b in last_boards.items() if t.is_retreats()]
+        last_boards = [(tl[-1], game.get_board(tl[-1]))  for tl in turns]
+        retreats = [(t, b) for t,b in last_boards if t.is_retreats()]
         #retreats = {t: } any(x.is_retreats for x in last_turns)
         if retreats:
             for (t,b) in retreats:
@@ -183,7 +183,7 @@ class Manager(metaclass=SingletonMeta):
         else:
             newSprings = []
             any_moves = False
-            for (t,b) in last_boards.items():
+            for (t,b) in last_boards:
                 if t.is_builds():
                     newSprings.append( (t.get_next_turn(), BuildsAdjudicator(b).run()) )
                 else:
@@ -204,10 +204,11 @@ class Manager(metaclass=SingletonMeta):
                             if compare_board.isFake:
                                 new_board.turn = nt
                                 self._database.save_board(server_id, new_board)
-                            # TODO: !!! check all child boards
-                            if not boards_equal(new_board, compare_board):
+                            elif not boards_equal(new_board, compare_board):
+                                # TODO: !!! check all child boards
                                 new_board.turn = nt
                                 new_boards.append(((nt.year,nt.phase.value,nt.timeline), new_board))
+
                 new_boards.sort()
                 last_timeline = len(turns)
                 for (tinfo,new_board) in new_boards:
@@ -217,7 +218,7 @@ class Manager(metaclass=SingletonMeta):
             for t,new_board in newSprings:
                 new_board.turn = t
                 self._database.save_board(server_id, new_board)
-            newBoards
+            #newBoards
         logger.info("All Adjudicators finished and saved")
 
         self.get_game(server_id, reload=True) # Update the game so that mutated stuff doesn't cause problems

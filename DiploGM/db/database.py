@@ -413,7 +413,8 @@ class _DatabaseConnection:
                     else:
                         assert province.unit is not None
                         province.unit.order = order
-            except:
+            except Exception as e:
+                raise e # TODO: !!! remove this when stable
                 logger.warning("BAD UNIT INFO: replacing with hold")
                 continue
         return board

@@ -26,7 +26,7 @@ def next_move_board(turn: Turn) -> Turn:
 def get_turn(s: str, start_year: int):
     assert s.startswith("T")
     n = number_re.match(s[1:]).group()
-    s=s[1+n:]
+    s=s[1+len(n):]
     tl = int(n)
     phase=None
     for k,v in SHORT_PHASE_NAMES.items():
@@ -34,7 +34,7 @@ def get_turn(s: str, start_year: int):
             phase=k
             s=s[len(v):]
     n = number_re.match(s).group()
-    s=s[n:]
+    s=s[len(n):]
     year = int(n)
     return (Turn(year=year, phase=phase, timeline=tl, start_year=start_year),s)
 
@@ -96,7 +96,8 @@ class Game():
     def get_turn_province_and_coast(self, prov:str):
         t,p = get_turn(prov,self.start_year)
         p = self.get_board(t).get_province_and_coast(p)
-        assert not p.isFake
+        assert not p[0].isFake
+        return p
     def get_turn_and_province(self, prov:str):
         t,p = get_turn(prov,self.start_year)
         p = self.get_board(t).get_province(p)
@@ -117,3 +118,17 @@ class Game():
 
     def is_retreats(self) -> bool:
         return True
+
+    def get_moves_boards(self):
+        for timeline in self._all_boards:
+            for turn in timeline:
+                if turn.is_moves():
+                    yield self.get_board(turn)
+    def get_moves_provinces(self):
+        for board in self.get_moves_boards():
+            for p in board.provinces:
+                yield p
+    def get_moves_units(self):
+        for board in self.get_moves_boards():
+            for u in board.units:
+                yield u

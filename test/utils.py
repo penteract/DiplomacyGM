@@ -24,15 +24,16 @@ import unittest
 class BoardBuilder():
     def _save(self):
         self.board.board_id=1
+        self._g.board_id = 1
         self._manager._database.save_board(1, self.board)
-    def __init__(self, season: str = "Spring"):
+    def __init__(self, empty = True):
         manager = Manager()
         try:
             manager.total_delete(0)
-            manager.total_delete(1)
+            if empty: manager.total_delete(1)
         except:
             pass
-        manager.create_game(0, "classic", empty=True)
+        manager.create_game(0, "classic", empty=empty)
         self._g = manager.get_game(0)
         self.board: Board = manager.get_game(0).get_board(Turn(year=1901))
         #for debugging:
@@ -336,7 +337,9 @@ class BoardBuilder():
 
 
 class GameBuilder():
-    def __init__(self):
-        self.bb = BoardBuilder()
+    def __init__(self,empty=True):
+        self.bb = BoardBuilder(empty=empty)
         self.game = self.bb._g
         # To consider: make games with more than 1 board
+    def adjudicate(self):
+        self.bb._manager.adjudicate(self.game.board_id)

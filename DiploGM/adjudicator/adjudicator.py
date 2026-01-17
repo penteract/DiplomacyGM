@@ -41,6 +41,7 @@ from DiploGM.models.order import (
 from DiploGM.models.player import PlayerClass
 from DiploGM.models.province import Province, ProvinceType
 from DiploGM.models.unit import UnitType, Unit
+from DiploGM.models.game import Game
 from DiploGM.db import database
 
 logger = logging.getLogger(__name__)
@@ -249,9 +250,14 @@ class MapperInformation:
 class Adjudicator:
     __metaclass__ = abc.ABCMeta
 
-    def __init__(self, board: Board):
-        self._board = board
+    def __init__(self, game: Game | Board):
         self.save_orders = True
+        if isinstance(game,Game):
+            board = game.variant
+            self._game : Game = game
+        else:
+            board = game
+            self._board: Board = board
         self.build_options = board.data.get("build_options", "classic")
         self.has_vassals = (board.data.get("vassals") == "enabled")
         self.failed_or_invalid_units: set[MapperInformation] = set()
@@ -466,13 +472,13 @@ class RetreatsAdjudicator(Adjudicator):
 
 class MovesAdjudicator(Adjudicator):
     # Algorithm from https://diplom.org/Zine/S2009M/Kruijswijk/DipMath_Chp6.htm
-    def __init__(self, board: Board):
-        super().__init__(board)
+    def __init__(self, game: Game):
+        super().__init__(game)
  
         self.orders: set[AdjudicableOrder] = set()
 
         # run supports after everything else since illegal cores / moves should be treated as holds
-        units = sorted(board.units, key=lambda unit: isinstance(unit.order, Support))
+        units = sorted(game.get_moves_units(), key=lambda unit: isinstance(unit.order, Support))
         for unit in units:
             # Replace invalid orders with holds
             # Importantly, this includes supports for which the corresponding unit didn't make the same move
@@ -561,16 +567,17 @@ class MovesAdjudicator(Adjudicator):
                     if self._adjudicate_convoys_for_order(order) == Resolution.SUCCEEDS:
                         order.is_convoy = True
 
-    def run(self) -> Board:
+    def run(self) -> Game:
         for order in self.orders:
             order.state = ResolutionState.UNRESOLVED
         for order in self.orders:
             self._resolve_order(order)
             order.get_original_order().hasFailed = (order.resolution == Resolution.FAILS)
         if self.save_orders:
-            database.get_connection().save_order_for_units(self._board, set(o.base_unit for o in self.orders))
+            for board in self._game.get_moves_boards():
+                database.get_connection().save_order_for_units(board, set(o.base_unit for o in self.orders if o.base_unit.province.turn == board.turn))
         self._update_board()
-        return self._board
+        return self._game
 
     def _update_board(self):
         if not all(order.state == ResolutionState.RESOLVED for order in self.orders):
@@ -598,15 +605,20 @@ class MovesAdjudicator(Adjudicator):
                 order.base_unit.province = order.destination_province
                 order.base_unit.coast = order.destination_coast
                 order.destination_province.unit = order.base_unit
-                if not order.destination_province.has_supply_center or self._board.turn.is_fall():
-                    self._board.change_owner(order.destination_province, order.country)
+                if not order.destination_province.has_supply_center or order.base_unit.province.turn.is_fall():
+                    board = self._game.get_board(order.base_unit.province.turn)
+                    board.change_owner(order.destination_province, order.country)
             if (order.type == OrderType.HOLD
                 and order.resolution == Resolution.SUCCEEDS
                 and order.source_province.dislodged_unit != order.base_unit):
-                if not order.destination_province.has_supply_center or self._board.turn.is_fall():
-                    self._board.change_owner(order.destination_province, order.country)
+                if not order.destination_province.has_supply_center or order.base_unit.province.turn.is_fall():
+                    board = self._game.get_board(order.base_unit.province.turn)
+                    board.change_owner(order.destination_province, order.country)
 
-        for province in self._board.provinces:
+        #for board in self._game.get_moves_provinces()
+        #[self.game.get_board(t) for t in itertools.chain(self._games.all_boards()) if t.is_moves()]:
+        for province in self._game.get_moves_provinces():
+            #board.provinces:
             if province.corer:
                 if province.half_core == province.corer:
                     province.core = province.corer
@@ -619,15 +631,16 @@ class MovesAdjudicator(Adjudicator):
 
         contested = self._find_contested_areas()
 
-        for unit in self._board.units:
+        for unit in self._game.get_moves_units():
             unit.order = None
             if unit.retreat_options is not None:
                 unit.remove_many_retreat_options(contested)
 
             # Update provinces again to capture SCs in fall where units held
-            if self._board.turn.is_fall():
+            if unit.province.turn.is_fall():
                 if unit.province.unit == unit and unit.province.owner != unit.player:
-                    self._board.change_owner(unit.province, unit.player)
+                    board = self._game.get_board(unit.province.turn)
+                    board.change_owner(unit.province, unit.player)
 
     def _find_contested_areas(self):
         bounces_and_occupied = set()
@@ -652,7 +665,7 @@ class MovesAdjudicator(Adjudicator):
 
                     bounces_and_occupied.add(order.destination_province)
 
-        for unit in self._board.units:
+        for unit in self._game.get_moves_units():
             bounces_and_occupied.add(unit.province)
 
         return bounces_and_occupied
