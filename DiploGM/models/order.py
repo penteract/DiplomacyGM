@@ -135,8 +135,8 @@ class Support(ComplexOrder):
 
         if self.source != self.destination:
             suffix = f"- {self.get_destination_str()}"
-            if self.destination_coast:
-                suffix += f" {self.destination_coast}"
+            # if self.destination_coast:
+            #     suffix += f" {self.destination_coast}"
         return f"Supports {self.get_source_str()} {suffix}"
         
     def get_destination_and_coast(self) -> tuple[Province, str | None]:

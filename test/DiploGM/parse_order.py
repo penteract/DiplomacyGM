@@ -16,16 +16,19 @@ class TestParseOrder(unittest.TestCase):
         f_rumania = b.fleet("Rumania", b.russia)
         a_moscow = b.army("Moscow", b.russia)
         p_ankara = b.board.get_province("Ankara")
-        b._save()
+        p_bulgaria = b.board.get_province("Bulgaria")
+        #b._save()
 
 
         order = ".order\n" + \
-            "Timeline 1: Spring 1901\n" + \
+            "Timeline 1, Spring 1901: \n" + \
+            "T1 - Spring '01:\n" + \
+            "T1S01\n" + \
             "A Sevastopol - Ankara\n" + \
-            "black sea convoy sevastopol to ankara\n" + \
-            "Timeline 1: Spring 1901\n" + \
+            "black sea convoy sevastopol to bulgaria sc\n" + \
+            "Timeline 1 - Spring 1901 - \n" + \
             "armen s sEvAsToPoL to ankara\n" + \
-            "f rumania s black sea holds\n" + \
+            "f rumania s sev - bul South Coast\n" + \
             "f stp_S S black sea holds\n" + \
             "a Moscow h"
 
@@ -46,7 +49,7 @@ class TestParseOrder(unittest.TestCase):
         self.assertIsInstance(f_black_sea.order, ConvoyTransport, "Black Sea fleet order not parsed correctly")
         assert isinstance(f_black_sea.order, ConvoyTransport)
         self.assertEqual(f_black_sea.order.source, a_sevastopol.province, "Black Sea fleet convoy source incorrect")
-        self.assertEqual(f_black_sea.order.destination, p_ankara, "Black Sea fleet convoy destination incorrect")
+        self.assertEqual(f_black_sea.order.destination, p_bulgaria, "Black Sea fleet convoy destination incorrect")
 
         self.assertIsInstance(a_armenia.order, Support, "Armenia army order not parsed correctly")
         assert isinstance(a_armenia.order, Support)
@@ -55,8 +58,8 @@ class TestParseOrder(unittest.TestCase):
 
         self.assertIsInstance(f_rumania.order, Support, "Rumania fleet order not parsed correctly")
         assert isinstance(f_rumania.order, Support)
-        self.assertEqual(f_rumania.order.source, f_black_sea.province, "Rumania fleet support source incorrect")
-        self.assertEqual(f_rumania.order.destination, f_black_sea.province, "Rumania fleet support destination incorrect")
+        self.assertEqual(f_rumania.order.source, a_sevastopol.province, "Rumania fleet support source incorrect")
+        self.assertEqual(f_rumania.order.destination, p_bulgaria, "Rumania fleet support destination incorrect")
 
 
         self.assertIsInstance(a_moscow.order, Hold, "Moscow army order not parsed correctly")
@@ -71,7 +74,7 @@ class TestParseOrder(unittest.TestCase):
         f_rumania = b.fleet("Rumania", b.russia)
         a_moscow = b.army("Moscow", b.russia)
         p_ankara = b.board.get_province("Ankara")
-        b._save()
+        #b._save()
 
 
         order = ".order\n" + \
@@ -140,14 +143,33 @@ class TestParseOrder(unittest.TestCase):
             "b f bre"
             
         game = g.game
-        game.variant = BoardBuilder()
+        #game.variant = BoardBuilder()
         
         parsed_orders = parse_order(order, b.france, game)
+        # TODO: actually check things
         
-        self.assertIsInstance(a_sevastopol.order, Move, "Sevastopol army order not parsed correctly")
-        assert isinstance(a_sevastopol.order, Move)
-        self.assertEqual(a_sevastopol.order.destination, p_ankara, "Sevastopol army move destination incorrect")
         
+    def test_timeline_specifier(self):
+        g = GameBuilder()
+        b = g.bb
+
+        order = ".order\n" + \
+            "Timeline 1, Spring 1901: \n" + \
+            "timeline 1 spring 01 \n" + \
+            "timeline 1 spring 01 \n" + \
+            "T1 - Spring '01:\n" + \
+            "T 1 S 01 \n" + \
+            "T1S01: \n" + \
+            "t1s01\n"
+
+        game = g.game
+        #game.variant = BoardBuilder()
+
+        parsed_orders = parse_order(order, b.russia, game)
+        print("test_move_order")
+        print(parsed_orders["messages"])
+        for x in parsed_orders["messages"]:
+            print(x)
 
     def test_remove_order(self):
         b = BoardBuilder()

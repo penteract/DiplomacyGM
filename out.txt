@@ -1,14 +1,40 @@
-..F
-======================================================================
-FAIL: test_remove_order (test.DiploGM.parse_order.TestParseOrder.test_remove_order)
-----------------------------------------------------------------------
-Traceback (most recent call last):
-  File "/home/REDACTED/Documents/code-stuff/dddddiplomacy_gm/test/DiploGM/parse_order.py", line 71, in test_remove_order
-    self.assertIsNone(a_berlin.order, "Order removal failed for Berlin army")
-    ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-AssertionError: <DiploGM.models.order.Move object at 0x7f81785f83e0> is not None : Order removal failed for Berlin army
-
-----------------------------------------------------------------------
-Ran 3 tests in 0.647s
-
-FAILED (failures=1)
+[(<PhaseName.SPRING_MOVES: 0>, 'Spring Moves'), (<PhaseName.SPRING_RETREATS: 1>, 'Spring Retreats'), (<PhaseName.FALL_MOVES: 2>, 'Fall Moves'), (<PhaseName.FALL_RETREATS: 3>, 'Fall Retreats'), (<PhaseName.WINTER_BUILDS: 4>, 'Winter Builds')]
+_get_board_partial  1901 Timeline 1 Spring Moves 1901 1
+[(<PhaseName.SPRING_MOVES: 0>, 'Spring Moves'), (<PhaseName.SPRING_RETREATS: 1>, 'Spring Retreats'), (<PhaseName.FALL_MOVES: 2>, 'Fall Moves'), (<PhaseName.FALL_RETREATS: 3>, 'Fall Retreats'), (<PhaseName.WINTER_BUILDS: 4>, 'Winter Builds')]
+_get_board_partial  1901 Timeline 1 Spring Moves 1901 1
+parsing line Timeline 1: Spring 1901
+[1, <PhaseName.SPRING_MOVES: 0>, 1901]
+parsing line A Sevastopol - Ankara
+moves
+parse_province [Token('PROVINCE', 'sevastopol')]
+unit [Token('DESCRIPTOR', 'a '), (Province T1S01 Sevastopol, None)] Sevastopol False Timeline 1 Spring Moves 1901
+parse_province [Token('PROVINCE', 'ankara')]
+move [<DiploGM.models.unit.Unit object at 0x7f48a7378250>, Token('WS', ' '), Token('MOVE', '-'), Token('WS', ' '), (Province T1S01 Ankara, None)]
+None None
+parsing line black sea convoy T1F01 sevastopol to ankara
+moves
+parse_province [Token('PROVINCE', 'black'), Token('WS', ' '), Token('PROVINCE', 'sea')]
+unit [(Province T1S01 Black Sea, None)] Black Sea False Timeline 1 Spring Moves 1901
+[1, <PhaseName.FALL_MOVES: 2>, 1901]
+parse_province [<DiploGM.models.turn.Turn object at 0x7f48a70a56d0>, Token('PROVINCE', 'sevastopol')]
+parse_province [Token('PROVINCE', 'ankara')]
+None None
+parsing line armen s T13F21 sEvAsToPoL to T13F01 ankara
+moves
+parse_province [Token('PROVINCE', 'armen')]
+unit [(Province T1S01 Armenia, None)] Armenia False Timeline 1 Spring Moves 1901
+[13, <PhaseName.FALL_MOVES: 2>, 1921]
+parse_province [<DiploGM.models.turn.Turn object at 0x7f48a6f947a0>, Token('PROVINCE', 'sevastopol')]
+[13, <PhaseName.FALL_MOVES: 2>, 1901]
+parse_province [<DiploGM.models.turn.Turn object at 0x7f48a744d250>, Token('PROVINCE', 'ankara')]
+None None
+parsing line Timeline 3: Spring 1901
+[3, <PhaseName.SPRING_MOVES: 0>, 1901]
+parsing line f rumania s black sea holds
+moves
+parse_province [Token('PROVINCE', 'rumania')]
+parsing line Timeline 1: Spring 1903
+[1, <PhaseName.SPRING_MOVES: 0>, 1903]
+parsing line a Moscow h
+moves
+parse_province [Token('PROVINCE', 'moscow')]

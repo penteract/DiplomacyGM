@@ -329,6 +329,7 @@ def parse_order(message: str, player_restriction: Player | None, game: Game) -> 
             cmd = timeline_specifier_parser.parse(order.strip().lower())
             new_turn: Turn = generator.transform(cmd)
             generator.set_state(game, player_restriction, new_turn)
+            orderoutput.append(f"")
             orderoutput.append(f"\u001b[0;32m{new_turn.to_string(short=False, move_type=False)}:")
             continue
         except UnexpectedCharacters as e:
@@ -393,7 +394,15 @@ def parse_order(message: str, player_restriction: Player | None, game: Game) -> 
         database.save_order_for_units(board, movement)
 
     paginator = Paginator(prefix="```ansi\n", suffix="```", max_size=4096)
-    for line in orderoutput:
+    
+    i = 0
+    for line in orderoutput: # Remove leading blank lines (not sure where the ones I didn't put in are coming from, but this fixes it anywhosles)
+        if line:
+            paginator.add_line(orderoutput[0])
+            break
+        else: 
+            i += 1
+    for line in orderoutput[i::]:
         paginator.add_line(line)
 
     output = paginator.pages

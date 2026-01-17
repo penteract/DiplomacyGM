@@ -30,8 +30,9 @@ class BoardBuilder():
         manager = Manager()
         try:
             manager.total_delete(0)
-            if empty: manager.total_delete(1)
-        except:
+            manager.total_delete(1)
+        except Exception as e:
+            #raise e
             pass
         manager.create_game(0, "classic", empty=empty)
         self._g = manager.get_game(0)
