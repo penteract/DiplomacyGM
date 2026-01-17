@@ -69,7 +69,7 @@ class Province():
     def __str__(self):
         return self.name
     def order_str(self):
-        return f"T{self.turn.timeline}{self.turn.phase.to_string(short=True, move_type=False).upper()}{str(self.turn.year)[-2::]} {self.name}"
+        return f"T{self.turn.timeline}{self.turn.phase.to_string(short=True, move_type=False).upper()}{str(self.turn.year)} {self.name}"
     def __repr__(self):
         return f"Province {self.order_str()}"
     

@@ -30,15 +30,11 @@ def get_turn(s: str, start_year: int):
     tl = int(n)
     phase=None
     
-    PhaseName._member_names_.zip()
-    
-    m = zip(PhaseName.__members__.values(), map(lambda x: x.to_string(short=True, move_type=True), PhaseName._member_map_.values()))
-    
-    for k,v in map:
-        
-        if s.startswith(v):
+    #PhaseName._member_names_.zip()
+    for k in [PhaseName.SPRING_MOVES,PhaseName.FALL_MOVES]:
+        if s[0].lower() == (k.to_string(short=True,move_type=False)):
             phase=k
-            s=s[len(v):]
+            s=s[1:]
     n = number_re.match(s).group()
     s=s[len(n):]
     year = int(n)
