@@ -23,14 +23,14 @@ import unittest
 # Only implements the subset of adjacencies necessary to run the DATC tests as of now
 class BoardBuilder():
     def __init__(self, season: str = "Spring"):
-        manager = Manager()
+        self.manager = Manager()
         try:
-            manager.total_delete(0)
+            self.manager.total_delete(0)
         except:
             pass
-        manager.create_game(0, "classic")
-        self._g = manager.get_game(0)
-        self.board: Board = manager.get_game(0).get_board(Turn(year=0))
+        self.manager.create_game(0, "classic")
+        self._g = self.manager.get_game(0)
+        self.board: Board = self.manager.get_game(0).get_board(Turn(year=0))
         self.board.delete_all_units()
 
         # here an illegal move is one that is caught and turned into a hold order, which includes supports and convoys 
@@ -65,6 +65,9 @@ class BoardBuilder():
         self.austria = player_list["Austria"]
         self.russia = player_list["Russia"]
         self.turkey = player_list["Turkey"]
+
+    def output(self):
+        print(self.manager.draw_map(0, draw_moves=True)[0].decode("utf-8"))
 
     def army(self, land: str, player: Player) -> Unit:
         province, _ = self.board.get_province_and_coast(land)

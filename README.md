@@ -23,6 +23,8 @@ yourself or rather not subject your players to), please message icecream_guy on 
 
 - [Pip package installer for Python](https://phoenixnap.com/kb/install-pip-windows)
 
+- [Chromium for map testing](https://www.chromium.org/getting-involved/download-chromium/)
+
 You should use [virtual environments](https://docs.python.org/3/tutorial/venv.html) to manage python packages. 
 
 To clone the repo and install dependencies, run the following on the Command Line (example commands are for Ubuntu 24.04) -
