@@ -67,7 +67,7 @@ class BoardBuilder():
         self.turkey = player_list["Turkey"]
 
     def output(self):
-        print(self.manager.draw_map(0, draw_moves=True)[0].decode("utf-8"))
+        print(self.manager.draw_map(0, turn=self._g.all_boards(), draw_moves=True)[0].decode("utf-8"))
 
     def army(self, land: str, player: Player) -> Unit:
         province, _ = self.board.get_province_and_coast(land)

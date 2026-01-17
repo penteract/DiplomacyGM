@@ -106,30 +106,30 @@ class Manager(metaclass=SingletonMeta):
         movement_only: bool = False,
         is_severance: bool = False,
     ) -> tuple[bytes, str]:
-        cur_board = self.get_board(server_id)
-        if turn is None:
-            board = cur_board
-        else:
-            board = self._database.get_board(
-                cur_board.board_id,
-                turn,
-                cur_board.fish,
-                cur_board.name,
-                cur_board.datafile,
-            )
-            if board is None:
-                raise RuntimeError(
-                    f"There is no {turn} board for this server"
-                )
-            if (
-                board.turn.year < cur_board.turn.year
-                or (board.turn.year == cur_board.turn.year
-                    and board.turn.phase.value < cur_board.turn.phase.value)
-            ):
-                if is_severance:
-                    board = cur_board
-                else:
-                    player_restriction = None
+        board = self.get_game(server_id).get_board(turn[0][0])
+        # if turn is None:
+        #     board = cur_board
+        # else:
+        #     board = self._database.get_game(
+        #         cur_board.board_id,
+        #         turn,
+        #         cur_board.fish,
+        #         cur_board.name,
+        #         cur_board.datafile,
+        #     )
+        #     if board is None:
+        #         raise RuntimeError(
+        #             f"There is no {turn} board for this server"
+        #         )
+        #     if (
+        #         board.turn.year < cur_board.turn.year
+        #         or (board.turn.year == cur_board.turn.year
+        #             and board.turn.phase.value < cur_board.turn.phase.value)
+        #     ):
+        #         if is_severance:
+        #             board = cur_board
+        #         else:
+        #             player_restriction = None
         svg, file_name = self.draw_map_for_board(
             board,
             player_restriction=player_restriction,
