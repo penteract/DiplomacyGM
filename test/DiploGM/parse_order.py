@@ -23,6 +23,7 @@ class TestParseOrder(unittest.TestCase):
             "Timeline 1: Spring 1901\n" + \
             "A Sevastopol - Ankara\n" + \
             "black sea convoy sevastopol to ankara\n" + \
+            "Timeline 1: Spring 1901\n" + \
             "armen s sEvAsToPoL to ankara\n" + \
             "f rumania s black sea holds\n" + \
             "a Moscow h"
