@@ -21,10 +21,12 @@ class TestParseOrder(unittest.TestCase):
 
 
         order = ".order\n" + \
-            "Timeline 1: Spring 1901\n" + \
+            "Timeline 1, Spring 1901: \n" + \
+            "T1 - Spring '01:\n" + \
+            "T1S01\n" + \
             "A Sevastopol - Ankara\n" + \
             "black sea convoy sevastopol to bulgaria sc\n" + \
-            "Timeline 1: Spring 1901\n" + \
+            "Timeline 1 - Spring 1901 - \n" + \
             "armen s sEvAsToPoL to ankara\n" + \
             "f rumania s sev - bul South Coast\n" + \
             "a Moscow h"
@@ -148,6 +150,27 @@ class TestParseOrder(unittest.TestCase):
         assert isinstance(a_sevastopol.order, Move)
         self.assertEqual(a_sevastopol.order.destination, p_ankara, "Sevastopol army move destination incorrect")
         
+    def test_timeline_specifier(self):
+        g = GameBuilder()
+        b = g.bb
+
+        order = ".order\n" + \
+            "Timeline 1, Spring 1901: \n" + \
+            "timeline 1 spring 01 \n" + \
+            "timeline 1 spring 01 \n" + \
+            "T1 - Spring '01:\n" + \
+            "T 1 S 01 \n" + \
+            "T1S01: \n" + \
+            "t1s01\n"
+
+        game = g.game
+        #game.variant = BoardBuilder()
+
+        parsed_orders = parse_order(order, b.russia, game)
+        print("test_move_order")
+        print(parsed_orders["messages"])
+        for x in parsed_orders["messages"]:
+            print(x)
 
     def test_remove_order(self):
         b = BoardBuilder()

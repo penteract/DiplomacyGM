@@ -54,7 +54,6 @@ def get_keywords(command: str) -> list[str]:
 
 
 def _manage_coast_signature(keyword: str) -> str:
-    print(f"Managing coast of '{keyword}'")
     for coast_key, coast_val in coast_dict.items():
         # we want to make sure this was a separate word like "zapotec ec" and not part of a word like "zapotec"
         for suffix in coast_val:
@@ -66,8 +65,7 @@ def _manage_coast_signature(keyword: str) -> str:
                 new_suffix = f" {coast_key}"
                 keyword += f" {new_suffix}"
                 break
-            else:
-                print(f"{keyword} does not end with {suffix}")
+
     return keyword
 
 
