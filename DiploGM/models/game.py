@@ -1,7 +1,7 @@
 from typing import Dict, Optional, TYPE_CHECKING
 import re
 from DiploGM.models.board import Board, FakeBoard
-from DiploGM.models.turn import Turn, PhaseName, SHORT_PHASE_NAMES
+from DiploGM.models.turn import Turn, PhaseName
 from itertools import chain
 
 """def loose_chain(a,b):
@@ -29,7 +29,13 @@ def get_turn(s: str, start_year: int):
     s=s[1+len(n):]
     tl = int(n)
     phase=None
-    for k,v in SHORT_PHASE_NAMES.items():
+    
+    PhaseName._member_names_.zip()
+    
+    m = zip(PhaseName.__members__.values(), map(lambda x: x.to_string(short=True, move_type=True), PhaseName._member_map_.values()))
+    
+    for k,v in map:
+        
         if s.startswith(v):
             phase=k
             s=s[len(v):]

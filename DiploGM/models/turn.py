@@ -7,22 +7,34 @@ class PhaseName(Enum):
     FALL_MOVES = 2
     FALL_RETREATS = 3
     WINTER_BUILDS = 4
+    
+    def is_moves(self) -> bool:
+        return self in [PhaseName.SPRING_MOVES, PhaseName.FALL_MOVES]
+        
+    def is_retreats(self) -> bool:
+        return self in [PhaseName.SPRING_RETREATS, PhaseName.FALL_RETREATS]
+        
+    def is_builds(self) -> bool:
+        return self == PhaseName.WINTER_BUILDS
+    
+    #TODO: This function dupes some code `Turn` below, consider which approach makes more sense
+    def to_string(self, short: bool, move_type: bool) -> str:
+        name = str(self._name_).split("_")
+        
+        if not move_type:
+            name = name[0] 
+        else:
+            name = " ".join(name)
+            
+        name = name.title()
 
-PHASE_NAMES = {
-            PhaseName.SPRING_MOVES: "Spring Moves",
-            PhaseName.SPRING_RETREATS: "Spring Retreats",
-            PhaseName.FALL_MOVES: "Fall Moves",
-            PhaseName.FALL_RETREATS: "Fall Retreats",
-            PhaseName.WINTER_BUILDS: "Winter Builds"
-        }
+        if short:
+            name = "".join(x[0] for x in name.split()).lower()
+            
+        return name
 
-SHORT_PHASE_NAMES = {
-            PhaseName.SPRING_MOVES: "sm",
-            PhaseName.SPRING_RETREATS: "sr",
-            PhaseName.FALL_MOVES: "fm",
-            PhaseName.FALL_RETREATS: "fr",
-            PhaseName.WINTER_BUILDS: "wa"
-        }
+    def __str__(self) -> str:
+        return self.to_string(short=False, move_type=True)
 
 class Turn:
     def __init__(self, year: int = 1642
@@ -35,25 +47,28 @@ class Turn:
         self.timeline: int = timeline
         self.start_year: int = None #start_year
         ## TODO: update everything except __init__
+        
+    def __str__(self) -> str:
+        return self.to_string(short=False, move_type=True)
     
-    def __str__(self):
+    def to_string(self, short, move_type):
         if self.year < 0:
             year_str =  f"{str(1-self.year)} BCE"
         else:
             year_str = str(self.year)
-        return f"Timeline {self.timeline} {PHASE_NAMES[self.phase]} {year_str}"
+        return f"Timeline {self.timeline} {self.phase.to_string(short=short, move_type=move_type)} {year_str}"
 
     def get_indexed_name(self) -> str:
-        return f"{self.get_year_index()} {PHASE_NAMES[self.phase]} Timeline {self.timeline}"
+        return f"{self.get_year_index()} {self.phase} Timeline {self.timeline}"
     
     def get_short_name(self) -> str:
-        return f"{str(self.year % 100)}{SHORT_PHASE_NAMES[self.phase]} T{self.timeline}"
+        return f"{str(self.year % 100)}{self.phase} T{self.timeline}"
         
     def get_phase(self) -> str:
-        return PHASE_NAMES[self.phase]
+        return str(self.phase)
     
     def get_short_phase(self) -> str:
-        return SHORT_PHASE_NAMES[self.phase]
+        return str(self.phase)
     
     def get_year_index(self) -> int:
         return self.year# - self.start_year # Incompatibility :)
@@ -69,16 +84,16 @@ class Turn:
         return Turn(self.year, PhaseName(self.phase.value - 1), self.start_year,self.timeline)
 
     def is_moves(self) -> bool:
-        return "Moves" in PHASE_NAMES[self.phase]
+        return self.phase.is_moves()
         
     def is_retreats(self) -> bool:
-        return "Retreats" in PHASE_NAMES[self.phase]
+        return self.phase.is_retreats()
         
     def is_builds(self) -> bool:
-        return "Builds" in PHASE_NAMES[self.phase]
+        return self.phase.is_builds()
         
     def is_fall(self) -> bool:
-        return "Fall" in PHASE_NAMES[self.phase]
+        return "Fall" in str(self.phase)
 
     def __eq__(self,other) -> bool:
         if not isinstance(other,Turn):
@@ -92,7 +107,10 @@ class Turn:
         split_index = turn_str.index(" ")
         year = int(turn_str[:split_index])
         phase_name = turn_str[split_index:].strip()
-        for ph,n in PHASE_NAMES.items():
+        m = zip(PhaseName.__members__.values(), map(lambda x: x.to_string(short=False, move_type=True), PhaseName._member_map_.values()))
+        m = list(m)
+        print(m)
+        for ph,n in m:
             if phase_name.startswith(n):
                 phase = ph
                 timeline_str = phase_name[len(n):].strip()

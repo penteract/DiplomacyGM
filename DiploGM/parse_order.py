@@ -334,8 +334,9 @@ def parse_order(message: str, player_restriction: Player | None, game: Game) -> 
         # Take a single-line timeline specifier if present
         try:
             cmd = timeline_specifier_parser.parse(order.strip().lower())
-            new_turn = generator.transform(cmd)
+            new_turn: Turn = generator.transform(cmd)
             generator.set_state(game, player_restriction, new_turn)
+            orderoutput.append(f"\u001b[0;32m{new_turn.to_string(short=False, move_type=False)}:")
             continue
         except UnexpectedCharacters as e:
             #print("UC", e)
