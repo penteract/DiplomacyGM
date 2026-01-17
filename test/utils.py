@@ -19,19 +19,27 @@ from DiploGM.adjudicator.adjudicator import MovesAdjudicator, RetreatsAdjudicato
 
 import unittest
 
+map_file = open("/tmp/map.html", mode="w")
+
 # Allows for specifying units, uses the classic diplomacy board as that is used by DATC 
 # Only implements the subset of adjacencies necessary to run the DATC tests as of now
 class BoardBuilder():
-    def __init__(self, season: str = "Spring"):
-        self.manager = Manager()
+    def _save(self):
+        self.board.board_id=1
+        self._g.board_id = 1
+        self._manager._database.save_board(1, self.board)
+
+    def __init__(self, empty = True):
+        manager = Manager()
         try:
-            self.manager.total_delete(0)
+            manager.total_delete(0)
+            if empty: manager.total_delete(1)
         except:
             pass
-        self.manager.create_game(0, "classic")
-        self._g = self.manager.get_game(0)
-        self.board: Board = self.manager.get_game(0).get_board(Turn(year=0))
-        self.board.delete_all_units()
+        manager.create_game(0, "classic", empty=empty)
+        self._g = manager.get_game(0)
+        self.board: Board = manager.get_game(0).get_board(Turn(year=1901))
+        self._manager = manager
 
         # here an illegal move is one that is caught and turned into a hold order, which includes supports and convoys 
         # which are missing the corresponding part
@@ -67,7 +75,7 @@ class BoardBuilder():
         self.turkey = player_list["Turkey"]
 
     def output(self):
-        print(self.manager.draw_map(0, turn=self._g.all_boards(), draw_moves=True)[0].decode("utf-8"))
+        print(self._manager.draw_map(0, turn=self._g.all_boards(), draw_moves=True)[0].decode("utf-8"), file=map_file)
 
     def army(self, land: str, player: Player) -> Unit:
         province, _ = self.board.get_province_and_coast(land)
@@ -253,7 +261,7 @@ class BoardBuilder():
 
     # used when testing the move phases of things
     def moves_adjudicate(self, test: unittest.TestCase):
-        adj = MovesAdjudicator(board=self.board)
+        adj = MovesAdjudicator(game=self._g)
         
         for order in adj.orders:
             order.state = ResolutionState.UNRESOLVED
@@ -333,7 +341,10 @@ class BoardBuilder():
 
 
 class GameBuilder():
-    def __init__(self):
-        self.bb = BoardBuilder()
+    def __init__(self,empty=True):
+        self.bb = BoardBuilder(empty=empty)
         self.game = self.bb._g
         # To consider: make games with more than 1 board
+    def adjudicate(self):
+        self.bb._manager.adjudicate(self.game.board_id)
+        self.game = self.bb._manager.get_game(0)

@@ -1,8 +1,17 @@
 from typing import Dict, Optional, TYPE_CHECKING
 import re
 from DiploGM.models.board import Board, FakeBoard
-from DiploGM.models.turn import Turn, PhaseName, SHORT_PHASE_NAMES
+from DiploGM.models.turn import Turn, PhaseName
 from itertools import chain
+
+
+if TYPE_CHECKING:
+    from DiploGM.models.turn import Turn
+
+from DiploGM.models.province import Province
+from collections.abc import Iterator
+
+
 
 """def loose_chain(a,b):
     if LOOSE_ADJACENCIES:
@@ -14,27 +23,29 @@ number_re = re.compile("[0-9]+")
 def prev_move_board(turn: Turn) -> Turn:
     if turn.phase == PhaseName.SPRING_MOVES:
         return Turn(phase=PhaseName.FALL_MOVES, year=turn.year-1, timeline=turn.timeline, start_year=turn.start_year)
-    if phase == PhaseName.FALL_MOVES:
-        Turn(phase=PhaseName.SPRING_MOVES, year=turn.year, timeline=turn.timeline, start_year=turn.start_year)
+    if turn.phase == PhaseName.FALL_MOVES:
+        return Turn(phase=PhaseName.SPRING_MOVES, year=turn.year, timeline=turn.timeline, start_year=turn.start_year)
 
 def next_move_board(turn: Turn) -> Turn:
     if turn.phase == PhaseName.SPRING_MOVES:
         return Turn(phase=PhaseName.FALL_MOVES, year=turn.year, timeline=turn.timeline, start_year=turn.start_year)
-    if phase == PhaseName.FALL_MOVES:
-        Turn(phase=PhaseName.SPRING_MOVES, year=turn.year+1, timeline=turn.timeline, start_year=turn.start_year)
+    if turn.phase == PhaseName.FALL_MOVES:
+        return Turn(phase=PhaseName.SPRING_MOVES, year=turn.year+1, timeline=turn.timeline, start_year=turn.start_year)
 
 def get_turn(s: str, start_year: int):
     assert s.startswith("T")
     n = number_re.match(s[1:]).group()
-    s=s[1+n:]
+    s=s[1+len(n):]
     tl = int(n)
     phase=None
-    for k,v in SHORT_PHASE_NAMES.items():
-        if s.startswith(v):
+    
+    #PhaseName._member_names_.zip()
+    for k in [PhaseName.SPRING_MOVES,PhaseName.FALL_MOVES]:
+        if s[0].lower() == (k.to_string(short=True,move_type=False)):
             phase=k
-            s=s[len(v):]
+            s=s[1:]
     n = number_re.match(s).group()
-    s=s[n:]
+    s=s[len(n):]
     year = int(n)
     return (Turn(year=year, phase=phase, timeline=tl, start_year=start_year),s)
 
@@ -48,6 +59,7 @@ class Game():
         allboards = [[] for x in range(mx)]
         #boards.sort(key=lambda tb: (tb[0].year,tb[0] )
         for (t,b) in boards:
+            assert t == b.turn
             allboards[t.timeline-1].append(t)
         for r in allboards:
             r.sort(key=lambda t: (t.year,t.phase.value))
@@ -73,16 +85,16 @@ class Game():
                             Turn(phase=t.phase, year=t.year, timeline=t.timeline+1, start_year=t.start_year),
                             Turn(phase=t.phase, year=t.year, timeline=t.timeline-1, start_year=t.start_year)
                             ]:
-                    if (t.timeline,t.phase,t.year) not in self._all_boards:
+                    if (t.timeline,t.phase,t.year) not in self._boards:
                         continue
                     other_board = self.get_board(t)
                     for p in board.provinces:
                         n = p.name.lower()
-                        vp = variant.name_to_province[n]
+                        vp = self.variant.name_to_province[n]
                         for ap in loose_chain([vp],vp.adjacent):
                             p.adjacent.add(other_board.name_to_province[ap.name.lower()])
                         vpfa = vp.fleet_adjacent
-                        if isinstance(fleets,dict):
+                        if isinstance(vpfa,dict):
                             #vpfa = {None:vpfa}
                             for coast,adjs in vpfa.items():
                                 pfac = p.fleet_adjacent[coast]
@@ -96,22 +108,55 @@ class Game():
     def get_turn_province_and_coast(self, prov:str):
         t,p = get_turn(prov,self.start_year)
         p = self.get_board(t).get_province_and_coast(p)
-        assert not p.isFake
+        # assert not p[0].isFake
+        return p
     def get_turn_and_province(self, prov:str):
         t,p = get_turn(prov,self.start_year)
         p = self.get_board(t).get_province(p)
-        assert not p.isFake
+        # assert not p.isFake
         return p
-    def get_board(self, t:Turn) -> Board:
+    def get_board(self, t:Turn) -> Board | FakeBoard:
         # TODO: think about returning boards full of fake provinces when t has no associated board
         tdata = (t.timeline,t.phase,t.year)
         if tdata in self._boards:
+            #return self._boards[tdata]#!!!!!!
             return self._boards[tdata]
         else:
-            return FakeBoard(variant,t) # TODO: Modify so that provinces include turn information
+            # return self.get_board(self.all_boards()[0][0])
+            return FakeBoard(self.variant,t) # TODO: Modify so that provinces include turn information
         #return self._boards[t.timeline,t.phase,t.year]
     def all_boards(self) -> list[list[Turn]]:
         return self._all_boards
 
     def is_retreats(self) -> bool:
         return True
+
+    def get_moves_boards(self) -> Iterator[Board]:
+        for timeline in self._all_boards:
+            for turn in timeline:
+                if turn.is_moves():
+                    yield self.get_board(turn)
+    def get_moves_provinces(self) -> Iterator[Province]:
+        for board in self.get_moves_boards():
+            for p in board.provinces:
+                yield p
+    def get_moves_units(self) -> Iterator[Province]:
+        for board in self.get_moves_boards():
+            for u in board.units:
+                yield u
+
+    def get_current_retreat_boards(self) -> Iterator[Board]:
+        for timeline in self._all_boards:
+            if timeline[-1].is_retreats():
+                    yield self.get_board(timeline[-1])
+
+    def can_skip_retreats(self):
+        """There are retreats boards but no units that need to retreat """
+        no_boards = True
+        for board in self.get_current_retreat_boards():
+            no_boards = False
+            for province in board.provinces:
+                if province.dislodged_unit:
+                    return False
+        else:
+            return not no_boards

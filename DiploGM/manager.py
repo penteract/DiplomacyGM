@@ -6,7 +6,7 @@ from typing import Optional
 from discord import Member, User
 
 from DiploGM.utils import SingletonMeta
-from DiploGM.adjudicator.adjudicator import make_adjudicator
+from DiploGM.adjudicator.adjudicator import RetreatsAdjudicator, BuildsAdjudicator, MovesAdjudicator, boards_equal
 from DiploGM.adjudicator.mapper import Mapper
 from DiploGM.map_parser.vector.vector import get_parser
 from DiploGM.models.turn import Turn
@@ -37,7 +37,7 @@ class Manager(metaclass=SingletonMeta):
     def list_servers(self) -> set[int]:
         return set(self._boards.keys())
 
-    def create_game(self, server_id: int, gametype: str = "impdip") -> str:
+    def create_game(self, server_id: int, gametype: str = "impdip", empty: bool = False) -> str:
         if self._boards.get(server_id):
             return "A game already exists in this server."
         if not os.path.isdir(f"variants/{gametype}"):
@@ -45,6 +45,9 @@ class Manager(metaclass=SingletonMeta):
 
         logger.info(f"Creating new game in server {server_id}")
         board = get_parser(gametype).parse()
+        if empty:
+            board.delete_all_units()
+        #print(board.turn, board.turn.timeline, board.year_offset)
         board.board_id = server_id
         self._database.save_board(server_id, board)
         self._boards[server_id] = self._database.get_game(server_id)
@@ -78,19 +81,16 @@ class Manager(metaclass=SingletonMeta):
 
         return "Approved request Logged!"
 
-    def get_game(self, server_id: int) -> Game:
+    def get_game(self, server_id: int, reload: bool = False) -> Game:
         # NOTE: Temporary for Meme's Severence Diplomacy Event
         if server_id == SEVERENCE_B_ID:
             server_id = SEVERENCE_A_ID
-
-        # try:
-        board = self._boards.get(server_id)
-        # except KeyError:
-            # board = self._database.get_latest_board(server_id)
-
-        if not board:
-            raise RuntimeError("There is no existing game this this server.")
-        return board
+        if reload:
+            self._boards[server_id] = self._database.get_game(server_id)
+        return self._boards[server_id]
+        #if not board:
+        #    raise RuntimeError("There is no existing game this this server.")
+        #return board
 
     def total_delete(self, server_id: int):
         self._database.total_delete(self._boards[server_id])
@@ -165,6 +165,65 @@ class Manager(metaclass=SingletonMeta):
     def adjudicate(self, server_id: int, test: bool = False) -> Board:
         start = time.time()
 
+        game = self.get_game(server_id, reload=True)
+        # I believe not reloading it would interfere with the mutable nature of games.
+        # TODO: make the adjudicator not mutate games (or at least create new ones, then mutate them
+
+
+        turns = game.all_boards()
+        last_boards = [(tl[-1], game.get_board(tl[-1]))  for tl in turns]
+        retreats = [(t, b) for t,b in last_boards if t.is_retreats()]
+        #retreats = {t: } any(x.is_retreats for x in last_turns)
+        if retreats:
+            for (t,b) in retreats:
+                new_board = RetreatsAdjudicator(b).run()
+                new_board.turn = t.get_next_turn()
+                self._database.save_board(server_id, new_board)
+            logger.info("Retreat adjudicators ran successfully")
+        else:
+            newSprings = []
+            any_moves = False
+            for (t,b) in last_boards:
+                if t.is_builds():
+                    newSprings.append( (t.get_next_turn(), BuildsAdjudicator(b).run()) )
+                else:
+                    any_moves = True
+            logger.info("Build adjudicators finished")
+            if any_moves:
+                # This mutates lots of things without updating Turns; new_game is game
+                # We later collect them using new_game.get_board()
+                new_game = MovesAdjudicator(game).run()
+                logger.info("Moves Adjudicator ran successfully")
+                new_boards = []
+                for tl in turns:
+                    for t in tl:
+                        if t.is_moves():
+                            nt = t.get_next_turn()
+                            compare_board = game.get_board(nt)
+                            new_board = new_game.get_board(t)
+                            if compare_board.isFake:
+                                new_board.turn = nt
+                                self._database.save_board(server_id, new_board)
+                            elif not boards_equal(new_board, compare_board):
+                                # TODO: !!! check all child boards
+                                new_board.turn = nt
+                                new_boards.append(((nt.year,nt.phase.value,nt.timeline), new_board))
+
+                new_boards.sort()
+                last_timeline = len(turns)
+                for (tinfo,new_board) in new_boards:
+                    last_timeline +=1
+                    new_board.turn.timeline = last_timeline
+                    self._database.save_board(server_id, new_board)
+            for t,new_board in newSprings:
+                new_board.turn = t
+                self._database.save_board(server_id, new_board)
+            #newBoards
+        logger.info("All Adjudicators finished and saved")
+
+        self.get_game(server_id, reload=True) # Update the game so that mutated stuff doesn't cause problems
+
+        """
         board = self.get_board(server_id)
         old_board = self._database.get_board( # TODO: Consider not reloading it
             server_id, board.turn, board.fish, board.name, board.datafile
@@ -177,11 +236,10 @@ class Manager(metaclass=SingletonMeta):
         # TODO - use adjudicator.orders() (tells you which ones succeeded and failed) to draw a better moves map
         new_board = adjudicator.run()
         new_board.turn = new_board.turn.get_next_turn()
-        logger.info("Adjudicator ran successfully")
         if not test:
             self._boards[new_board.board_id] = new_board
             self._database.save_board(new_board.board_id, new_board)
-
+"""
         elapsed = time.time() - start
         logger.info(f"manager.adjudicate.{server_id}.{elapsed}s")
         return new_board

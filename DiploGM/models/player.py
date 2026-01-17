@@ -61,7 +61,12 @@ class Player:
 
         # Must be initialised when the board is made
         self.board: Optional[Board] = None
-
+    def __eq__(self,other):
+        if not isinstance(other,Player):
+            return NotImplemented
+        return other.name == self.name
+    def __hash__(self):
+        return hash(self.name)+1
 
     def find_discord_role(self, roles: Sequence[discord.Role]) -> Optional[discord.Role]:
         for role in roles:

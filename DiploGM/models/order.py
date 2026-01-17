@@ -98,7 +98,7 @@ class ConvoyMove(UnitOrder):
         self.destination_coast: None = None
 
     def __str__(self):
-        return f"Convoys - {self.destination}"
+        return f"Convoys - {self.get_destination_str()}"
     
     def get_destination_and_coast(self) -> tuple[Province, None]:
         return (self.destination, None)
@@ -113,7 +113,7 @@ class ConvoyTransport(ComplexOrder):
         self.destination: Province = destination
 
     def __str__(self):
-        return f"Convoys {self.source} - {self.destination}"
+        return f"Convoys {self.get_source_str()} - {self.get_destination_str()}"
     
     def get_source_str(self) -> str:
         return self.source.order_str()
@@ -134,10 +134,10 @@ class Support(ComplexOrder):
         suffix = "Hold"
 
         if self.source != self.destination:
-            suffix = f"- {self.destination}"
+            suffix = f"- {self.get_destination_str()}"
             if self.destination_coast:
                 suffix += f" {self.destination_coast}"
-        return f"Supports {self.source} {suffix}"
+        return f"Supports {self.get_source_str()} {suffix}"
         
     def get_destination_and_coast(self) -> tuple[Province, str | None]:
         return (self.destination, self.destination_coast)
@@ -156,7 +156,7 @@ class RetreatMove(UnitOrder):
         self.destination_coast: str | None = destination_coast
 
     def __str__(self):
-        return f"- {self.destination}" + (f" {self.destination_coast}" if self.destination_coast else "")
+        return f"- {self.get_destination_str()}" + (f" {self.destination_coast}" if self.destination_coast else "")
         
     def get_destination_and_coast(self) -> tuple[Province, str | None]:
         return (self.destination, self.destination_coast)

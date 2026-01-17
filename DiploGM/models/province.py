@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from DiploGM.models.turn import Turn,SHORT_PHASE_NAMES
+from DiploGM.models.turn import Turn
 from abc import abstractmethod
 from enum import Enum
 from typing import TYPE_CHECKING
@@ -69,9 +69,9 @@ class Province():
     def __str__(self):
         return self.name
     def order_str(self):
-        return f"T{self.turn.timeline}{SHORT_PHASE_NAMES[self.turn.phase]}{self.turn.year} self.name"
+        return f"T{self.turn.timeline}{self.turn.phase.to_string(short=True, move_type=False).upper()}{str(self.turn.year)} {self.name}"
     def __repr__(self):
-        return f"Province {self.name}"
+        return f"Province {self.order_str()}"
     
     def get_name(self, coast: str | None = None):
         if coast in self.fleet_adjacent:

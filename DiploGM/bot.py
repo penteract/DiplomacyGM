@@ -389,10 +389,11 @@ class DiploGM(commands.Bot):
 
         # Out to Invoking Channel
         unhandled_out = (
-            f"Please report this to a bot dev in using a feedback channel: "
+            f"Please report this to a 5D impdip bot dev using a feedback channel: "
             f"https://discord.com/channels/1201167737163104376/1286027175048253573"
             f" or "
-            f"https://discord.com/channels/1201167737163104376/1280587781638459528"
+            f"https://discord.com/channels/921895039221776505/1286241669313986611"
+            f"please make it clear its a bug in 5D impdip, or you may face very confused devs - both channels are used for development of other diplomacy variant programs"
             f"\n"
         ) + unhandled_out
         await send_message_and_file(

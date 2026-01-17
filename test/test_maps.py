@@ -6,15 +6,17 @@ from DiploGM.manager import Manager
 from DiploGM.models.unit import UnitType
 from test.utils import BoardBuilder
 
+from test.utils import map_file
+
 class TestMaps(unittest.TestCase):        
     def test_1_create_board(self):
-        print("<h1>CREATE BOARD</h1>")
+        print("<h1>CREATE BOARD</h1>", file = map_file)
         b = BoardBuilder()
 
         b.output()       
 
     def test_2_basic_moves(self):
-        print("<h1>BASIC MOVES</h1>")
+        print("<h1>BASIC MOVES</h1>", file = map_file)
         b = BoardBuilder()
 
         b.build(b.germany, (UnitType.FLEET, "Kiel"))

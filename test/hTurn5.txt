@@ -1,0 +1,379 @@
+TURN 1
+T1S01 :
+Germany:
+    F Kie - Den
+    A Ber - Kie
+    A Mun - Ruh
+Italy:
+    A Ven - Tri
+    A Rom - Ven
+    F Nap - ION
+Austria:
+    A Bud - Ser
+    A Vie - Gal
+    F Tri - ADR
+Russia:
+    F Stp_S - BOT
+    A Mos - Stp
+    A War - Gal
+    F Sev - BLA
+England:
+    F Lon - ENG
+    F Edi - NTH
+    A Lvp - Yor
+France:
+    F Bre - MAO
+    A Par - Pic
+    A Mar - Spa
+Turkey:
+    A Con - Bul
+    A Smy - Con
+    F Ank - BLA
+
+TURN 2
+T1F01 :
+Russia:
+    F BOT - T1S01 Swe
+    A Stp - T1S01 Fin
+    F Sev - Rum
+    A War S T1S01 War - T1S01 Gal
+England:
+    F NTH C Yor - Bel
+    A Yor - Bel
+    F ENG - T1S01 Bre
+Germany:
+    A Ruh - Hol
+    F Den - Swe
+    A Kie - Den
+Turkey:
+    F Ank - T1S01 Arm
+    A Bul - T1S01 Rum
+    A Con - Bul
+Austria:
+    A Ser Hold
+    F ADR - T1S01 Apu
+    A Vie S T1S02 Vie - T1S02 Gal
+Italy:
+    F ION - T1S01 AEG
+    A Tri - T1S01 Bud
+    A Ven - T1S01 Trl
+France:
+    A Spa - Lvp
+    F MAO - T1S01 IRI
+    A Pic - Bre
+
+TURN 3
+T1W01 :
+Turkey:
+    Build A Con
+    Build A Ank
+    Build F Smy
+Austria:
+    Build A Bud
+    Build F Tri
+Russia:
+    Build A Stp
+    Build A Mos
+    Build A Sev
+Germany:
+    Build F Kie
+    Build A Ber
+    Build A Mun
+Italy:
+    Build F Nap
+    Build F Rom
+    Build A Ven
+France:
+    Build A Par
+    Build F Mar
+England:
+    Build F Lon
+    Build A Edi
+T2F01 :
+Turkey:
+    F Arm - T1F01 Sev
+    F Ank - Con
+    A Con - Bul
+    A Rum - T1F01 Bud
+    A Bul - T1F01 Gre
+Austria:
+    F ADR - Ven
+    A Ser - Tri
+    A Vie - Trl
+    F Apu - Rom
+Russia:
+    F Swe - Nwy
+    A Stp - T1F01 Nwy
+    A Gal - T1F01 Vie
+    F Sev - T1F01 BLA
+    F BOT - Swe
+    A Fin S Swe - Nwy
+Germany:
+    F Den - NTH
+    A Ruh - Bur
+    A Kie - T1F01 Ruh
+Italy:
+    A Tri - Ser
+    A Ven - Tri
+    F ION - T1F01 Tun
+    F AEG - T1F01 Smy
+    A Trl - T1F01 Boh
+    A Bud S Tri - Ser
+France:
+    A Pic - Bel
+    F MAO - Por
+    F IRI - Lvp
+    A Spa Hold
+England:
+    F NTH C Yor - Nwy
+    A Yor - Nwy
+    F Bre S T2S02 Bre Hold
+    F ENG S NTH Hold
+RETREATS:
+T2F01 :
+Austria:
+     A Ser - Gre
+
+TURN 4
+T1S02 :
+Italy:
+    A Ven - Pie
+    F Rom - TYS
+    F Nap - ION
+Austria:
+    A Vie - Gal
+    A Bud - T1F01 Rum
+    A Ser S Bud - T1F01 Rum
+    F Tri Hold
+Germany:
+    F Swe - Nwy
+    A Den - Swe
+    F Kie - HEL
+    A Hol - Bel
+    A Mun - Trl
+    A Ber - Sil
+England:
+    F NTH - Hol
+    F Lon - NTH
+    A Edi - Nwy
+    A Bel S NTH - Hol
+France:
+    A Spa - Por
+    A Par - T1F01 Bur
+    A Bre - Pic
+    F Mar - LYO
+Russia:
+    F Rum - BLA
+    A Mos - Ukr
+    A War - Gal
+    A Stp - Mos
+    A Sev - T1F01 Sev
+Turkey:
+    A Bul - Gre
+    A Con - Bul
+    A Ank - Con
+    F Smy - AEG
+T2W01 :
+Italy:
+    Build F Nap
+    Build A Rom
+Austria:
+    Disband F Apu
+Germany:
+    Build F Kie
+    Build A Mun
+England:
+    Disband A Yor
+France:
+    Build A Par
+    Build F Mar
+Russia:
+    Build A War
+    Build A Sev
+Turkey:
+    Build F Smy
+    Build A Ank
+T3W01 :
+Italy:
+    Build F Nap
+    Build A Ven
+Austria:
+    Build F Tri
+Germany:
+    Build F Kie
+    Build A Mun
+England:
+    Build A Lon
+    Build F Edi
+France:
+    Build A Par
+    Build A Mar
+Russia:
+    Build A Mos
+Turkey:
+    Build A Con
+    Build A Ank
+RETREATS:
+T1S02 :
+Germany:
+     A Hol - Kie
+
+TURN 5
+T1F02 :
+Turkey:
+    F AEG C T1S03 Nap - Con
+    A Gre - Tun
+    A Bul - Gre
+    A Con - Bul
+Germany:
+    F HEL C T2F02 Kie - T1S02 Kie
+    A Swe - Fin
+    A Kie - Hol
+    A Sil - T1S02 Gal
+    A Trl - T1S02 Ven
+    F Nwy S T2S02 Den - T1S02 NTH
+Russia:
+    A Sev - Rum
+    A Mos - Sev
+    F BLA - Ank
+    A Ukr S Sil - T1S02 Gal
+    A War S Sil - T1S02 Gal
+Italy:
+    F ION C Gre - Tun
+    F TYS - T1S02 WES
+    A Pie - Mar
+Austria:
+    A Ser - Bul
+    F Tri - ADR
+    A Vie - Tri
+England:
+    F NTH C T1S02 Edi - T1S02 Nwy
+    F Hol - HEL
+    A Edi S T2F02 NTH - T2F02 Edi
+    A Bel S T1S03 Bel Hold
+France:
+    F LYO - T1S02 Tus
+    A Pic S Hol - T1S02 Bel
+    A Por S T1S03 Por Hold
+T2S02 :
+Turkey:
+    F Con - AEG
+    F Smy - EAS
+    A Ank - Con
+    A Bul S Ser - T2F01 Rum
+Germany:
+    F Den - T1S02 NTH
+    F Kie - T3S02 BAL
+    A Bur - Gas
+    A Mun - T1S02 Boh
+Russia:
+    F Nwy - NWG
+    A Fin - Nwy
+    A War - Gal
+    A Gal - T2F01 Vie
+    F Swe S T1S02 Edi - T1S02 Nwy
+    A Sev S T3S02 Rum - Rum
+Italy:
+    A Rom - T1S02 Ven
+    F Nap - ION
+    A Tri - Vie
+    A Ser - T2F01 Rum
+    A Bud - Rum
+Austria:
+    A Trl - T1S02 Mun
+    F Ven - Tri
+    A Gre S T3S02 Ser Hold
+England:
+    F ENG C T3S02 Nwy - T1S02 Bre
+    F NTH - T3S02 Den
+    F Bre S T3S02 Nwy - T1S02 Bre
+France:
+    A Bel - T3S02 Ruh
+    A Par - Bre
+    A Spa - T3S02 Gas
+    F Lvp - T3S02 NAO
+    F Por - MAO
+    F Mar - T3S02 LYO
+T3S02 :
+Turkey:
+    A Con - Bul
+    A Ank - Con
+    A Bul - Rum
+    A Bud - Vie
+    F Sev S T3F02 Sev Hold
+    A Gre S T3F02 Gre - T3F02 Ser
+Germany:
+    F Swe - SKA
+    A Den - Lvn
+    F Kie - HEL
+    A Hol - T2S02 Kie
+    A Ruh - T2S02 Bur
+    A Mun S Ruh - T2S02 Bur
+Russia:
+    A Nwy - T1S02 Bre
+    F Rum - T2S02 Rum
+    F BLA - T2S02 Con
+    A War - T2S02 Sil
+    A Mos - War
+Italy:
+    F Nap - ION
+    F Smy - AEG
+    A Boh - Mun
+    F Tun - WES
+    A Ven S T4S02 Ven - T4S02 Trl
+Austria:
+    F Tri - ADR
+    A Vie - Tri
+    A Ser S T2S02 Gre Hold
+England:
+    F NTH C Nwy - T1S02 Bre
+    A Lon - Pic
+    F Edi - NWG
+    A Bel S Lon - Pic
+France:
+    A Bre - Pic
+    A Spa - Gas
+    A Par S T2S02 Par - T2S02 Bre
+    A Mar S T3F02 Mar Hold
+T4W01 :
+Turkey:
+    Build A Con
+    Build A Ank
+Germany:
+    Build F Kie
+    Build A Mun
+Russia:
+    Build A Mos
+Italy:
+    Build A Ven
+    Build F Nap
+Austria:
+    Build F Tri
+France:
+    Build F Mar
+T5W01 :
+Turkey:
+    Build A Ank
+Germany:
+    Build F Kie
+    Build A Mun
+Russia:
+    Build A War
+    Build A Sev
+Italy:
+    Build A Rom
+    Build F Nap
+Austria:
+    Disband A Gre
+France:
+    Build A Par
+    Build F Mar
+England:
+    Disband F Bre
+RETREATS:
+T1S02 :
+Germany:
+     A Hol - Ruh
+
+TURN 6
+
