@@ -16,16 +16,17 @@ class TestParseOrder(unittest.TestCase):
         f_rumania = b.fleet("Rumania", b.russia)
         a_moscow = b.army("Moscow", b.russia)
         p_ankara = b.board.get_province("Ankara")
+        p_bulgaria = b.board.get_province("Bulgaria")
         b._save()
 
 
         order = ".order\n" + \
             "Timeline 1: Spring 1901\n" + \
             "A Sevastopol - Ankara\n" + \
-            "black sea convoy sevastopol to ankara\n" + \
+            "black sea convoy sevastopol to bulgaria sc\n" + \
             "Timeline 1: Spring 1901\n" + \
             "armen s sEvAsToPoL to ankara\n" + \
-            "f rumania s black sea holds\n" + \
+            "f rumania s sev - bul South Coast\n" + \
             "a Moscow h"
 
         game = g.game
@@ -45,7 +46,7 @@ class TestParseOrder(unittest.TestCase):
         self.assertIsInstance(f_black_sea.order, ConvoyTransport, "Black Sea fleet order not parsed correctly")
         assert isinstance(f_black_sea.order, ConvoyTransport)
         self.assertEqual(f_black_sea.order.source, a_sevastopol.province, "Black Sea fleet convoy source incorrect")
-        self.assertEqual(f_black_sea.order.destination, p_ankara, "Black Sea fleet convoy destination incorrect")
+        self.assertEqual(f_black_sea.order.destination, p_bulgaria, "Black Sea fleet convoy destination incorrect")
 
         self.assertIsInstance(a_armenia.order, Support, "Armenia army order not parsed correctly")
         assert isinstance(a_armenia.order, Support)
@@ -54,8 +55,8 @@ class TestParseOrder(unittest.TestCase):
 
         self.assertIsInstance(f_rumania.order, Support, "Rumania fleet order not parsed correctly")
         assert isinstance(f_rumania.order, Support)
-        self.assertEqual(f_rumania.order.source, f_black_sea.province, "Rumania fleet support source incorrect")
-        self.assertEqual(f_rumania.order.destination, f_black_sea.province, "Rumania fleet support destination incorrect")
+        self.assertEqual(f_rumania.order.source, a_sevastopol.province, "Rumania fleet support source incorrect")
+        self.assertEqual(f_rumania.order.destination, p_bulgaria, "Rumania fleet support destination incorrect")
 
 
         self.assertIsInstance(a_moscow.order, Hold, "Moscow army order not parsed correctly")
