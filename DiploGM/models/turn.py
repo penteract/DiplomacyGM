@@ -108,8 +108,6 @@ class Turn:
         year = int(turn_str[:split_index])
         phase_name = turn_str[split_index:].strip()
         m = zip(PhaseName.__members__.values(), map(lambda x: x.to_string(short=False, move_type=True), PhaseName._member_map_.values()))
-        m = list(m)
-        print(m)
         for ph,n in m:
             if phase_name.startswith(n):
                 phase = ph

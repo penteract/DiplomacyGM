@@ -15,13 +15,13 @@ def prev_move_board(turn: Turn) -> Turn:
     if turn.phase == PhaseName.SPRING_MOVES:
         return Turn(phase=PhaseName.FALL_MOVES, year=turn.year-1, timeline=turn.timeline, start_year=turn.start_year)
     if turn.phase == PhaseName.FALL_MOVES:
-        Turn(phase=PhaseName.SPRING_MOVES, year=turn.year, timeline=turn.timeline, start_year=turn.start_year)
+        return Turn(phase=PhaseName.SPRING_MOVES, year=turn.year, timeline=turn.timeline, start_year=turn.start_year)
 
 def next_move_board(turn: Turn) -> Turn:
     if turn.phase == PhaseName.SPRING_MOVES:
         return Turn(phase=PhaseName.FALL_MOVES, year=turn.year, timeline=turn.timeline, start_year=turn.start_year)
     if turn.phase == PhaseName.FALL_MOVES:
-        Turn(phase=PhaseName.SPRING_MOVES, year=turn.year+1, timeline=turn.timeline, start_year=turn.start_year)
+        return Turn(phase=PhaseName.SPRING_MOVES, year=turn.year+1, timeline=turn.timeline, start_year=turn.start_year)
 
 def get_turn(s: str, start_year: int):
     assert s.startswith("T")
@@ -50,6 +50,7 @@ class Game():
         allboards = [[] for x in range(mx)]
         #boards.sort(key=lambda tb: (tb[0].year,tb[0] )
         for (t,b) in boards:
+            assert t == b.turn
             allboards[t.timeline-1].append(t)
         for r in allboards:
             r.sort(key=lambda t: (t.year,t.phase.value))
@@ -98,12 +99,12 @@ class Game():
     def get_turn_province_and_coast(self, prov:str):
         t,p = get_turn(prov,self.start_year)
         p = self.get_board(t).get_province_and_coast(p)
-        assert not p[0].isFake
+        # assert not p[0].isFake
         return p
     def get_turn_and_province(self, prov:str):
         t,p = get_turn(prov,self.start_year)
         p = self.get_board(t).get_province(p)
-        assert not p.isFake
+        # assert not p.isFake
         return p
     def get_board(self, t:Turn) -> Board | FakeBoard:
         # TODO: think about returning boards full of fake provinces when t has no associated board

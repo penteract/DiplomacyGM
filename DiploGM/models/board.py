@@ -53,7 +53,6 @@ class Board:
         self.name_to_province: Dict[str, Province] = {}
         self.name_to_coast: Dict[str, tuple[Province, str | None]] = {}
         for location in self.provinces:
-            location.set_turn(turn)
             self.name_to_province[location.name.lower()] = location
             for coast in location.get_multiple_coasts():
                 self.name_to_coast[location.get_name(coast)] = (location, coast)
@@ -394,3 +393,6 @@ class FakeBoard:
         np.isFake=True
         np.set_turn(self.turn)
         return (np,coast)
+    def get_province(self, name: str) -> Province:
+        province, _ = self.get_province_and_coast(name)
+        return province

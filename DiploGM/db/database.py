@@ -144,7 +144,7 @@ class _DatabaseConnection:
         #  so we don't have to reparse the whole board each time
         board = get_parser(data_file).parse()
         print("_get_board_partial ",board.year_offset, turn,turn.timeline)
-        board.turn = Turn(turn.year, turn.phase, board.year_offset, turn.timeline) if year_offset else turn
+        board.turn = turn #Turn(turn.year, turn.phase, board.year_offset, turn.timeline) if year_offset else turn
         board.fish = fish
         board.name = name
         board.board_id = board_id
@@ -282,6 +282,7 @@ class _DatabaseConnection:
             (board_id, board.turn.get_indexed_name()),
         ).fetchall()
         for province in board.provinces:
+            province.turn = board.turn
             if province.name not in province_info_by_name:
                 logger.warning(f"Couldn't find province {province.name} in DB")
                 continue
@@ -390,7 +391,7 @@ class _DatabaseConnection:
                             game.get_turn_province_and_coast(order_destination)
                         )
                     if order_source is not None:
-                        source_province = game.get_turn_and_province(order_source)
+                        source_province = game.get_turn_and_province(order_source) # TODO: check whether order source ever saves coast
                     if order_class == NMR:
                         continue
                     elif order_class in [Hold, Core, RetreatDisband]:
