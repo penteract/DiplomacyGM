@@ -72,7 +72,7 @@ class AdjudicableOrder:
 
     def __str__(self):
         # This could be improved
-        return f"{self.current_province} {self.type} {self.source_province if self.source_province else ''} {self.destination_province} [{self.state}:{self.resolution}]"
+        return f"{self.current_province.order_str()} {self.type} {self.source_province.order_str() if self.source_province else ''} {self.destination_province.order_str()} [{self.state}:{self.resolution}]"
     
     def get_original_order(self) -> UnitOrder:
         if self.base_unit.order is None:

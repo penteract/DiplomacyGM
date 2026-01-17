@@ -90,6 +90,7 @@ def convoy_is_possible(start: Province, end: Province, check_fleet_orders=False)
 
 def _validate_move_army(province: Province, destination_province: Province) -> tuple[bool, str | None]:
     if destination_province not in province.adjacent:
+        print("v_m_army",province.order_str(),destination_province.order_str(), province.adjacent, province.isFake)
         return False, f"{province} does not border {destination_province}"
     if destination_province.type == ProvinceType.SEA:
         return False, "Armies cannot move to sea provinces"
@@ -580,10 +581,13 @@ class MovesAdjudicator(Adjudicator):
         return self._game
 
     def _update_board(self):
+        print("upd")
         if not all(order.state == ResolutionState.RESOLVED for order in self.orders):
             raise RuntimeError("Cannot update board until all orders are resolved!")
 
         for order in self.orders:
+            if order.base_unit.player.name=="Italy":
+                print("ItalyOrder", order)
             if order.type == OrderType.CORE and order.resolution == Resolution.SUCCEEDS:
                 order.source_province.corer = order.country
             if order.type == OrderType.MOVE and order.resolution == Resolution.SUCCEEDS:

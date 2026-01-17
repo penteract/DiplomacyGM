@@ -516,6 +516,17 @@ class _DatabaseConnection:
                 for unit in board.units
             ],
         )
+        # print([
+        #         (
+        #             board_id,
+        #             board.turn.get_indexed_name(),
+        #             unit.province.get_name(unit.coast),
+        #             retreat_option[0].get_name(retreat_option[1]),
+        #         )
+        #         for unit in board.units
+        #         if unit.retreat_options is not None
+        #         for retreat_option in unit.retreat_options
+        #     ])
         cursor.executemany(
             "INSERT INTO retreat_options (board_id, phase, origin, retreat_loc) VALUES (?, ?, ?, ?)",
             [
