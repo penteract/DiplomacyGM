@@ -14,13 +14,13 @@ number_re = re.compile("[0-9]+")
 def prev_move_board(turn: Turn) -> Turn:
     if turn.phase == PhaseName.SPRING_MOVES:
         return Turn(phase=PhaseName.FALL_MOVES, year=turn.year-1, timeline=turn.timeline, start_year=turn.start_year)
-    if phase == PhaseName.FALL_MOVES:
+    if turn.phase == PhaseName.FALL_MOVES:
         Turn(phase=PhaseName.SPRING_MOVES, year=turn.year, timeline=turn.timeline, start_year=turn.start_year)
 
 def next_move_board(turn: Turn) -> Turn:
     if turn.phase == PhaseName.SPRING_MOVES:
         return Turn(phase=PhaseName.FALL_MOVES, year=turn.year, timeline=turn.timeline, start_year=turn.start_year)
-    if phase == PhaseName.FALL_MOVES:
+    if turn.phase == PhaseName.FALL_MOVES:
         Turn(phase=PhaseName.SPRING_MOVES, year=turn.year+1, timeline=turn.timeline, start_year=turn.start_year)
 
 def get_turn(s: str, start_year: int):
