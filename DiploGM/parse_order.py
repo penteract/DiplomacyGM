@@ -30,7 +30,6 @@ class TreeToOrder(Transformer):
         return self.game.get_board(self.turn)
 
     def province(self, s) -> tuple[Province, str | None]:
-        print("parse_province",s)
         if isinstance(s[0],Turn):
             # Timeline specifier
             board = self.game.get_board(s[0])
@@ -57,7 +56,6 @@ class TreeToOrder(Transformer):
         loc = s[-1][0]
         if loc.isFake:
             raise ValueError(f"Can't order {loc.order_str()} because the board does not exist")
-        print("unit",s,loc,loc.isFake,loc.turn)
         unit = s[-1][0].unit
         if unit is None:
             raise ValueError(f"No unit in {s[-1][0]}")
@@ -208,7 +206,6 @@ class TreeToOrder(Transformer):
         return s[0], order.Move(s[-1][0], s[-1][1])
 
     def move_order(self, s) -> tuple[Unit, order.Move]:
-        print("move",s)
         return s[0], order.Move(s[-1][0], s[-1][1])
 
     def convoy_order(self, s) -> tuple[Unit, order.ConvoyTransport]:
@@ -241,9 +238,6 @@ class TreeToOrder(Transformer):
     def order(self, order) -> Unit:
         command = order[0]
         unit, order = command
-        #print("order_", unit,unit.province)
-        #for t in self.board
-        print(unit.province.turn.start_year,self.turn.start_year)
         if unit.province.turn != self.turn:
             raise Exception(f"Cannot specify timeline on individual moves")
         if self.player_restriction is not None and unit.player != self.player_restriction:
@@ -296,7 +290,6 @@ class TreeToOrder(Transformer):
         for x in s:
             if not isinstance(x,Token):
                 important_parts.append(x)
-        print(important_parts)
         timeline, phase, year = important_parts
         return Turn(start_year = self.turn.start_year, year=year, timeline=timeline, phase=phase) # parse_season(important_parts, self.turn)
     
@@ -362,7 +355,6 @@ def parse_order(message: str, player_restriction: Player | None, game: Game) -> 
                 errors.append(f"`{order}`: Please fix this order and try again")
         elif generator.turn.is_moves() or generator.turn.is_retreats():
             if generator.turn.is_moves():
-                print("moves")
                 parser = movement_parser
             else:
                 parser = retreats_parser
