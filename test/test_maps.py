@@ -34,5 +34,5 @@ class TestMaps(unittest.TestCase):
 
         b.move(b.germany, UnitType.FLEET, "Ber", "BAL")
         b.move(b.germany, UnitType.ARMY, "Pru", "War")
-        b.move(b.germany, UnitType.ARMY, "Mun", "Tyr")
+        b.move(b.germany, UnitType.ARMY, "Mun", "Trl")
         b.output()
