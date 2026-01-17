@@ -56,7 +56,7 @@ Austria:
 Italy:
     F ION - T1S01 AEG
     A Tri - T1S01 Bud
-    A Ven - T1S01 Tyr
+    A Ven - T1S01 Trl
 France:
     A Spa - Lvp
     F MAO - T1S01 IRI
@@ -99,7 +99,7 @@ Turkey:
 Austria:
     F ADR - Ven
     A Ser - Tri
-    A Vie - Tyr
+    A Vie - Trl
     F Apu - Rom
 Russia:
     F Swe - Nwy
@@ -117,7 +117,7 @@ Italy:
     A Ven - Tri
     F ION - T1F01 Tun
     F AEG - T1F01 Smy
-    A Tyr - T1F01 Boh
+    A Trl - T1F01 Boh
     A Bud S Tri - Ser
 France:
     A Pic - Bel
@@ -150,7 +150,7 @@ Germany:
     A Den - Swe
     F Kie - HEL
     A Hol - Bel
-    A Mun - Tyr
+    A Mun - Trl
     A Ber - Sil
 England:
     F NTH - Hol
@@ -230,7 +230,7 @@ Germany:
     A Swe - Fin
     A Kie - Hol
     A Sil - T1S02 Gal
-    A Tyr - T1S02 Ven
+    A Trl - T1S02 Ven
     F Nwy S T2S02 Den - T1S02 NTH
 Russia:
     A Sev - Rum
@@ -280,7 +280,7 @@ Italy:
     A Ser - T2F01 Rum
     A Bud - Rum
 Austria:
-    A Tyr - T1S02 Mun
+    A Trl - T1S02 Mun
     F Ven - Tri
     A Gre S T3S02 Ser Hold
 England:
@@ -320,7 +320,7 @@ Italy:
     F Smy - AEG
     A Boh - Mun
     F Tun - WES
-    A Ven S T4S02 Ven - T4S02 Tyr
+    A Ven S T4S02 Ven - T4S02 Trl
 Austria:
     F Tri - ADR
     A Vie - Tri

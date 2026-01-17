@@ -4,6 +4,14 @@ from DiploGM.models.board import Board, FakeBoard
 from DiploGM.models.turn import Turn, PhaseName
 from itertools import chain
 
+
+if TYPE_CHECKING:
+    from DiploGM.models.turn import Turn
+    from DiploGM.models.province import Province
+    from collections.abc import Iterator
+
+
+
 """def loose_chain(a,b):
     if LOOSE_ADJACENCIES:
         return chain(a,b)
@@ -122,16 +130,32 @@ class Game():
     def is_retreats(self) -> bool:
         return True
 
-    def get_moves_boards(self):
+    def get_moves_boards(self) -> Iterator[Board]:
         for timeline in self._all_boards:
             for turn in timeline:
                 if turn.is_moves():
                     yield self.get_board(turn)
-    def get_moves_provinces(self):
+    def get_moves_provinces(self) -> Iterator[Province]:
         for board in self.get_moves_boards():
             for p in board.provinces:
                 yield p
-    def get_moves_units(self):
+    def get_moves_units(self) -> Iterator[Province]:
         for board in self.get_moves_boards():
             for u in board.units:
                 yield u
+
+    def get_current_retreat_boards(self) -> Iterator[Board]:
+        for timeline in self._all_boards:
+            if timeline[-1].is_retreats():
+                    yield self.get_board(timeline[-1])
+
+    def can_skip_retreats(self):
+        """There are retreats boards but no units that need to retreat """
+        no_boards = True
+        for board in self.get_current_retreat_boards():
+            no_boards = False
+            for province in board.provinces:
+                if province.dislodged_unit:
+                    return False
+        else:
+            return not no_boards

@@ -17,17 +17,21 @@ class TestGame(unittest.TestCase):
 
                 if not line:
                     continue
-                if line.startswith("TURN"):
+                if line.startswith("TURN") or line.startswith("RETREATS"):
                     print("reading turn", line)
                     if orders is not None:
                         for c in g.game.variant.players:
                             print("PLAYER",c.name)
                             print(orders[c.name])
-                            for message in parse_order("\n".join([".orders"]+orders[c.name]),c, g.game )["messages"]:
+                            messages = parse_order("\n".join([".orders"]+orders[c.name]),c, g.game )["messages"]
+                            for message in messages:
                                 print(message)
                             print("\x1b[0;39m")
+                            if any( "\x1b[0;31m" in m for m in messages):
+                                raise Exception("Bad orders")
                         g.adjudicate()
-                        g.adjudicate()
+                        if line.startswith("TURN") and g.game.can_skip_retreats():
+                            g.adjudicate()
                         if "3" in line:
                             break
                         #break

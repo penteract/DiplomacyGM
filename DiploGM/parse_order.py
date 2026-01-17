@@ -176,14 +176,14 @@ class TreeToOrder(Transformer):
 
     def build(self, s):
         build_order = s[0]
-        if build_order.turn != generator.turn:
-            raise Exception(f"Cannot set timelines on individual orders")
         if self.player_restriction is not None and self.player_restriction != build_order[1]:
             raise Exception(f"Cannot issue order for {build_order[0].name} as you do not control it")
         if isinstance(build_order[2], order.Waive):
             build_order[1].waived_orders = build_order[2].quantity
         elif isinstance(build_order[2], order.PlayerOrder):
-            remove_player_order_for_province(self.board, build_order[1], build_order[0])
+            if build_order[2].province.turn != generator.turn:
+                raise Exception(f"Cannot set timelines on individual orders")
+            remove_player_order_for_province(self.get_current_board(), build_order[1], build_order[0])
             build_order[1].build_orders.add(build_order[2])
         else:
             remove_relationship_order(self.board, build_order[2], build_order[1])
@@ -345,6 +345,8 @@ def parse_order(message: str, player_restriction: Player | None, game: Game) -> 
                 generator.transform(cmd)
                 orderoutput.append(f"\u001b[0;32m{order}")
             except VisitError as e:
+                #raise e.orig_exc
+                #raise e
                 orderoutput.append(f"\u001b[0;31m{order}")
                 errors.append(f"`{order}`: {str(e).splitlines()[-1]}")
             except UnexpectedEOF as e:
