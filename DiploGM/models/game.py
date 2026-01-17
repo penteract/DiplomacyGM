@@ -84,16 +84,16 @@ class Game():
                             Turn(phase=t.phase, year=t.year, timeline=t.timeline+1, start_year=t.start_year),
                             Turn(phase=t.phase, year=t.year, timeline=t.timeline-1, start_year=t.start_year)
                             ]:
-                    if (t.timeline,t.phase,t.year) not in self._all_boards:
+                    if (t.timeline,t.phase,t.year) not in self._boards:
                         continue
                     other_board = self.get_board(t)
                     for p in board.provinces:
                         n = p.name.lower()
-                        vp = variant.name_to_province[n]
+                        vp = self.variant.name_to_province[n]
                         for ap in loose_chain([vp],vp.adjacent):
                             p.adjacent.add(other_board.name_to_province[ap.name.lower()])
                         vpfa = vp.fleet_adjacent
-                        if isinstance(fleets,dict):
+                        if isinstance(vpfa,dict):
                             #vpfa = {None:vpfa}
                             for coast,adjs in vpfa.items():
                                 pfac = p.fleet_adjacent[coast]
