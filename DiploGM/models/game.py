@@ -7,8 +7,9 @@ from itertools import chain
 
 if TYPE_CHECKING:
     from DiploGM.models.turn import Turn
-    from DiploGM.models.province import Province
-    from collections.abc import Iterator
+
+from DiploGM.models.province import Province
+from collections.abc import Iterator
 
 
 
