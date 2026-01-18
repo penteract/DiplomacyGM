@@ -911,4 +911,19 @@ def make_adjudicator(board: Board) -> Adjudicator:
         raise ValueError("Board is in invalid phase")
 
 def boards_equal(b1 : Board, b2 : Board):
-    return False
+    for province in b1.provinces:
+        #print(b2.name_to_province)
+        otherprov = b2.name_to_province[province.name.lower()]
+        if province.core != otherprov.core:
+            return False
+        if province.half_core != otherprov.half_core:
+            return False
+        if province.owner != otherprov.owner:
+            return False
+        for u,ou in [(province.unit, otherprov.unit), (province.dislodged_unit,otherprov.dislodged_unit)]:
+            if (u is None) != (ou is None):
+                return False
+            if u is not None and u.player != ou.player:
+                return False
+    logger.info(f"Boards equal {b2.turn}")
+    return True

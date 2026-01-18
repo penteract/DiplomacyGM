@@ -195,19 +195,23 @@ class Manager(metaclass=SingletonMeta):
                 new_game = MovesAdjudicator(game).run()
                 logger.info("Moves Adjudicator ran successfully")
                 new_boards = []
-                for tl in turns:
-                    for t in tl:
-                        if t.is_moves():
-                            nt = t.get_next_turn()
-                            compare_board = game.get_board(nt)
-                            new_board = new_game.get_board(t)
-                            if compare_board.isFake:
-                                new_board.turn = nt
-                                self._database.save_board(server_id, new_board)
-                            elif not boards_equal(new_board, compare_board):
-                                # TODO: !!! check all child boards
-                                new_board.turn = nt
-                                new_boards.append(((nt.year,nt.phase.value,nt.timeline), new_board))
+                for b in game.get_moves_boards():
+                    t = b.turn
+                    nt = t.get_next_turn()
+                    compare_board = game.get_board(nt)
+                    new_board = new_game.get_board(t)
+                    if compare_board.isFake:
+                        new_board.turn = nt
+                        self._database.save_board(server_id, new_board)
+                    else:
+                        for tl in range(1,1+len(turns)): # TODO: only check child boards unless we want a rule change. Also check retreats that might affect
+                            alt_board = game.get_board(Turn(timeline=tl, year=nt.year, phase=nt.phase))
+                            if not alt_board.isFake and boards_equal( new_board,alt_board ):
+                                break
+                        else:
+                            # TODO: !!! check all child boards
+                            new_board.turn = nt
+                            new_boards.append(((nt.year,nt.phase.value,nt.timeline), new_board))
 
                 new_boards.sort()
                 last_timeline = len(turns)

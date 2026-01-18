@@ -350,6 +350,6 @@ class GameBuilder():
         self.game = self.bb._g
         # To consider: make games with more than 1 board
     def adjudicate(self):
-        logger.info("adjudication" + str(self.game.all_boards()[0][-1]))
+        #input("adjudication" + str(self.game.all_boards()[0][-1]))
         self.bb._manager.adjudicate(self.game.board_id)
         self.game = self.bb._manager.get_game(0)
