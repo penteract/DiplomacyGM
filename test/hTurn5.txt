@@ -13,7 +13,7 @@ Austria:
     A Vie - Gal
     F Tri - ADR
 Russia:
-    F Stp_S - BOT
+    F Stp_SC - BOT
     A Mos - Stp
     A War - Gal
     F Sev - BLA

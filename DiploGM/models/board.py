@@ -173,13 +173,20 @@ class Board:
         if name.endswith(" coast"):
             name = name[:-6]
 
+        abbrev = ""
+
+        if name[-3:] in [" nc", " ec", " sc", " wc"]:
+            name, abbrev = name[:-3].strip(), name[-3:] 
         if "abbreviations" in self.data and name in self.data["abbreviations"]:
-            name = self.data["abbreviations"][name].lower()
+            name = self.data["abbreviations"][name].lower()   
+        
+        name += abbrev
         
         if name in self.name_to_coast:
-            return self.name_to_coast[name]
+            return self.name_to_coast[name]        
         elif name in self.name_to_province:
             return self.name_to_province[name], None
+
 
         # failed to match, try to get possible locations
         potential_locations = self.get_possible_locations(name)
