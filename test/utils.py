@@ -23,6 +23,7 @@ import unittest
 logger = logging.getLogger(__name__)
 
 map_file = open("/tmp/map.html", mode="w")
+print("<style>body{width:max-content;}</style>", file=map_file)
 
 def title(title):
     print(f"<h1>{title.upper()}</h1>", file = map_file)
