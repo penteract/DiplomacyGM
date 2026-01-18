@@ -61,6 +61,12 @@ class Board:
             player.board = self
         self.isFake = False
 
+    def get_units(self): # -> Iterator[Unit]
+        for province in self.provinces:
+            for unit in [province.unit, province.dislodged_unit]:
+                if unit is not None:
+                    yield unit
+
     def add_new_player(self, name: str, color: str):
         from DiploGM.models.player import Player
         from DiploGM.utils.sanitise import sanitise_name

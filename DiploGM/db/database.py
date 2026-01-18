@@ -532,9 +532,10 @@ class _DatabaseConnection:
                     unit.order.get_source_str() if unit.order is not None else None,
                     unit.order.hasFailed if unit.order is not None else False
                 )
-                for province in board.provinces
-                for unit in [province.unit, province.dislodged_unit]
-                if unit is not None
+                for unit in board.get_units()
+                # for province in board.provinces
+                # for unit in [province.unit, province.dislodged_unit]
+                # if unit is not None
             ],
         )
         # print("RETREAT SAVING", board.turn, [
@@ -557,7 +558,8 @@ class _DatabaseConnection:
                     unit.province.get_name(unit.coast),
                     retreat_option[0].get_name(retreat_option[1]),
                 )
-                for unit in board.units
+                for unit in board.get_units()
+                #for unit in board.units
                 if unit.retreat_options is not None
                 for retreat_option in unit.retreat_options
             ],
