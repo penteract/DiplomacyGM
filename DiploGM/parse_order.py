@@ -387,7 +387,7 @@ def parse_order(message: str, player_restriction: Player | None, game: Game) -> 
                 "embed_colour": ERROR_COLOUR,
             }
     database = get_connection()
-    timelines = game.all_boards()
+    timelines = game.all_turns()
     # Save orders for all units on final boards
     for turns in timelines:
         board = game.get_board(turns[-1])

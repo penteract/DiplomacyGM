@@ -56,16 +56,16 @@ class Game():
         self.variant = variant
         self._boards : dict[(int, PhaseName, int)] = {(t.timeline,t.phase,t.year) : b for (t,b) in boards}
         mx = max(t[0].timeline for t in boards)
-        allboards = [[] for x in range(mx)]
+        allTurns = [[] for x in range(mx)]
         #boards.sort(key=lambda tb: (tb[0].year,tb[0] )
         for (t,b) in boards:
             assert t == b.turn
-            allboards[t.timeline-1].append(t)
-        for r in allboards:
+            allTurns[t.timeline-1].append(t)
+        for r in allTurns:
             r.sort(key=lambda t: (t.year,t.phase.value))
-        self._all_boards = allboards
+        self._all_turns = allTurns
 
-        default_board = self.get_board(allboards[0][0])
+        default_board = self.get_board(allTurns[0][0])
         self.data = default_board.data # be nice for manager.create_game; TODO: this may sometimes need to change
         self.board_id = default_board.board_id
         self.start_year = default_board.turn.start_year
@@ -122,17 +122,17 @@ class Game():
             #return self._boards[tdata]#!!!!!!
             return self._boards[tdata]
         else:
-            # return self.get_board(self.all_boards()[0][0])
+            # return self.get_board(self.all_turns()[0][0])
             return FakeBoard(self.variant,t) # TODO: Modify so that provinces include turn information
         #return self._boards[t.timeline,t.phase,t.year]
-    def all_boards(self) -> list[list[Turn]]:
-        return self._all_boards
+    def all_turns(self) -> list[list[Turn]]:
+        return self._all_turns
 
     def is_retreats(self) -> bool:
         return True
 
     def get_moves_boards(self) -> Iterator[Board]:
-        for timeline in self._all_boards:
+        for timeline in self._all_turns:
             for turn in timeline:
                 if turn.is_moves():
                     yield self.get_board(turn)
@@ -146,7 +146,7 @@ class Game():
                 yield u
 
     def get_current_retreat_boards(self) -> Iterator[Board]:
-        for timeline in self._all_boards:
+        for timeline in self._all_turns:
             if timeline[-1].is_retreats():
                     yield self.get_board(timeline[-1])
 

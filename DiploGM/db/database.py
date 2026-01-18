@@ -98,7 +98,7 @@ class _DatabaseConnection:
         game_dict = {}
         for k,v in games.items():
             g = Game(*v)
-            for ts in g.all_boards():
+            for ts in g.all_turns():
                 for t in ts:
                     self._finish_build_board(g.get_board(t), g, cursor)
             game_dict[k] = g

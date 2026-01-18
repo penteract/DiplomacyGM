@@ -169,7 +169,7 @@ class Manager(metaclass=SingletonMeta):
         # TODO: make the adjudicator not mutate games (or at least create new ones, then mutate them
 
 
-        turns = game.all_boards()
+        turns = game.all_turns()
         last_boards = [(tl[-1], game.get_board(tl[-1]))  for tl in turns]
         retreats = [(t, b) for t,b in last_boards if t.is_retreats()]
         #retreats = {t: } any(x.is_retreats for x in last_turns)

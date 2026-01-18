@@ -619,7 +619,7 @@ class MovesAdjudicator(Adjudicator):
                     board.change_owner(order.destination_province, order.country)
 
         #for board in self._game.get_moves_provinces()
-        #[self.game.get_board(t) for t in itertools.chain(self._games.all_boards()) if t.is_moves()]:
+        #[self.game.get_board(t) for t in itertools.chain(self._games.all_turns()) if t.is_moves()]:
         for province in self._game.get_moves_provinces():
             #board.provinces:
             if province.corer:

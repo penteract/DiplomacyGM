@@ -82,7 +82,7 @@ class BoardBuilder():
         self.turkey = player_list["Turkey"]
 
     def output(self):
-        for timeline in self._g.all_boards():
+        for timeline in self._g.all_turns():
             for turn in timeline:
                 print(self._manager.draw_map(0, turn=turn, draw_moves=True)[0].decode("utf-8"), file=map_file)
 
@@ -355,11 +355,11 @@ class GameBuilder():
         self.game = self.bb._g
         # To consider: make games with more than 1 board
     def adjudicate(self):
-        #input("adjudication" + str(self.game.all_boards()[0][-1]))
+        #input("adjudication" + str(self.game.all_turns()[0][-1]))
         self.bb._manager.adjudicate(self.game.board_id)
         self.game = self.bb._manager.get_game(0)
     def output(self):
-        for timeline in self.game.all_boards():
+        for timeline in self.game.all_turns():
             for turn in timeline:
                 print(self.bb._manager.draw_map(0, turn=turn, draw_moves=True)[0].decode("utf-8"), file=map_file)
             print("<br>", file=map_file)
