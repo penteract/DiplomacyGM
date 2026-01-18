@@ -143,7 +143,7 @@ class _DatabaseConnection:
         # TODO - we should eventually store things like coords, adjacencies, etc
         #  so we don't have to reparse the whole board each time
         board = get_parser(data_file).parse()
-        print("_get_board_partial ",board.year_offset, turn,turn.timeline)
+        #print("_get_board_partial ",board.year_offset, turn,turn.timeline)
         board.turn = turn #Turn(turn.year, turn.phase, board.year_offset, turn.timeline) if year_offset else turn
         board.fish = fish
         board.name = name
@@ -282,7 +282,7 @@ class _DatabaseConnection:
             (board_id, board.turn.get_indexed_name()),
         ).fetchall()
         for province in board.provinces:
-            province.turn = board.turn
+            province.set_turn(board.turn)
             if province.name not in province_info_by_name:
                 logger.warning(f"Couldn't find province {province.name} in DB")
                 continue
@@ -497,6 +497,25 @@ class _DatabaseConnection:
                 for build_order in player.build_orders if isinstance(build_order, PlayerOrder)
             ],
         )
+        # print("SAVING units ",board.turn)
+        # for x in [
+        #         (
+        #             board_id,
+        #             board.turn.get_indexed_name(),
+        #             unit.province.get_name(unit.coast),
+        #             unit == unit.province.dislodged_unit,
+        #             unit.player.name,
+        #             unit.unit_type == UnitType.ARMY,
+        #             unit.order.__class__.__name__ if unit.order is not None else None,
+        #             unit.order.get_destination_str() if unit.order is not None else None,
+        #             unit.order.get_source_str() if unit.order is not None else None,
+        #             unit.order.hasFailed if unit.order is not None else False
+        #         )
+        #         for province in board.provinces
+        #         for unit in [province.unit, province.dislodged_unit]
+        #         if unit is not None
+        #     ]: print(x)
+        # print()
         # TODO - this is hacky
         cursor.executemany(
             "INSERT INTO units (board_id, phase, location, is_dislodged, owner, is_army, order_type, order_destination, order_source, failed_order) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
@@ -513,10 +532,12 @@ class _DatabaseConnection:
                     unit.order.get_source_str() if unit.order is not None else None,
                     unit.order.hasFailed if unit.order is not None else False
                 )
-                for unit in board.units
+                for province in board.provinces
+                for unit in [province.unit, province.dislodged_unit]
+                if unit is not None
             ],
         )
-        # print([
+        # print("RETREAT SAVING", board.turn, [
         #         (
         #             board_id,
         #             board.turn.get_indexed_name(),
@@ -545,6 +566,7 @@ class _DatabaseConnection:
         self._connection.commit()
 
     def save_order_for_units(self, board: Board, units: Iterable[Unit]):
+        #print("save_order_for_units",board.turn)
         cursor = self._connection.cursor()
         cursor.executemany(
             "UPDATE units SET order_type=?, order_destination=?, order_source=?, failed_order=? "

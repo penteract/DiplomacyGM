@@ -323,7 +323,7 @@ def parse_order(message: str, player_restriction: Player | None, game: Game) -> 
     errors = []
 
     for order in orderlist:
-        print("parsing line", order)
+        #print("parsing line", order)
         # Take a single-line timeline specifier if present
         try:
             cmd = timeline_specifier_parser.parse(order.strip().lower())

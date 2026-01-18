@@ -43,14 +43,17 @@ class Unit:
             self.retreat_options = set()
         if self.unit_type == UnitType.ARMY:
             for province in self.province.adjacent:
-                if province.type != ProvinceType.SEA:
-                    self.retreat_options.add((province, None))
+                if province.turn == self.province.turn:
+                    if province.type != ProvinceType.SEA:
+                        self.retreat_options.add((province, None))
         else:
             for province in self.province.get_coastal_adjacent(self.coast):
                 if isinstance(province, tuple):
-                    self.retreat_options.add(province)
+                    if province[0].turn == self.province.turn:
+                        self.retreat_options.add(province)
                 else:
-                    self.retreat_options.add((province, None))
+                    if province.turn == self.province.turn:
+                        self.retreat_options.add((province, None))
     
     # Removes a specific retreat option
     def remove_retreat_option(self, province: province.Province):

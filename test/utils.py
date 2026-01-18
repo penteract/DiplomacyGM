@@ -1,3 +1,4 @@
+import logging
 from DiploGM.models.board import Board
 from DiploGM.models.game import Game
 from DiploGM.manager import Manager
@@ -18,6 +19,8 @@ from DiploGM.models.turn import Turn
 from DiploGM.adjudicator.adjudicator import MovesAdjudicator, RetreatsAdjudicator, BuildsAdjudicator, ResolutionState, Resolution
 
 import unittest
+
+logger = logging.getLogger(__name__)
 
 map_file = open("/tmp/map.html", mode="w")
 
@@ -347,5 +350,6 @@ class GameBuilder():
         self.game = self.bb._g
         # To consider: make games with more than 1 board
     def adjudicate(self):
+        logger.info("adjudication" + str(self.game.all_boards()[0][-1]))
         self.bb._manager.adjudicate(self.game.board_id)
         self.game = self.bb._manager.get_game(0)

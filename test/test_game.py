@@ -9,14 +9,14 @@ import sys
 
 class TestGame(unittest.TestCase):
     def test_game_1(self):
-        root = logging.getLogger()
+        root = logging.getLogger("DiploGM.parse_order")
         root.setLevel(logging.DEBUG)
 
         handler = logging.StreamHandler(sys.stdout)
         handler.setLevel(logging.DEBUG)
         formatter = logging.Formatter('%(name)s - %(levelname)s - %(message)s')
 
-        #handler.setFormatter(formatter)
+        handler.setFormatter(formatter)
         #root.addHandler(handler)
         g = GameBuilder(empty=False)
         b = g.bb
@@ -30,31 +30,31 @@ class TestGame(unittest.TestCase):
                 if not line:
                     continue
                 if line.startswith("TURN") or line.startswith("RETREATS"):
-                    print("reading turn", line)
+                    #print("reading turn", line)
                     if orders is not None:
                         for c in g.game.variant.players:
-                            print("PLAYER",c.name)
-                            print(orders[c.name])
+                            #print("PLAYER",c.name)
+                            #print(orders[c.name])
                             messages = parse_order("\n".join([".orders"]+orders[c.name]),c, g.game )["messages"]
-                            for message in messages:
-                                print(message)
-                            print("\x1b[0;39m")
                             if any( "\x1b[0;31m" in m for m in messages):
+                                for message in messages:
+                                    print(message)
+                                print("\x1b[0;39m")
                                 raise Exception("Bad orders")
                         g.adjudicate()
                         if line.startswith("TURN") and g.game.can_skip_retreats():
                             g.adjudicate()
-                        if "3" in line:
+                        if "4" in line:
                             break
                         #break
                     orders = {c.name:[] for c in g.game.variant.players}
                 elif line[-1]==":":
                     if line[:-1] in orders:
-                        print("reading country", line)
+                        #print("reading country", line)
                         c = line[:-1]
                     else:
                         assert line.startswith("T")
-                        print("reading T", line)
+                        #print("reading T", line)
                         for os in orders.values():
                             os.append(line[:-1].strip())
                 else:

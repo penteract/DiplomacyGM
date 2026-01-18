@@ -85,8 +85,9 @@ class Province():
             return self.primary_unit_coordinates[unit_type]
         return (0, 0)
 
-    def set_turn(self,turn: turn):
-        self.turn = turn
+    def set_turn(self,turn: Turn):
+        self.turn : Turn = turn
+        self.longname: str = self.order_str()
 
     def get_retreat_unit_coordinates(self, unit_type: UnitType, coast = None) -> tuple[float, float]:
         if coast in self.retreat_unit_coordinates:
