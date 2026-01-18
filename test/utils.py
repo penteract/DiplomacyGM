@@ -24,6 +24,9 @@ logger = logging.getLogger(__name__)
 
 map_file = open("/tmp/map.html", mode="w")
 
+def title(title):
+    print(f"<h1>{title.upper()}</h1>", file = map_file)
+
 # Allows for specifying units, uses the classic diplomacy board as that is used by DATC 
 # Only implements the subset of adjacencies necessary to run the DATC tests as of now
 class BoardBuilder():
@@ -79,7 +82,6 @@ class BoardBuilder():
         self.turkey = player_list["Turkey"]
 
     def output(self):
-        print(self._g.all_boards())
         for timeline in self._g.all_boards():
             for turn in timeline:
                 print(self._manager.draw_map(0, turn=turn, draw_moves=True)[0].decode("utf-8"), file=map_file)
@@ -356,3 +358,8 @@ class GameBuilder():
         #input("adjudication" + str(self.game.all_boards()[0][-1]))
         self.bb._manager.adjudicate(self.game.board_id)
         self.game = self.bb._manager.get_game(0)
+    def output(self):
+        for timeline in self.game.all_boards():
+            for turn in timeline:
+                print(self.bb._manager.draw_map(0, turn=turn, draw_moves=True)[0].decode("utf-8"), file=map_file)
+            print("<br>", file=map_file)

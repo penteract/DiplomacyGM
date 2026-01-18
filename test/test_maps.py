@@ -6,10 +6,7 @@ from DiploGM.manager import Manager
 from DiploGM.models.unit import UnitType
 from test.utils import BoardBuilder
 
-from test.utils import map_file
-
-def title(title):
-    print(f"<h1>{title.upper()}</h1>", file = map_file)
+from test.utils import title
 
 class TestMaps(unittest.TestCase):
     def test_1_create_board(self):

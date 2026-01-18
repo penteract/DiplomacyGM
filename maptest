@@ -1,6 +1,6 @@
 #!/bin/bash
 
-python -m unittest test/test_maps.py && chromium /tmp/map.html 2> /dev/null & disown
+python -m unittest test/test_game_and_maps.py && ( chromium /tmp/map.html &> /dev/null & disown )
 
 # if [[ -n $HYPRLAND_INSTANCE_SIGNATURE ]]; then
 #   hyprctl dispatch fullscreen
