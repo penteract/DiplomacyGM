@@ -106,7 +106,7 @@ class Manager(metaclass=SingletonMeta):
         movement_only: bool = False,
         is_severance: bool = False,
     ) -> tuple[bytes, str]:
-        board = self.get_game(server_id).get_board(turn[0][0])
+        board = self.get_game(server_id).get_board(turn)
         # if turn is None:
         #     board = cur_board
         # else:
@@ -148,7 +148,6 @@ class Manager(metaclass=SingletonMeta):
         movement_only: bool = False,
     ) -> tuple[bytes, str]:
         start = time.time()
-
         if draw_moves:
             svg, file_name = Mapper(board, color_mode=color_mode).draw_moves_map(
                 board.turn,
