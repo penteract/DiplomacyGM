@@ -528,7 +528,7 @@ class MovesAdjudicator(Adjudicator):
             if not_supportable:
                 order.not_supportable = True
 
-            if not failed: self.orders.add(order)
+            self.orders.add(order)
 
         self.orders_by_province = {order.current_province.longname: order for order in self.orders}
         self.moves_by_destination: dict[str, set[AdjudicableOrder]] = {}
@@ -539,9 +539,9 @@ class MovesAdjudicator(Adjudicator):
                 self.moves_by_destination[order.destination_province.longname].add(order)
 
         for order in self.orders:
-            if order.type == OrderType.SUPPORT:
+            if order.type == OrderType.SUPPORT and order.is_valid:
                 self.orders_by_province[order.source_province.longname].supports.add(order)
-            if order.type == OrderType.CONVOY:
+            if order.type == OrderType.CONVOY and order.is_valid:
                 self.orders_by_province[order.source_province.longname].convoys.add(order)
 
         self._dependencies: list[AdjudicableOrder] = []
