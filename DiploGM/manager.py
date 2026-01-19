@@ -185,9 +185,14 @@ class Manager(metaclass=SingletonMeta):
             for (t,b) in last_boards:
                 if t.is_builds():
                     newSprings.append( (t.get_next_turn(), BuildsAdjudicator(b).run()) )
+                    # new_B = BuildsAdjudicator(b).run()
+                    # for u in new_B.get_units():
+                    #     print(u,u.province.longname)
+                    # print(new_B)
+                    # newSprings.append( (t.get_next_turn(), new_B) )
                 else:
                     any_moves = True
-            logger.info("Build adjudicators finished")
+            logger.info("Build adjudicators finished "+str(len(newSprings)))
             if any_moves:
                 # This mutates lots of things without updating Turns; new_game is game
                 # We later collect them using new_game.get_board()
@@ -224,7 +229,7 @@ class Manager(metaclass=SingletonMeta):
             #newBoards
         logger.info("All Adjudicators finished and saved")
 
-        self.get_game(server_id, reload=True) # Update the game so that mutated stuff doesn't cause problems
+        new_game = self.get_game(server_id, reload=True) # Update the game so that mutated stuff doesn't cause problems
 
         """
         board = self.get_board(server_id)
@@ -245,7 +250,7 @@ class Manager(metaclass=SingletonMeta):
 """
         elapsed = time.time() - start
         logger.info(f"manager.adjudicate.{server_id}.{elapsed}s")
-        return new_board
+        return new_game
 
     def draw_fow_current_map(
         self,

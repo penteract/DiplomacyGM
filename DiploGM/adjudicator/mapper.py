@@ -716,6 +716,7 @@ class Mapper:
         order: Support = unit.order
         if order.source.unit is None:
             raise ValueError("Support order has no source unit")
+            #return None
         x1 = coordinate[0]
         y1 = coordinate[1]
         v2 = self.loc_to_point(order.source, unit.unit_type, order.source.unit.coast, coordinate)

@@ -6,7 +6,7 @@ from typing import Optional
 # TODO: Find a better way to do this
 # maybe use a copy from manager?
 from DiploGM.map_parser.vector.vector import get_parser
-from DiploGM.models.turn import Turn
+from DiploGM.models.turn import Turn,PhaseName
 from DiploGM.models.board import Board
 from DiploGM.models.game import Game
 from DiploGM.models.order import (
@@ -517,6 +517,11 @@ class _DatabaseConnection:
         #     ]: print(x)
         # print()
         # TODO - this is hacky
+
+        # print("units",board.turn)
+        # if board.turn.year>=1901 and board.turn.phase!=PhaseName.SPRING_MOVES:
+        #     for x in board.get_units():
+        #         print(x.province.turn,x,x.order)
         cursor.executemany(
             "INSERT INTO units (board_id, phase, location, is_dislodged, owner, is_army, order_type, order_destination, order_source, failed_order) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
             [
@@ -568,7 +573,8 @@ class _DatabaseConnection:
         self._connection.commit()
 
     def save_order_for_units(self, board: Board, units: Iterable[Unit]):
-        #print("save_order_for_units",board.turn)
+        units = list(units)
+        #print("save_order_for_units",board.turn, [(u.province.order_str(),str(u.order)) for u in units])
         cursor = self._connection.cursor()
         cursor.executemany(
             "UPDATE units SET order_type=?, order_destination=?, order_source=?, failed_order=? "
@@ -586,6 +592,7 @@ class _DatabaseConnection:
                     unit.province.dislodged_unit == unit,
                 )
                 for unit in units
+                if unit.province.turn == board.turn
             ],
         )
         cursor.executemany(
@@ -597,6 +604,7 @@ class _DatabaseConnection:
                     unit.province.get_name(unit.coast),
                 )
                 for unit in units
+                if unit.province.turn == board.turn
                 if unit.retreat_options is not None
             ],
         )
@@ -610,6 +618,7 @@ class _DatabaseConnection:
                     retreat_option[0].get_name(retreat_option[1]),
                 )
                 for unit in units
+                if unit.province.turn == board.turn
                 if unit.retreat_options is not None
                 for retreat_option in unit.retreat_options
             ],
@@ -618,10 +627,11 @@ class _DatabaseConnection:
         self._connection.commit()
 
     def save_build_orders_for_players(self, board: Board, player: Player | None):
+        #print("Saving builds "+str(board.turn),len(player.build_orders))
         if player is None:
             players = board.players
         else:
-            players = {player}
+            players = {board.name_to_player[player.name.lower()]}
         cursor = self._connection.cursor()
         cursor.executemany(
             "INSERT INTO builds (board_id, phase, player, location, is_build, is_army) VALUES (?, ?, ?, ?, ?, ?) "

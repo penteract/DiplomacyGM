@@ -99,7 +99,15 @@ class TreeToOrder(Transformer):
                 raise ValueError(f"You do not own {province}.")
             if province.core != self.player_restriction and self.build_options != "anywhere":
                 raise ValueError(f"You haven't cored {province}.")
-
+        #x = input(">>")
+        #while x.strip():
+        #    print(eval(x))
+        #    x = input(">>")
+        #print(province,
+        #      province.owner,
+        #      self.get_current_board().name_to_player[str(province.owner).lower()])
+        #print(province.owner is self.get_current_board().name_to_player[str(province.owner).lower()])
+        #assert province.owner is self.get_current_board().name_to_player["russia"]
         return province, province.owner, order.Build(province, unit_type, coast)
     
     def disband_unit(self, s) -> tuple[Province, Player, order.Disband]:
@@ -369,7 +377,7 @@ def parse_order(message: str, player_restriction: Player | None, game: Game) -> 
                 cmd = parser.parse(order.strip().lower() + " ")
                 ordered_unit = generator.transform(cmd)
                 movement.append(ordered_unit)
-                orderoutput.append(f"\u001b[0;32m{ordered_unit} {ordered_unit.order}")
+                orderoutput.append(f"\u001b[0;32m{ordered_unit.province.order_str()} {ordered_unit.order}")
             except VisitError as e:
                 orderoutput.append(f"\u001b[0;31m{order}")
                 errors.append(f"`{order}`: {str(e).splitlines()[-1]}")
@@ -390,8 +398,12 @@ def parse_order(message: str, player_restriction: Player | None, game: Game) -> 
     timelines = game.all_turns()
     # Save orders for all units on final boards
     for turns in timelines:
-        board = game.get_board(turns[-1])
-        database.save_order_for_units(board, movement)
+        turn = turns[-1]
+        board = game.get_board(turn)
+        if turn.is_moves():
+            database.save_order_for_units(board, movement)
+        elif turn.is_builds():
+            database.save_build_orders_for_players(board,player_restriction)
 
     paginator = Paginator(prefix="```ansi\n", suffix="```", max_size=4096)
     
