@@ -235,7 +235,9 @@ class TreeToOrder(Transformer):
             raise ValueError("Unknown type of support. Something has broken in the bot. Please report this")
 
     def retreat_order(self, s) -> tuple[Unit, order.RetreatMove]:
-        return s[0], order.RetreatMove(s[-1][0], s[-1][1])
+        if s[0].province.turn!= s[-1][0].turn:
+            raise ValueError("Must retreat to same board")
+        return s[0], order.RetreatMove( s[-1][0], s[-1][1])
 
     def disband_order(self, s) -> tuple[Unit, order.RetreatDisband]:
         return s[0], order.RetreatDisband()
@@ -299,7 +301,11 @@ class TreeToOrder(Transformer):
             if not isinstance(x,Token):
                 important_parts.append(x)
         timeline, phase, year = important_parts
-        return Turn(start_year = self.turn.start_year, year=year, timeline=timeline, phase=phase) # parse_season(important_parts, self.turn)
+        turn = Turn(start_year = self.turn.start_year, year=year, timeline=timeline, phase=phase)
+        if self.turn.is_retreats():
+            turn = turn.get_next_turn()
+
+        return turn # parse_season(important_parts, self.turn)
     
     # def punctuation(self, s):
     #     return s
@@ -329,6 +335,7 @@ def parse_order(message: str, player_restriction: Player | None, game: Game) -> 
     movement = []
     orderoutput = []
     errors = []
+    is_retreats = any(game.get_current_retreat_boards())
 
     for order in orderlist:
         #print("parsing line", order)
@@ -336,6 +343,8 @@ def parse_order(message: str, player_restriction: Player | None, game: Game) -> 
         try:
             cmd = timeline_specifier_parser.parse(order.strip().lower())
             new_turn: Turn = generator.transform(cmd)
+            if is_retreats and new_turn.phase != PhaseName.WINTER_BUILDS:
+                new_turn = new_turn.get_next_turn()
             generator.set_state(game, player_restriction, new_turn)
             orderoutput.append(f"")
             orderoutput.append(f"\u001b[0;32m{new_turn.to_string(short=False, move_type=False)}:")
@@ -345,7 +354,7 @@ def parse_order(message: str, player_restriction: Player | None, game: Game) -> 
             #raise e
             pass
         #print(order)
-        if generator.turn.is_builds():
+        if generator.turn.is_builds(): #TODO: If game is in retreats phase, don't allow build orders
             parser = retreats_parser
             if not order.strip():
                 continue
@@ -379,6 +388,7 @@ def parse_order(message: str, player_restriction: Player | None, game: Game) -> 
                 movement.append(ordered_unit)
                 orderoutput.append(f"\u001b[0;32m{ordered_unit.province.order_str()} {ordered_unit.order}")
             except VisitError as e:
+                #raise e.orig_exc
                 orderoutput.append(f"\u001b[0;31m{order}")
                 errors.append(f"`{order}`: {str(e).splitlines()[-1]}")
             except UnexpectedEOF as e:
@@ -400,7 +410,7 @@ def parse_order(message: str, player_restriction: Player | None, game: Game) -> 
     for turns in timelines:
         turn = turns[-1]
         board = game.get_board(turn)
-        if turn.is_moves():
+        if turn.is_moves() or turn.is_retreats():
             database.save_order_for_units(board, movement)
         elif turn.is_builds():
             database.save_build_orders_for_players(board,player_restriction)

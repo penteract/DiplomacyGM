@@ -38,12 +38,33 @@ def get_turn(s: str, start_year: int):
     s=s[1+len(n):]
     tl = int(n)
     phase=None
-    
-    #PhaseName._member_names_.zip()
-    for k in [PhaseName.SPRING_MOVES,PhaseName.FALL_MOVES]:
-        if s[0].lower() == (k.to_string(short=True,move_type=False)):
+
+    #Reverse because some start with the same character. sorting by decreasing length would also work and would be more stable
+    for k in reversed(PhaseName.__members__.values()):
+        pn = k.to_string(short=True,move_type=0.5)
+        if s.startswith(pn):
             phase=k
-            s=s[1:]
+            s=s[len(pn):]
+    n = number_re.match(s).group()
+    s=s[len(n):]
+    year = int(n)
+    return (Turn(year=year, phase=phase, timeline=tl, start_year=start_year),s)
+
+def get_retreat_turn(s: str, start_year: int):
+    assert s.startswith("T")
+    n = number_re.match(s[1:]).group()
+    s=s[1+len(n):]
+    tl = int(n)
+    phase=None
+
+    #PhaseName._member_names_.zip()
+    for k in [PhaseName.SPRING_RETREATS,PhaseName.FALL_RETREATS]:
+        if s[:2].lower() == k.to_string(short=True,move_type=0.5):
+            phase=k
+            s=s[2:]
+            break
+    else:
+        raise Exception("Could not read phase from "+repr(s))
     n = number_re.match(s).group()
     s=s[len(n):]
     year = int(n)

@@ -21,15 +21,18 @@ class PhaseName(Enum):
     def to_string(self, short: bool, move_type: bool) -> str:
         name = str(self._name_).split("_")
         
-        if not move_type:
-            name = name[0] 
+        if not move_type or (move_type<1 and not self.is_retreats()):
+            # for i in range(short+1):P
+            name = name[0]
+            if short:
+                name = name[0]
         else:
-            name = " ".join(name)
-            
-        name = name.title()
+            if short:
+                name = "".join(x[0] for x in name)
+            else:
+                name = " ".join(name)
 
-        if short:
-            name = "".join(x[0] for x in name.split()).lower()
+        name = name.title()
             
         return name
 
@@ -107,8 +110,8 @@ class Turn:
         split_index = turn_str.index(" ")
         year = int(turn_str[:split_index])
         phase_name = turn_str[split_index:].strip()
-        m = zip(PhaseName.__members__.values(), map(lambda x: x.to_string(short=False, move_type=True), PhaseName._member_map_.values()))
-        for ph,n in m:
+        for ph in PhaseName.__members__.values():
+            n = ph.to_string(short=False, move_type=True)
             if phase_name.startswith(n):
                 phase = ph
                 timeline_str = phase_name[len(n):].strip()
