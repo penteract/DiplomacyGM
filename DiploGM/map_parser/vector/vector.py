@@ -260,24 +260,22 @@ class Parser:
                 province.fleet_adjacent = {}
                 for coast_name, coast_adjacent in data["coasts"].items():
                     province.fleet_adjacent[coast_name] = {self._get_province_and_coast(n) for n in coast_adjacent}
-            if "unit_loc" in data:
-                # For compatability reasons, we assume these are sea tiles
-                # TODO: Add support for armies/multicoastal tiles
-                for coordinate in data["unit_loc"]:
-                    coordinate = tuple((tuple(coordinate) + offset).tolist())
-                    if UnitType.FLEET not in province.all_locs:
-                        province.all_locs[UnitType.FLEET] = {coordinate}
-                    else:
-                        province.all_locs[UnitType.FLEET].add(coordinate)
-                    province.primary_unit_coordinates[UnitType.FLEET] = coordinate
-            if "retreat_unit_loc" in data:
-                for coordinate in data["retreat_unit_loc"]:
-                    coordinate = tuple((tuple(coordinate) + offset).tolist())
-                    if UnitType.FLEET not in province.all_rets:
-                        province.all_rets[UnitType.FLEET] = {coordinate}
-                    else:
-                        province.all_rets[UnitType.FLEET].add(coordinate)
-                    province.retreat_unit_coordinates[UnitType.FLEET] = coordinate
+            # For compatability reasons, we assume these are sea tiles
+            # TODO: Add support for armies/multicoastal tiles
+            for coordinate in data.get("unit_loc", []):
+                coordinate = tuple((tuple(coordinate) + offset).tolist())
+                if UnitType.FLEET not in province.all_locs:
+                    province.all_locs[UnitType.FLEET] = {coordinate}
+                else:
+                    province.all_locs[UnitType.FLEET].add(coordinate)
+                province.primary_unit_coordinates[UnitType.FLEET] = coordinate
+            for coordinate in data.get("retreat_unit_loc", []):
+                coordinate = tuple((tuple(coordinate) + offset).tolist())
+                if UnitType.FLEET not in province.all_rets:
+                    province.all_rets[UnitType.FLEET] = {coordinate}
+                else:
+                    province.all_rets[UnitType.FLEET].add(coordinate)
+                province.retreat_unit_coordinates[UnitType.FLEET] = coordinate
 
         return provinces
 

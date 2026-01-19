@@ -447,10 +447,8 @@ class Mapper:
                         assert style is not None
                         style = re.sub(r"font-size:[0-9.]+px", "font-size:42.6667px", style)
                         power_element[name_index].set("style", style)
-                if player == self.restriction or self.restriction == None:
-                    power_element[sc_index][0].text = str(len(player.centers))
-                else:
-                    power_element[sc_index][0].text = "???"
+                power_element[sc_index][0].text = (str(len(player.centers))
+                    if (self.restriction is None or self.restriction == player) else "???")
                 if iscc_index > -1:
                     power_element[iscc_index][0].text = str(player_data["iscc"])
                 if self.board.data["victory_conditions"] == "classic" and vscc_index > -1:
@@ -869,9 +867,8 @@ class Mapper:
             self.color_element(island_ring, color, key="stroke")
 
         for province in self.board.provinces:
-            if province.name in visited_provinces or (not self.board.fow and province.type == ProvinceType.SEA):
-                continue
-            print(f"Warning: Province {province.name} was not recolored by mapper!")
+            if province.name not in visited_provinces and (self.board.fow or province.type != ProvinceType.SEA):
+                print(f"Warning: Province {province.name} was not recolored by mapper!")
 
     def _color_centers(self) -> None:
         centers_layer = get_svg_element(self.board_svg, self.board.data[SVG_CONFIG_KEY]["supply_center_icons"])
