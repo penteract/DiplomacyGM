@@ -24,3 +24,6 @@ venv
 
 logs/*
 config.toml
+
+!variants/impdip/config.json
+!variants/impdip/impdip.2.0.svg
