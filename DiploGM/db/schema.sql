@@ -3,8 +3,10 @@ CREATE TABLE IF NOT EXISTS boards (
     phase text,
     data_file text,
     fish int,
-	name text,
-    PRIMARY KEY (board_id, phase));
+    name text,
+    parent_phase text,
+    PRIMARY KEY (board_id, phase),
+    FOREIGN KEY (board_id, parent_phase) REFERENCES boards (board_id, player_name));
 CREATE TABLE IF NOT EXISTS players (
     board_id int,
     player_name text,

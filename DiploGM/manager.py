@@ -14,6 +14,7 @@ from DiploGM.models.board import Board
 from DiploGM.models.game import Game
 from DiploGM.db import database
 from DiploGM.models.player import Player
+from DiploGM.models.order import RetreatDisband,RetreatMove
 from DiploGM.models.spec_request import SpecRequest
 from DiploGM.utils.sanitise import simple_player_name
 
@@ -176,6 +177,7 @@ class Manager(metaclass=SingletonMeta):
         if retreats:
             for (t,b) in retreats:
                 new_board = RetreatsAdjudicator(b).run()
+                new_board.parent = t
                 new_board.turn = t.get_next_turn()
                 self._database.save_board(server_id, new_board)
             logger.info("Retreat adjudicators ran successfully")
@@ -184,7 +186,9 @@ class Manager(metaclass=SingletonMeta):
             any_moves = False
             for (t,b) in last_boards:
                 if t.is_builds():
-                    newSprings.append( (t.get_next_turn(), BuildsAdjudicator(b).run()) )
+                    new_board = BuildsAdjudicator(b).run()
+                    new_board.parent = t
+                    newSprings.append( (t.get_next_turn(), new_board) )
                     # new_B = BuildsAdjudicator(b).run()
                     # for u in new_B.get_units():
                     #     print(u,u.province.longname)
@@ -204,24 +208,47 @@ class Manager(metaclass=SingletonMeta):
                     nt = t.get_next_turn()
                     compare_board = game.get_board(nt)
                     new_board = new_game.get_board(t)
+                    new_board.parent = t
                     if compare_board.isFake:
                         new_board.turn = nt
                         self._database.save_board(server_id, new_board)
                     else:
-                        for tl in range(1,1+len(turns)): # TODO: only check child boards unless we want a rule change. Also check retreats that might affect
+                        obs = []
+                        for tl in range(nt.timeline,1+len(turns)): # TODO: Check retreats that might affect retreating units
                             alt_board = game.get_board(Turn(timeline=tl, year=nt.year, phase=nt.phase))
-                            if not alt_board.isFake and boards_equal( new_board,alt_board ):
-                                break
+                            if not alt_board.isFake and alt_board.parent == new_board.parent:
+                                obs.append(alt_board)
+                                if boards_equal(new_board,alt_board):
+                                    break
                         else:
-                            # TODO: !!! check all child boards
+                            # check all child boards. If it's retreats, copy existing orders over
+                            dislogements = {}
+                            for province in new_board.provinces:
+                                if province.dislodged_unit:
+                                    dislogements[province.name.lower()] = [province.dislodged_unit,None]
+                            for b2 in obs:
+                                for (p,u) in dislogements.items():
+                                    ou = b2.name_to_province[p].dislodged_unit
+                                    if not ou:
+                                        continue
+                                    other_order = ou.order
+                                    if isinstance(other_order,RetreatMove):
+                                        u[1] = other_order.destination.name + (other_order.destination_coast or "")
+                                    elif isinstance(other_order,RetreatDisband):
+                                        u[0].order = RetreatDisband()
                             new_board.turn = nt
-                            new_boards.append(((nt.year,nt.phase.value,nt.timeline), new_board))
+                            new_boards.append(((nt.year,nt.phase.value,nt.timeline), new_board, dislogements))
 
                 new_boards.sort()
                 last_timeline = len(turns)
-                for (tinfo,new_board) in new_boards:
+                for (tinfo,new_board,dislogements) in new_boards:
                     last_timeline +=1
                     new_board.turn.timeline = last_timeline
+                    if len(dislogements):
+                        b = new_game.get_board(new_board.turn)
+                    for (p,u) in dislogements.items():
+                        if u[1] is not None:
+                            u[0].order = RetreatMove(*b.get_province_and_coast(u[1]))
                     self._database.save_board(server_id, new_board)
             for t,new_board in newSprings:
                 new_board.turn = t

@@ -22,7 +22,7 @@ logger = logging.getLogger(__name__)
 
 class Board:
     def __init__(
-        self, players: set[Player], provinces: set[Province], units: set[Unit], turn: Turn, data, datafile: str, fow: bool, year_offset: int = 1642
+        self, players: set[Player], provinces: set[Province], units: set[Unit], turn: Turn, data, datafile: str, fow: bool, year_offset: int = 1642, parent:Turn = None
     ):
         # TODO: Make imports better
         from DiploGM.utils.sanitise import sanitise_name
@@ -44,6 +44,7 @@ class Board:
         self.datafile = datafile
         self.name: str | None = None
         self.fow = fow
+        self.parent = parent
 
         # store as lower case for user input purposes
         self.name_to_player: Dict[str, Player] = {player.name.lower(): player for player in self.players}

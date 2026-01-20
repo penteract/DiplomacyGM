@@ -75,12 +75,14 @@ class _DatabaseConnection:
         logger.info(f"Loading {len(board_data)} boards from DB")
         games: dict[int, tuple[str,list[tuple[Turn,Board]]]] = {}
         for board_row in board_data:
-            board_id, phase_string, data_file, fish, name = board_row
+            board_id, phase_string, data_file, fish, name, parent = board_row
 
             current_turn = Turn.turn_from_string(phase_string)
             if current_turn is None:
                 logger.warning(f"Could not parse turn string '{phase_string}' for board {board_id}")
                 continue
+            if parent:
+                parent = Turn.turn_from_string(parent)
             #if (board_id, str(current_turn.get_next_turn())) in board_keys:
             #    continue
 
@@ -88,7 +90,7 @@ class _DatabaseConnection:
                 fish = 0
 
             board = self._get_board_partial(
-                board_id, current_turn, fish, name, data_file, cursor, year_offset=True
+                board_id, current_turn, fish, name, parent, data_file, cursor, year_offset=True
             )
             if board_id not in games:
                 games[board_id]=(get_parser(data_file).parse(),[]) # TODO: don't reparse the file for every board
@@ -135,6 +137,7 @@ class _DatabaseConnection:
         turn: Turn,
         fish: int,
         name: str | None,
+        parent: Turn | None,
         data_file: str,
         cursor,
         year_offset: bool = False,
@@ -148,6 +151,7 @@ class _DatabaseConnection:
         board.fish = fish
         board.name = name
         board.board_id = board_id
+        board.parent = parent
 
         return board
     def _finish_build_board(
@@ -423,9 +427,10 @@ class _DatabaseConnection:
     def save_board(self, board_id: int, board: Board):
         # TODO: Check if board already exists
         cursor = self._connection.cursor()
+        print("b",board.turn,"par",board.parent)
         cursor.execute(
-            "INSERT INTO boards (board_id, phase, data_file, fish, name) VALUES (?, ?, ?, ?, ?)",
-            (board_id, board.turn.get_indexed_name(), board.datafile, board.fish, board.name),
+            "INSERT INTO boards (board_id, phase, data_file, fish, name, parent_phase) VALUES (?, ?, ?, ?, ?, ?)",
+            (board_id, board.turn.get_indexed_name(), board.datafile, board.fish, board.name, board.parent and board.parent.get_indexed_name()),
         )
         cursor.executemany(
             "INSERT INTO players (board_id, player_name, color, liege, points) VALUES (?, ?, ?, ?, ?) ON CONFLICT "
