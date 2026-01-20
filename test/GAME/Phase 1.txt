@@ -194,7 +194,7 @@ gda - BLT
 jac - nda
 kkw - brl
 kyi - och
-ncr - PRA
+ncr - GOP
 wil - cou
 wsw - kkw
 
@@ -268,7 +268,7 @@ mni - PHS
 nap - ION
 nue S slt - apa
 pnm nc - crt
-qui - GUY
+qui - GGQ
 slt - apa
 val - SOG
 
