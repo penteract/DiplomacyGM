@@ -108,6 +108,32 @@ class GameManagementCog(commands.Cog):
         log_command(logger, ctx, message="Deleted game")
         await send_message_and_file(channel=ctx.channel, title="Deleted game")
 
+    @commands.command(brief="lists all variants currently supported")
+    @perms.gm_only("lists variants")
+    async def list_variants(self, ctx: commands.Context) -> None:
+        """Lists all variants currently loaded into the bot. To create a game of a specific variant, use `.create_game <variant>`
+
+        Usage: 
+            Used as `.list_variants`
+
+        Note: 
+
+        Args:
+            ctx (commands.Context): Context from discord regarding command invocation
+
+        Returns:
+            None
+
+        Raises:
+            None:
+            Messages:
+        """
+
+        assert ctx.guild is not None
+        message = manager.list_variants()
+        log_command(logger, ctx, message=message)
+        await send_message_and_file(channel=ctx.channel, title="Currently loaded variants", message=message)
+
     @commands.command(brief="")
     @perms.gm_only("archive the category")
     async def archive(self, ctx: commands.Context) -> None:

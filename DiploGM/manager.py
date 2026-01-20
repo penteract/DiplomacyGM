@@ -94,6 +94,17 @@ class Manager(metaclass=SingletonMeta):
         self._database.total_delete(self._boards[server_id])
         del self._boards[server_id]
 
+    def list_variants(self) -> str:
+        variants = os.listdir("variants")
+        loaded_variants = []
+        for v in variants:
+            if not os.path.isdir(os.path.join("variants", v)):
+                continue
+            if os.path.isfile(os.path.join("variants", v, "config.json")):
+                loaded_variants.append(f"* {v}")
+        loaded_variants.sort()
+        return "\n".join(loaded_variants)
+
     def draw_map(
         self,
         server_id: int,
