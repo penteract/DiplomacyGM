@@ -1,0 +1,584 @@
+Abyssinia:
+
+T1W42:
+
++ A deb
++ A gdr
++ F mek
+
+T2F42:
+
+aza S T2F42 oro - T1F42 bun
+cio - T1F42 trp
+gdr - dar
+oro - T1F42 bun
+RED - T1F42 cio
+snn - hww
+
+
+Ajuuraan:
+
+T1W42:
+
++ A bai
++ F hob
++ F mog
++ A qal
+
+T2F42:
+
+A bun - T1F42 aza
+F DHA C hob - mhr
+hob - mhr
+kis - zan
+SYS - sey
+
+
+Athapasca:
+
+T1W42:
+
++ F chp
++ A sht
++ A tli
+
+T2F42:
+
+ass - GPL2
+chp - nun
+ojc - chp
+sek S ttc
+sik - ass
+ttc H
+
+
+Austria:
+
+T1W42:
+
++ A inb
++ A pre
++ F trs
++ A vie
+
+T2F42:
+
+ADR - T1F42 nap
+nur - T1F42 wdn
+vie - nur
+vnc - T1F42 fln
+
+
+Aymara:
+
+T1W42:
+
++ A chy
++ A cpy
++ A qlk
+
+T2F42:
+
+cqu - ofa
+mia - cqu
+NAZ - axu
+pao - T1F42 qch
+wee H
+
+
+Ayutthaya:
+
+T1W42:
+
++ F ayu
++ F nak wc
++ A suk
++ F tav
+
+T2F42:
+
+ava S kun - bmo
+MAL - adi
+NAT - odo
+pin - peg
+
+
+England:
+
+T1W42:
+
++ F atg
++ F bah
++ F bos
++ F brm
++ A crm
++ A fal
++ A jms
++ F joh
++ F mds
++ A msl
++ F ply
+
+T2F42:
+
+any - T1S42 ESQ (INVALID, T2F42 any IS NOT ADJACENT TO T1S42 ESQ)
+BEN - T1S42 ADH (INVALID, T2F42 BEN IS NOT ADJACENT TO T1S42 ADH)
+BHC - hav
+cat H
+cnn - nam
+ENG - SBI
+fal - moh
+GOH - bco
+gud S maa
+maa S gud
+msl S T1S42 msl - raj (AMBIGUOUS, IT IS UNCLEAR WHICH VERSION OF raj IS BEING REFERRED TO)
+NAO3 - bth
+ROC - azo
+was S SER - nia
+yor - edi
+
+
+France:
+
+T1W42:
+
++ F cap
++ F cay
++ A dij
++ A fda
++ A fde
++ A lou
++ F mrs
++ F nnt
++ A prs
++ F reu
++ F roy
++ A tds
++ A vil
+
+T2F42:
+
+blm S T2S43 kln - T2S43 blm
+CAB - ent
+ckh S T2S43 ckh
+CRB - mpo
+cre S T2S43 ani - T2S43 ojc
+ESQ - any
+fln - rom
+ime - skl
+jma S WND - bco
+kln S T2S43 kln - T2S43 blm
+LAW - ppi
+LIG - crs
+lou - nda
+lux S rei - str
+men S ojb
+nmd - ENG
+nnt - BIS
+ojb S T2S43 ani - T2S43 ojc
+ppi - T1S42 ent
+rei - str
+sak - mha
+sav - fln
+snc S T2S43 snc
+tuk - oua
+TYR S fln - rom
+vil - ani
+WND - bco
+
+
+Guarani:
+
+T1W42:
+
++ A crp
++ F crr
++ A mby
++ A mne
+
+T2F42:
+
+ayo - T1F42 cqu
+bue H
+qom S T2S43 qom
+xet - cip
+
+
+Inuit:
+
+T1W42:
+
++ F chk
++ F iqa
++ F ker wc
++ A kuu
++ A nom
++ F qua
++ F yup
+
+T2F42:
+
+dni S koy - ttc
+eve - niv
+HUB - sll
+ite - T1F42 OKH
+koy - ttc
+LAB - god
+nas S ESQ - any
+
+
+Kongo:
+
+T1W42:
+
++ F mba
++ A mpe
++ A png
++ F soy
+
+T2F42:
+
+ANG - hel
+mat - bng
+mda H
+nga S bun - T1F42 aza
+sng - bya
+
+
+Mapuche:
+
+T1W42:
+
++ F clo
++ A ran
++ F teu
++ F tuc
+
+T2F42:
+
+hua H
+JOR - isl
+SPO1 - T1F42 NPO5
+thl H
+
+
+Ming:
+
+T1W42:
+
++ A cng
++ A kun
++ A lnz
++ F nnk
++ F pek
+
+T2F42:
+
+EAS - kyu
+kun - bmo
+kyu - kyo
+rin S kun - bmo
+trf - krk
+YEL S EAS - kyu
+
+
+Mughal:
+
+T1W42:
+
++ F cut
++ A dlh
++ A sas
+
+T2F42:
+
+bmo - T1F42 kun
+brh - ahm
+cut - CIR
+dlh - brh
+gdw - hyd
+hyd - goa
+raj - msl
+uzg H
+yar H
+
+
+Netherlands:
+
+T1W42:
+
++ F ams
++ A ard
++ A cey
++ F fer
++ F frm
++ A ghe
++ F jav
++ F maa
++ A mau
++ F mka
++ F mno
++ F nam
++ A prm
++ F seb
+
+T2F42:
+
+ace - T1F42 adi
+CEL - T1F42 zam
+CHO - T1F42 BEN
+ghe S T2S43 ams
+goi - ama
+JVS - plm
+kot - T1F42 kot
+krb - T1F42 kan
+LEE - T142 NAO1
+mns - bre
+nri - T1F42 sng
+oyo - bnn
+phd S T1S43 phd - T1F42 snc
+plm - MAL
+ryu - T1F42 ryu
+SAO5 S T2F42 LEE - T1F42 NAO1
+
+
+Ottoman:
+
+T1W42:
+
++ A bag
++ A cio
++ A mec
++ A smy
++ F srj
++ F tns
++ F trp
+
+T2F42:
+
+cns - T1F42 och
+hog - aga
+ION - sic
+mec - riy
+SKE S ION - sic
+smy - anl
+srd S T2S43 srd
+srj - spl
+tar - T1F42 jas
+tif - T1F42 kbr
+tmh - RED
+tre - tif
+
+
+Poland-Lithuania:
+
+T1W42:
+
++ A jac
++ A kkw
++ F ncr
++ A wil
++ A wsw
+
+T2F42:
+
+BLT - GOR
+BOT - abo
+brl - lub
+cou - rig
+crc S T2S43 crc
+dje S T2S43 dje
+jac - nda
+kkw - brl
+kyi - jas
+PAR - bbd
+
+
+Portugal:
+
+T1W42:
+
++ A agn
++ F azo
++ F bia
++ F cbv
++ A dlg
++ A goa
++ F mcu
++ A mrv
++ F plo
++ A pto
++ A rio
++ F tmr
+
+T2F42:
+
+AZR - CDZ
+bem - bru
+CLR - dan
+goa - hyd
+hnn H
+IBE - AZR
+kah - nok
+LAC - mld
+mig S kah - nok
+MOZ - COM
+mtp - brt
+NAO4 - brm
+plo - pur
+rus - T1F42 qes
+SER - nia
+tic - idj
+
+
+Qing:
+
+T1W42:
+
++ A has
++ A hoh
++ A qiq
++ F she
+
+T2F42:
+
+niv - ain
+org S trf - krk
+pye - T1F42 fus
+SOT C niv - ain
+
+
+Russia:
+
+T1W42:
+
++ F ark
++ F ast
++ A btk
++ A khr
++ A kny
++ A nov
+
+T2F42:
+
+alm - byu
+bak - och
+BRS - spi
+klm H
+mos - bry
+nov - smo
+tum - T1F42 trf
+yen - ykk
+
+
+Safavid:
+
+T1W42:
+
++ F bda
++ A her
++ A isf
++ A tab
++ A thr
+
+T2F42:
+
+bda - T1F42 HOR
+buk - T1F42 his
+der S T2S43 der - T2S43 tif
+qes - riy
+tkm - buk
+
+
+Spain:
+
+T1W42:
+
++ F bcl
++ F can
++ F ceb
++ F gib
++ A lim
++ A mdd
++ F mex ec
++ F mni
++ F nap
++ F pnm nc
++ F qui
++ A slt
++ F val
+
+T2F42:
+
+apa - T1F42 GPL2
+CDZ - lis
+crt S crc - crc
+GMX - ctm
+GPL2 - cer
+GTM S T2S43 GTM - T2S43 glp
+hui - jap
+nap S rom
+PHS - T1F42 bni
+rom wc S T2S43 rom
+SOB - ble
+SOG - tng
+SUL - zam
+wam - axu
+
+
+Sweden:
+
+T1W42:
+
++ F abo
++ F got
++ F sto
++ A ume
+
+T2F42:
+
+jmt - tro
+nar H
+sca S sto
+SKA - cst
+sto H
+
+
+Tokugawa:
+
+T1W42:
+
++ F aom
++ F edo
++ F kyo
++ F osa
+
+T2F42:
+
+fus - pye
+KUR - ryu
+MTB - ain
+NPO3 - kor
+NPO4 - glp
+OKN - bni
+SPO3 - wur
+tss - fus
+
+
+Ute-Shoshone:
+
+T1W42:
+
++ A gos
++ F miw
++ A pai
++ A sho
++ F yok
+
+T2F42:
+
+arp - T1F42 GPL1
+crw - lkt
+gos - arp
+NEC - T1F42 ale
+VIS - akw

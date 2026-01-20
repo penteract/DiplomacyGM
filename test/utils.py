@@ -36,7 +36,7 @@ class BoardBuilder():
         self._g.board_id = 1
         self._manager._database.save_board(1, self.board)
 
-    def __init__(self, empty = True):
+    def __init__(self, empty = True, variant="classic"):
         manager = Manager()
         try:
             manager.total_delete(0)
@@ -44,11 +44,10 @@ class BoardBuilder():
         except Exception as e:
             #raise e
             pass
-        manager.create_game(0, "classic", empty=empty)
+        manager.create_game(0, variant, empty=empty)
         self._g = manager.get_game(0)
-        self.board: Board = manager.get_game(0).get_board(Turn(year=1901))
+        self.board: Board = manager.get_game(0).get_board(self._g.all_turns()[0][0])
         self._manager = manager
-
         # here an illegal move is one that is caught and turned into a hold order, which includes supports and convoys 
         # which are missing the corresponding part
         # a failed move is one that is resolved by the adjudicator as failed, succeeded moved is similar
@@ -68,19 +67,20 @@ class BoardBuilder():
         self._listNotDisbanded: list[Province] = []
 
         self.build_count = None
+        if variant=="classic":
 
-        player_list = {}
-        for player in ["Austria", "England", "France", "Germany", "Italy", "Russia", "Turkey"]:
-            player_list[player] = self.board.get_player(player)
-            if player_list[player] is None:
-                raise RuntimeError(f"Player {player} not found on board")
-        self.france = player_list["France"]
-        self.england = player_list["England"]
-        self.germany = player_list["Germany"]
-        self.italy = player_list["Italy"]
-        self.austria = player_list["Austria"]
-        self.russia = player_list["Russia"]
-        self.turkey = player_list["Turkey"]
+            player_list = {}
+            for player in ["Austria", "England", "France", "Germany", "Italy", "Russia", "Turkey"]:
+                player_list[player] = self.board.get_player(player)
+                if player_list[player] is None:
+                    raise RuntimeError(f"Player {player} not found on board")
+            self.france = player_list["France"]
+            self.england = player_list["England"]
+            self.germany = player_list["Germany"]
+            self.italy = player_list["Italy"]
+            self.austria = player_list["Austria"]
+            self.russia = player_list["Russia"]
+            self.turkey = player_list["Turkey"]
 
     def output(self):
         for timeline in self._g.all_turns():
@@ -351,8 +351,8 @@ class BoardBuilder():
 
 
 class GameBuilder():
-    def __init__(self,empty=True):
-        self.bb = BoardBuilder(empty=empty)
+    def __init__(self,empty=True,variant="classic"):
+        self.bb = BoardBuilder(empty=empty,variant=variant)
         self.game = self.bb._g
         # To consider: make games with more than 1 board
     def adjudicate(self):

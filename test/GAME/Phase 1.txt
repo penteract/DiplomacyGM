@@ -1,0 +1,301 @@
+Abyssinia:
+
+T1S42:
+
+aks - snn
+deb - oro
+gdr - dar
+mek - RED
+
+Ajuuraan:
+
+T1S42:
+
+bai - kis
+hob - DHA
+mog - SYS
+mre - hob
+qal - bun
+
+Athapasca:
+
+T1S42:
+
+cpw - ojc
+sht - ttc
+tli - sek
+tst - sik
+
+Austria:
+
+T1S42:
+
+inb - vnc
+pre - vie
+trs - ADR
+vie - nur
+
+Aymara:
+
+T1S42:
+
+axu - NAZ
+chy - pao
+cpy - wee
+qlk - mia
+
+
+Ayutthaya:
+
+T1S42:
+
+ayu - pin
+nak ec - NAT
+suk - ava
+tav - MAL
+
+England:
+
+T1S42:
+
+atg - gud
+bhm - BHC
+blz - GOH
+bos - cnn
+brm - NAO3
+crm - wag
+fal - moh
+jms - cat
+joh - any
+lon - ENG
+mds - BEN
+msl - raj
+oxf - yor
+ply - ROC
+
+France:
+
+T1S42:
+
+cap - WND
+cay - kan
+dij - sav
+fda - ime
+fde - men
+lou - nda
+mrs - LIG
+nnt - ENG
+prs - rei
+qbc - LAW
+reu - CRB
+roy - CBS
+tds - ppi
+vil - moh
+
+Guarani:
+
+T1S42:
+
+mby - xet
+crp - ayo
+crr - bue
+mne - qom
+
+Inuit:
+
+T1S42:
+
+chk - eve
+iqa - LAB
+ker wc - ite
+kuu - nas
+nom - koy
+qua - HDB
+yup - dni
+
+Kongo:
+
+T1S42:
+
+mba - sng
+mpe - mat
+png - nga
+soy - ANG
+
+Mapuche:
+
+T1S42:
+
+clo - SPO1
+ran - hua
+teu - JOR
+tuc - thl
+
+Ming:
+
+T1S42:
+
+cng - rin
+kun - bmo
+lnz - trf
+nnk - EAS
+pek - YEL
+
+Mughal:
+
+T1S42:
+
+brp - hyd
+cut - ors
+dlh - ahm (FAILS, dlh IS NOT ADJACENT TO ahm)
+kbl - yar
+klk - bmo
+sas - gdw
+
+Netherlands:
+
+T1S42:
+
+ams - ghe
+ard - oyo
+cey - vnd
+fer - nri
+frm - ryu
+jav - plm
+maa - LEE
+mau - SAO5
+mka - JVS
+mno - CEL
+nam - phd
+prm - krb
+seb - goi
+utr - mns
+
+Ottoman:
+
+T1S42:
+
+bag - tre
+cio - mec
+cns - och
+mec - tmh
+slo - ION
+smy - cns
+srj H
+tns - SKE
+tre - tif
+trp - hog
+
+Poland-Lithuania:
+
+T1S42:
+
+gda - BLT
+jac - nda
+kkw - brl
+kyi - och
+ncr - PRA
+wil - cou
+wsw - kkw
+
+Portugal:
+
+T1S42:
+
+agn - tic
+azo - NAO4
+bia - mtp
+cbv - SER
+cch - LAC
+dlg - MOZ
+goa - hyd
+lis - AZR
+mcu - hnn
+mrv - bem
+mst - rus
+plo S T1F42 plo - T1F42 pur
+pto - IBE
+rio - kah
+slv - mig
+tmr - CRL
+
+Qing:
+
+T1S42:
+
+has - SOT
+hoh - org
+qiq - niv
+she - pye
+
+Russia:
+
+T1S42:
+
+ark - BRS
+ast - klm
+btk - yen
+khr - bak
+kny - tum
+mos - bry
+nov - smo
+ver - alm
+
+Safavid:
+
+T1S42:
+
+bda - HOR
+her - buk
+isf - qes
+tab - der
+thr - tkm
+
+Spain:
+
+T1S42:
+
+aug - GMX
+bcl - SOB
+bog - hui
+can - TGB
+ceb - SUL
+gib - CDZ
+lim - wam
+mdd - mer
+mex wc - GTM
+mni - PHS
+nap - ION
+nue S slt - apa
+pnm nc - crt
+qui - GUY
+slt - apa
+val - SOG
+
+Sweden:
+
+T1S42:
+
+abo - nar
+got - SKA
+sto - sca
+ume - jmt
+
+Tokugawa:
+
+T1S42:
+
+aom - MTB
+edo - NPO3
+kyo - tss
+osa - KUR
+
+Ute-Shoshone:
+
+T1S42:
+
+gos - arp
+miw - NEC
+pai - gos
+sho - crw
+yok - VIS

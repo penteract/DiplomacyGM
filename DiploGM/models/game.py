@@ -92,6 +92,8 @@ class Game():
         self.start_year = default_board.turn.start_year
 
     def add_adjacencies(self,LOOSE_ADJACENCIES: bool=True):
+        # vp = self.variant.name_to_province["nao3"]
+        # print (vp.adjacent)
         if LOOSE_ADJACENCIES:
             loose_chain = chain
         else:
@@ -128,12 +130,12 @@ class Game():
                         # Province.fleet_adjacent: set[tuple[Province, str | None]] | dict[str, set[tuple[Province, str | None]]]
     def get_turn_province_and_coast(self, prov:str):
         t,p = get_turn(prov,self.start_year)
-        p = self.get_board(t).get_province_and_coast(p)
+        p = self.get_board(t).get_province_and_coast(p.strip())
         # assert not p[0].isFake
         return p
     def get_turn_and_province(self, prov:str):
         t,p = get_turn(prov,self.start_year)
-        p = self.get_board(t).get_province(p)
+        p = self.get_board(t).get_province(p.strip())
         # assert not p.isFake
         return p
     def get_board(self, t:Turn) -> Board | FakeBoard:

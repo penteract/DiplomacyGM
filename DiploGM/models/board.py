@@ -175,14 +175,23 @@ class Board:
             name = name[:-6]
 
         abbrev = ""
+        #print(name)
+        #if name=="mia":
+            #print(self.data["abbreviations"][name])
 
         if name[-3:] in [" nc", " ec", " sc", " wc"]:
             name, abbrev = name[:-3].strip(), name[-3:] 
         if "abbreviations" in self.data and name in self.data["abbreviations"]:
-            name = self.data["abbreviations"][name].lower()   
+            name = self.data["abbreviations"][name].lower()
+            if name not in self.name_to_province:
+                raise Exception(
+                    "Abbrev not in result" + name+":"+ str(self.get_possible_locations(name)))
         
         name += abbrev
-        
+        # if name == "nao3":
+        #     ps = self.get_possible_locations(name)
+        #     print(name,ps[0][0].adjacent)
+
         if name in self.name_to_coast:
             return self.name_to_coast[name]        
         elif name in self.name_to_province:

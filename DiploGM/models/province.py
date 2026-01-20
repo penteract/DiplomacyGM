@@ -71,6 +71,8 @@ class Province():
     def order_str(self):
         return f"T{self.turn.timeline}{self.turn.phase.to_string(short=True, move_type=0.5)}{str(self.turn.year)} {self.name}"
     def __repr__(self):
+        if not hasattr(self, "turn"):
+            return f"Province ? {self.name}"
         return f"Province {self.order_str()}"
     
     def get_name(self, coast: str | None = None):
