@@ -343,7 +343,7 @@ def parse_order(message: str, player_restriction: Player | None, game: Game) -> 
         try:
             cmd = timeline_specifier_parser.parse(order.strip().lower())
             new_turn: Turn = generator.transform(cmd)
-            if is_retreats and new_turn.phase != PhaseName.WINTER_BUILDS:
+            if is_retreats and new_turn.is_moves():
                 new_turn = new_turn.get_next_turn()
             generator.set_state(game, player_restriction, new_turn)
             orderoutput.append(f"")
