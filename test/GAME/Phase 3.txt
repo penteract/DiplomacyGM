@@ -38,15 +38,15 @@ Athapasca:
 
 T1W42:
 
-+ F chp
++ F cpw
 + A sht
 + A tli
 
 T2F42:
 
 ass - GPL2
-chp - nun
-ojc - chp
+cpw - nun
+ojc - cpw
 sek S ttc
 sik - ass
 ttc H
@@ -64,7 +64,7 @@ T1W42:
 T2F42:
 
 ADR - T1F42 nap
-nur - T1F42 wdn
+nur - T1F42 stu
 vie - nur
 vnc - T1F42 fln
 
@@ -108,7 +108,7 @@ England:
 T1W42:
 
 + F atg
-+ F bah
++ F bhm
 + F bos
 + F brm
 + A crm
@@ -121,8 +121,8 @@ T1W42:
 
 T2F42:
 
-any - T1S42 ESQ (INVALID, T2F42 any IS NOT ADJACENT TO T1S42 ESQ)
-BEN - T1S42 ADH (INVALID, T2F42 BEN IS NOT ADJACENT TO T1S42 ADH)
+any - T1S42 ESQ
+BEN - T1S42 ADH
 BHC - hav
 cat H
 cnn - nam
@@ -131,10 +131,10 @@ fal - moh
 GOH - bco
 gud S maa
 maa S gud
-msl S T1S42 msl - raj (AMBIGUOUS, IT IS UNCLEAR WHICH VERSION OF raj IS BEING REFERRED TO)
+msl S T1S42 msl - raj
 NAO3 - bth
 ROC - azo
-was S SER - nia
+wag S SER - nia
 yor - edi
 
 
@@ -159,7 +159,7 @@ T1W42:
 T2F42:
 
 blm S T2S43 kln - T2S43 blm
-CAB - ent
+CBS - ent
 ckh S T2S43 ckh
 CRB - mpo
 cre S T2S43 ani - T2S43 ojc
@@ -167,7 +167,7 @@ ESQ - any
 fln - rom
 ime - skl
 jma S WND - bco
-kln S T2S43 kln - T2S43 blm
+kan S T2S43 kan - T2S43 blm
 LAW - ppi
 LIG - crs
 lou - nda
@@ -178,7 +178,7 @@ nnt - BIS
 ojb S T2S43 ani - T2S43 ojc
 ppi - T1S42 ent
 rei - str
-sak - mha
+skl - mha
 sav - fln
 snc S T2S43 snc
 tuk - oua
@@ -220,7 +220,7 @@ T2F42:
 
 dni S koy - ttc
 eve - niv
-HUB - sll
+HDB - sll
 ite - T1F42 OKH
 koy - ttc
 LAB - god
@@ -332,7 +332,7 @@ goi - ama
 JVS - plm
 kot - T1F42 kot
 krb - T1F42 kan
-LEE - T142 NAO1
+LEE - T1F42 NAO1
 mns - bre
 nri - T1F42 sng
 oyo - bnn
@@ -391,7 +391,7 @@ dje S T2S43 dje
 jac - nda
 kkw - brl
 kyi - jas
-PAR - bbd
+GOP - bbd
 
 
 Portugal:
@@ -415,7 +415,7 @@ T2F42:
 
 AZR - CDZ
 bem - bru
-CLR - dan
+CRL - dan
 goa - hyd
 hnn H
 IBE - AZR
@@ -513,16 +513,19 @@ T2F42:
 apa - T1F42 GPL2
 CDZ - lis
 crt S crc - crc
+GGQ S wam - axu
 GMX - ctm
-GPL2 - cer
+GPL3 - cer
 GTM S T2S43 GTM - T2S43 glp
 hui - jap
 nap S rom
+nue - apa
 PHS - T1F42 bni
 rom wc S T2S43 rom
 SOB - ble
 SOG - tng
 SUL - zam
+TGB - mrk
 wam - axu
 
 

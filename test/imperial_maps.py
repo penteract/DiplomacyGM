@@ -37,12 +37,19 @@ def orders_from_file(game, file):
         #print("po:",,c.name)
         messages = parsed["messages"] if "messages" in parsed else [parsed["message"]]
         #parse_order("\n".join([".orders"]+orders[c.name]),c, game )["messages"]
-        if any( "\x1b[0;31m" in m and "dlh - ahm" not in m for m in messages) or "messages" not in parsed:
+        if any( "\x1b[0;31m" in m
+               and "dlh - ahm" not in m
+               and "`+ A ghe`: You haven't cored Ghent." not in m
+               for m in messages):
             for message in messages:
-                n = message.rfind("```")
-                print(c.name, message[n+3:])
+                #n = message.rfind("```")
+                #print(c.name, message[n+3:])
+                print(message)
             print("\x1b[0;39m")
             #raise Exception("Bad orders")
+        if "messages" not in parsed and not any(True for b in game.get_current_retreat_boards()):
+            print(c,messages[0])
+            raise Exception("No orders")
 
 class TestGame(unittest.TestCase):
     def test_game_1(self):
@@ -60,16 +67,20 @@ class TestGame(unittest.TestCase):
         orders_from_file(g.game, open("test/GAME/Phase 1.txt"))
         g.adjudicate()
         g.adjudicate()
-        g.output(retreats=True)
-        title("Turn 2")
+        #g.output(retreats=True)
+        #title("Turn 2")
         orders_from_file(g.game, open("test/GAME/Phase 2.txt"))
         g.adjudicate()
-        g.output(retreats=True)
-        title("Turn 2 Retreats")
+        #g.output(retreats=True)
+        #title("Turn 2 Retreats")
         orders_from_file(g.game, open("test/GAME/Phase 2 Retreats.txt"))
         g.adjudicate()
-        g.output(retreats=True)
-        title("Turn 3")
+        #g.output(retreats=True)
+        #title("Turn 3")
         orders_from_file(g.game, open("test/GAME/Phase 3.txt"))
+        g.adjudicate()
+        #g.output(retreats=True)
+        title("Turn 4")
+        orders_from_file(g.game, open("test/GAME/Phase 3 Retreats.txt"))
         g.adjudicate()
         g.output(retreats=True)
