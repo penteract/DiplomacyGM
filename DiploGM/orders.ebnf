@@ -122,6 +122,7 @@ DISBAND.2 : "d"
 BUILD.2 : "b"
         | "build"
         | "place"
+        | "+"
 
 WAIVE.2: "w"
        | "waive"

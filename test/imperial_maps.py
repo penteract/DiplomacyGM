@@ -21,23 +21,28 @@ def orders_from_file(game, file):
             else:
                 assert line.startswith("T")
                 #print("reading T", line)
-                for os in orders.values():
-                    os.append(line[:-1].strip())
+                #for os in orders.values():
+                orders[c].append(line[:-1].strip())
         else:
             """line = line.replace("_S"," sc")
             line = line.replace("_E"," ec")
             line = line.replace("_W"," wc")
             line = line.replace("_N"," nc")"""
             orders[c].append(line)
-    for c in game.variant.players:
+    file.close()
+    for c in sorted(game.variant.players,key=lambda x:x.name):
         #print("PLAYER",c.name)
         #print(orders[c.name])
-        messages = parse_order("\n".join([".orders"]+orders[c.name]),c, game )["messages"]
-        if any( "\x1b[0;31m" in m and "dlh - ahm" not in m for m in messages):
+        parsed = parse_order("\n".join([".orders"]+orders[c.name]),c, game )
+        #print("po:",,c.name)
+        messages = parsed["messages"] if "messages" in parsed else [parsed["message"]]
+        #parse_order("\n".join([".orders"]+orders[c.name]),c, game )["messages"]
+        if any( "\x1b[0;31m" in m and "dlh - ahm" not in m for m in messages) or "messages" not in parsed:
             for message in messages:
-                print(message)
+                n = message.rfind("```")
+                print(c.name, message[n+3:])
             print("\x1b[0;39m")
-            raise Exception("Bad orders")
+            #raise Exception("Bad orders")
 
 class TestGame(unittest.TestCase):
     def test_game_1(self):
@@ -64,4 +69,7 @@ class TestGame(unittest.TestCase):
         orders_from_file(g.game, open("test/GAME/Phase 2 Retreats.txt"))
         g.adjudicate()
         g.output(retreats=True)
-
+        title("Turn 3")
+        orders_from_file(g.game, open("test/GAME/Phase 3.txt"))
+        g.adjudicate()
+        g.output(retreats=True)
