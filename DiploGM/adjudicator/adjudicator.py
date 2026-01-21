@@ -923,7 +923,17 @@ def boards_equal(b1 : Board, b2 : Board):
         for u,ou in [(province.unit, otherprov.unit), (province.dislodged_unit,otherprov.dislodged_unit)]:
             if (u is None) != (ou is None):
                 return False
-            if u is not None and u.player != ou.player:
+            if u is not None and (u.player != ou.player or u.unit_type != ou.unit_type):
+                return False
+        if otherprov.dislodged_unit and isinstance(otherprov.dislodged_unit.order,RetreatMove):
+            # Cover the case where a unit is ordered to retreat to a province which is now bounced in
+            # Or one which is no longer bounced in.
+            # TODO: make test cases which excercise this
+            u = otherprov.dislodged_unit
+            dst = u.order.destination
+            coast = u.order.destination_coast
+            b1dst = b1.name_to_province[dst[0].name.lower()]
+            if ((dst,coast) in u.retreat_options) != ((b1dst,coast) in province.dislodged_unit.retreat_options):
                 return False
     logger.info(f"Boards equal {b2.turn}")
     return True

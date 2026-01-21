@@ -2,6 +2,7 @@ from typing import Dict, Optional, TYPE_CHECKING
 import re
 from DiploGM.models.board import Board, FakeBoard
 from DiploGM.models.turn import Turn, PhaseName
+from DiploGM.models.unit import Unit
 from itertools import chain
 
 
@@ -164,7 +165,7 @@ class Game():
         for board in self.get_moves_boards():
             for p in board.provinces:
                 yield p
-    def get_moves_units(self) -> Iterator[Province]:
+    def get_moves_units(self) -> Iterator[Unit]:
         for board in self.get_moves_boards():
             for u in board.units:
                 yield u
