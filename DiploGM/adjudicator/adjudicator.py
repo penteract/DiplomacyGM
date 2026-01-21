@@ -911,6 +911,7 @@ def make_adjudicator(board: Board) -> Adjudicator:
         raise ValueError("Board is in invalid phase")
 
 def boards_equal(b1 : Board, b2 : Board):
+    """Determine if 2 boards are equal for the purpose of deciding whether a new timeline should be created"""
     for province in b1.provinces:
         #print(b2.name_to_province)
         otherprov = b2.name_to_province[province.name.lower()]
@@ -929,6 +930,7 @@ def boards_equal(b1 : Board, b2 : Board):
             # Cover the case where a unit is ordered to retreat to a province which is now bounced in
             # Or one which is no longer bounced in.
             # TODO: make test cases which excercise this
+            # TODO: Consider the case where 2 different units were both ordered to retreat to this province, so nothing actually changes
             u = otherprov.dislodged_unit
             dst = u.order.destination
             coast = u.order.destination_coast
