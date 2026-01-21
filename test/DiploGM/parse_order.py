@@ -1,6 +1,6 @@
 import unittest
 
-from DiploGM.models.order import ConvoyTransport, Core, Hold, Move, Support
+from DiploGM.models.order import ConvoyTransport, Core, Hold, Move, Support, RetreatDisband
 from DiploGM.models.unit import UnitType
 from DiploGM.parse_order import parse_order, parse_remove_order
 from test.utils import BoardBuilder, GameBuilder
@@ -178,3 +178,28 @@ class TestParseOrder(unittest.TestCase):
         order = ".remove order Berlin"
         parse_remove_order(order, b.germany, b.board)
         self.assertIsNone(a_berlin.order, "Order removal failed for Berlin army")
+    
+    def test_retreat(self):
+        """TODO: make this test work sensibly"""
+        g = GameBuilder()
+        g.adjudicate()
+        b = g.bb
+        b.board = g.game.get_board(g.game.all_turns()[0][-1])
+        #b.board.turn = b.board.turn.get_next_turn()
+        f_black_sea_russia = b.fleet("Black Sea", b.russia)
+        f_black_sea = b.fleet("Black Sea", b.turkey)
+        f_black_sea_russia.province.dislodged_unit = f_black_sea_russia
+        a_sevastopol_russia = b.army("Sevastopol", b.russia)
+        a_sevastopol = b.army("Sevastopol", b.turkey)
+        a_sevastopol_russia.province.dislodged_unit = a_sevastopol_russia
+
+        order = ".order\n" + \
+            "T1S01:\n"+\
+            "Disband Black Sea\n" + \
+            "sevastopol Disband\n"
+
+
+        parsed_orders = parse_order(order, b.russia, g.game)
+        #print(parsed_orders)
+        self.assertIsInstance(a_sevastopol_russia.order, RetreatDisband)
+        self.assertIsInstance(f_black_sea_russia.order, RetreatDisband)
