@@ -54,5 +54,14 @@ class TestGame(unittest.TestCase):
         #b = g.bb
         orders_from_file(g.game, open("test/GAME/Phase 1.txt"))
         g.adjudicate()
+        g.adjudicate()
+        g.output(retreats=True)
+        title("Turn 2")
+        orders_from_file(g.game, open("test/GAME/Phase 2.txt"))
+        g.adjudicate()
+        g.output(retreats=True)
+        title("Turn 2 Retreats")
+        orders_from_file(g.game, open("test/GAME/Phase 2 Retreats.txt"))
+        g.adjudicate()
         g.output(retreats=True)
 

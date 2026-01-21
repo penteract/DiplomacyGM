@@ -21,7 +21,7 @@ Athapasca:
 
 T1F42:
 
-ojc - T1S42 chp
+ojc - T1S42 cpw
 sek - clc
 sik - T1S42 ass
 ttc S T1S42 sht - T1S42 ttc
@@ -76,7 +76,7 @@ France:
 
 T1F42:
 
-CAB - T1S42 ESQ
+CBS - T1S42 ESQ
 CRB - T1S42 ckh
 ime - T1S42 skl
 kan - T1S42 blm
@@ -89,7 +89,7 @@ ppi - T1S42 cre
 rei - T1S42 lux
 sav - T1S42 fln
 vil - T1S42 snc
-WIN - T1S42 jma
+WND - T1S42 jma
 
 Guarani:
 
@@ -135,11 +135,11 @@ Ming:
 
 T1F42:
 
-EAS
+EAS - T1S42 kyu
 kun - bmo
 rin S kun - bmo
 trf S org - krk
-YEL - T1S42 kyu
+YEL - hny
 
 Mughal:
 
@@ -166,7 +166,7 @@ LEE - ptr
 mns - bre
 nri - mda
 oyo - hau
-phd S T1S43 phi - T1F42 snc
+phd S T1S43 phd - T1F42 snc
 plm - T1S42 ace
 ryu S T1F42 EAS - T1S42 kyu
 SAO5 - ckh
@@ -184,7 +184,7 @@ smy - cns
 srj - spl
 tif - der
 tmh - sna
-trb - tif
+tre - tif
 
 Poland-Lithuania:
 
@@ -196,7 +196,7 @@ cou - T1S42 smo
 jac - T1S42 dje
 kkw - brl
 kyi - T1S42 bry
-PRA - T1S42 crc
+gop - T1S42 crc
 
 Portugal:
 
@@ -269,7 +269,7 @@ PHS - zam
 SOB - srd
 SOG - tng
 SUL - kot
-TIG - mrk
+TGB - mrk
 wam - axu
 
 Sweden:
