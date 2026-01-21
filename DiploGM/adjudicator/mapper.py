@@ -195,7 +195,8 @@ class Mapper:
         self.clean_layers(self._moves_svg)
 
         svg_file_name = f"{str(self.board.turn).replace(' ', '_')}_moves_map.svg"
-        return t, svg_file_name
+        return elementToString(t, encoding="utf-8"), svg_file_name
+        #return t, svg_file_name
 
     def draw_gui_map(self, current_turn: turn.Turn, player_restriction: Player | None) -> tuple[bytes, str]:
         self.player_restriction = player_restriction
