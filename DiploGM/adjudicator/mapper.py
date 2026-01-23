@@ -168,7 +168,7 @@ class Mapper:
             except Exception as err:
                 logger.error(f"Drawing move failed for {unit}", exc_info=err)
 
-    def draw_moves_map(self, current_turn: turn.Turn, player_restriction: Player | None, movement_only: bool = False) -> tuple[Element[str], str]:
+    def draw_moves_map(self, current_turn: turn.Turn, player_restriction: Player | None, movement_only: bool = False) -> tuple[Element, str]:
         logger.info("mapper.draw_moves_map")
 
         self._reset_moves_map()
@@ -195,8 +195,7 @@ class Mapper:
         self.clean_layers(self._moves_svg)
 
         svg_file_name = f"{str(self.board.turn).replace(' ', '_')}_moves_map.svg"
-        return elementToString(t, encoding="utf-8"), svg_file_name
-        #return t, svg_file_name
+        return t, svg_file_name
 
     def draw_gui_map(self, current_turn: turn.Turn, player_restriction: Player | None) -> tuple[bytes, str]:
         self.player_restriction = player_restriction

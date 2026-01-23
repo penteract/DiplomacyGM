@@ -8,6 +8,7 @@ from discord import Member, User
 from DiploGM.utils import SingletonMeta
 from DiploGM.adjudicator.adjudicator import RetreatsAdjudicator, BuildsAdjudicator, MovesAdjudicator, boards_equal
 from DiploGM.adjudicator.mapper import Mapper
+from DiploGM.adjudicator.game_mapper import GameMapper
 from DiploGM.map_parser.vector.vector import get_parser
 from DiploGM.models.turn import Turn
 from DiploGM.models.board import Board
@@ -150,13 +151,12 @@ class Manager(metaclass=SingletonMeta):
     ) -> tuple[bytes, str]:
         start = time.time()
         if draw_moves:
-            svg, file_name = Mapper(board, color_mode=color_mode).draw_moves_map(
-                board.turn,
+            svg, file_name = GameMapper(board, color_mode=color_mode).draw_moves_map(
                 player_restriction=player_restriction,
                 movement_only=movement_only,
             )
         else:
-            svg, file_name = Mapper(board, color_mode=color_mode).draw_current_map()
+            svg, file_name = GameMapper(board, color_mode=color_mode).draw_current_map()
 
         elapsed = time.time() - start
         logger.info(f"manager.draw_map_for_board took {elapsed}s")
