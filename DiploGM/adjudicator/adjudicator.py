@@ -934,7 +934,7 @@ def boards_equal(b1 : Board, b2 : Board):
             u = otherprov.dislodged_unit
             dst = u.order.destination
             coast = u.order.destination_coast
-            b1dst = b1.name_to_province[dst[0].name.lower()]
+            b1dst = b1.name_to_province[dst.name.lower()]
             if ((dst,coast) in u.retreat_options) != ((b1dst,coast) in province.dislodged_unit.retreat_options):
                 return False
     logger.info(f"Boards equal {b2.turn}")
