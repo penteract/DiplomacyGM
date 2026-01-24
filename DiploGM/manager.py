@@ -108,7 +108,7 @@ class Manager(metaclass=SingletonMeta):
         movement_only: bool = False,
         is_severance: bool = False,
     ) -> tuple[bytes, str]:
-        board = self.get_game(server_id).get_board(turn)
+        game = self.get_game(server_id)
         # if turn is None:
         #     board = cur_board
         # else:
@@ -133,7 +133,7 @@ class Manager(metaclass=SingletonMeta):
         #         else:
         #             player_restriction = None
         svg, file_name = self.draw_map_for_board(
-            board,
+            game,
             player_restriction=player_restriction,
             draw_moves=draw_moves,
             color_mode=color_mode,
@@ -143,7 +143,7 @@ class Manager(metaclass=SingletonMeta):
 
     def draw_map_for_board(
         self,
-        board: Board,
+        game: Game,
         player_restriction: Player | None = None,
         draw_moves: bool = False,
         color_mode: str | None = None,
@@ -151,12 +151,12 @@ class Manager(metaclass=SingletonMeta):
     ) -> tuple[bytes, str]:
         start = time.time()
         if draw_moves:
-            svg, file_name = GameMapper(board, color_mode=color_mode).draw_moves_map(
+            svg, file_name = GameMapper(game, color_mode=color_mode).draw_moves_map(
                 player_restriction=player_restriction,
                 movement_only=movement_only,
             )
         else:
-            svg, file_name = GameMapper(board, color_mode=color_mode).draw_current_map()
+            svg, file_name = GameMapper(game, color_mode=color_mode).draw_current_map()
 
         elapsed = time.time() - start
         logger.info(f"manager.draw_map_for_board took {elapsed}s")

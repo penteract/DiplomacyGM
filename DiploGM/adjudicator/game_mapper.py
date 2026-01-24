@@ -1,9 +1,10 @@
 import copy
-from xml.etree.ElementTree import ElementTree, Element, register_namespace
+from xml.etree.ElementTree import register_namespace
 from xml.etree.ElementTree import tostring as elementToString
 
 import numpy as np
 from lxml import etree
+from lxml.etree import ElementTree, Element
 import math
 
 from DiploGM.map_parser.vector.utils import (
@@ -96,14 +97,14 @@ class GameMapper:
             )
 
         self.restriction = restriction
-        if restriction is not None:
-            self.adjacent_provinces: set[str] = self.game.get_visible_provinces(
-                restriction
-            )
-        else:
-            self.adjacent_provinces: set[str] = {
-                province.name for province in self.game.provinces
-            }
+        # if restriction is not None:
+        #     self.adjacent_provinces: set[str] = self.game.get_visible_provinces(
+        #         restriction
+        #     )
+        # else:
+        #     self.adjacent_provinces: set[str] = {
+        #         province.name for province in self.game.provinces
+        #     }
 
         self._moves_svg = copy.deepcopy(self.game_svg)
         self.cached_elements["unit_output_moves"] = get_svg_element(
@@ -112,8 +113,20 @@ class GameMapper:
 
         self.state_svg = copy.deepcopy(self.game_svg)
 
-    def draw_moves_map(self, player_restriction: Player | None, movement_only: bool = False) \
+        self.color_mode = color_mode
+
+    def draw_moves_map(self, player_restriction: Player | None, movement_only: bool = False, is_retreats: bool = True) \
             -> tuple[bytes, str]:
+        root = Element("svg")
+        i = 0
         for timeline in self.game.all_turns():
+            i += 1
+            # root.append(Element(tag="g"))
             for turn in timeline:
-                Mapper(self.game.get_board(turn), color_mode=self.color_mode).draw_moves_map(player_restriction, movement_only=movement_only)
+                if is_retreats or not turn.is_retreats():
+                    element, _ = Mapper(self.game.get_board(turn), color_mode=self.color_mode).draw_moves_map(turn,
+                        player_restriction,
+                        movement_only=movement_only)
+                    root.append(element)
+
+        return elementToString(root), "map.svg"
