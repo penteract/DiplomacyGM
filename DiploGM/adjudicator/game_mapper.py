@@ -119,7 +119,6 @@ class GameMapper:
             -> tuple[bytes, str]:
         root = None
         for timeline in self.game.all_turns():
-            # root.append(create_element("g", {}))
             i = 0
             for turn in timeline:
                 if is_retreats or not turn.is_retreats():
