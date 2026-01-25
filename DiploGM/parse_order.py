@@ -356,6 +356,10 @@ def parse_order(message: str, player_restriction: Player | None, game: Game) -> 
             #print("UC", e)
             #raise e
             pass
+        except UnexpectedEOF as e:
+            pass
+        except VisitError as e:
+            pass
         #print(order)
         if generator.turn.is_builds(): #TODO: If game is in retreats phase, don't allow build orders
             parser = retreats_parser
