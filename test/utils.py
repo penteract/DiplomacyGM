@@ -1,4 +1,6 @@
 import logging
+import os
+import tempfile
 from DiploGM.models.board import Board
 from DiploGM.models.game import Game
 from DiploGM.manager import Manager
@@ -22,7 +24,7 @@ import unittest
 
 logger = logging.getLogger(__name__)
 
-map_file = open("/tmp/map.html", mode="w")
+map_file = open(os.path.join(tempfile.gettempdir(), "map.html"), mode="w")
 print("<style>body{width:max-content;}</style>", file=map_file)
 
 def title(title):

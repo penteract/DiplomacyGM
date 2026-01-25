@@ -168,7 +168,7 @@ class Mapper:
             except Exception as err:
                 logger.error(f"Drawing move failed for {unit}", exc_info=err)
 
-    def draw_moves_map(self, current_turn: turn.Turn, player_restriction: Player | None, movement_only: bool = False) -> tuple[Element[str], str]:
+    def draw_moves_map(self, current_turn: turn.Turn, player_restriction: Player | None, movement_only: bool = False) -> tuple[Element, str]:
         logger.info("mapper.draw_moves_map")
 
         self._reset_moves_map()
