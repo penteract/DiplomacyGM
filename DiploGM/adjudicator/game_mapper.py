@@ -14,7 +14,7 @@ from DiploGM.map_parser.vector.utils import (
     get_unit_coordinates,
     initialize_province_resident_data,
 )
-from DiploGM.models.turn import Turn
+from DiploGM.models.turn import PhaseName, Turn
 from DiploGM.models.board import Board
 from DiploGM.models.game import Game
 from DiploGM.adjudicator.mapper import Mapper
@@ -55,6 +55,9 @@ SVG_CONFIG_KEY: str = "svg config"
 # if you make any rendering changes,
 # make sure to sync them with mapper.js
 
+# Padding around the boards
+BOARD_PADDING_X = 25
+BOARD_PADDING_Y = 25
 
 class GameMapper:
     def __init__(
@@ -72,6 +75,7 @@ class GameMapper:
 
         self.game: Game = game
         self.game_svg: ElementTree = etree.parse(self.game.data["file"])
+        self.svg_size = self._get_svg_size()
         self.player_restriction: Player | None = None
 
         # different colors
@@ -114,32 +118,70 @@ class GameMapper:
         self.state_svg = copy.deepcopy(self.game_svg)
 
         self.color_mode = color_mode
-
+        
+    def _get_svg_size(self) -> tuple[int, int]:
+        parts = self.game_svg.getroot().get("viewBox").split()
+        return (float(parts[2]), float(parts[3]))
+    
+    def _turn_to_offset(self, turn: Turn) -> tuple[int, int]:
+        height = turn.timeline * 2 * BOARD_PADDING_Y + (turn.timeline - 1) * self.svg_size[1] 
+        
+        width = 0
+        years_prior = turn.year - self.game.variant.year_offset
+        width += years_prior * 2 * (BOARD_PADDING_X * 2 + self.svg_size[0])
+        match turn.phase:
+            case PhaseName.SPRING_MOVES:
+                pass
+            case PhaseName.SPRING_RETREATS | PhaseName.FALL_MOVES:
+                width += (BOARD_PADDING_X * 2 + self.svg_size[0])
+            case PhaseName.FALL_RETREATS | PhaseName.WINTER_BUILDS:
+                width += 2 * (BOARD_PADDING_X * 2 + self.svg_size[0])
+        
+        return (width, height)        
+    
     def draw_moves_map(self, player_restriction: Player | None, movement_only: bool = False, is_retreats: bool = True) \
             -> tuple[bytes, str]:
         root = None
+        
+        needs_attribs = True
+        
         for timeline in self.game.all_turns():
-            i = 0
-            for turn in timeline:
+            for turn in timeline :
+                # if is_retreats or not turn.is_retreats():
                 if is_retreats or not turn.is_retreats():
-                    i += 1
                     svg, _ = Mapper(self.game.get_board(turn), color_mode=self.color_mode).draw_moves_map(turn,
                         player_restriction,
                         movement_only=movement_only)
-                    if root is None:
-                        root = svg
-                    else:
-                        group = create_element("g", {"transform": f"translate({1920 * i})"})
-                        root.append(group)
-                        for child in svg.getchildren():
-                            group.append(child)
+                    if needs_attribs:
+                        needs_attribs = False
+                        root = create_element("svg", svg.attrib)
+
+                    w, h = self._turn_to_offset(turn)
+                    group = create_element("g", {"transform": f"translate({w}, {h})"})
+                    
+                    root.append(group)
+                    for child in svg.getchildren():
+                        group.append(child)
                     # print("\n", svg_element)
                     # for element in svg_element:
                     #     print("    ", element)
                     #     for new_element in element:
                     #         print("        ", new_element)
                     #     root.append(element)
-
+            
+        
+        all_turns = self.game.all_turns()
+        newest_board_turn = all_turns[0][len(all_turns[0]) - 1]
+        newest_board_turn = Turn( # Adjust tumeline
+            year=newest_board_turn.year,
+            start_year=newest_board_turn.start_year,
+            phase=newest_board_turn.phase,
+            timeline=len(all_turns)
+        )
+        
+        w, h = self._turn_to_offset(newest_board_turn)
+        
+        root.set("viewBox", f"0 0 {w + self.svg_size[0] + BOARD_PADDING_X} {h + self.svg_size[1] + BOARD_PADDING_Y}")
         return elementToString(root), "map.svg"
 
 def create_element(tag: str, attributes: dict[str, any]) -> etree.Element:
