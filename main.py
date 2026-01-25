@@ -34,6 +34,8 @@ logger = logging.getLogger(__name__)
 # config is run before logging is setup. Output logs now.
 output_config_logs()
 
+
+allowed_commands = {"help", "order"}
 async def main():
     token = DISCORD_TOKEN
     if not token:
@@ -45,6 +47,9 @@ async def main():
     bot = DiploGM(
         command_prefix=COMMAND_PREFIX, intents=intents
     )
+    @bot.check
+    def check_commands(ctx):
+        return ctx.command.qualified_name in allowed_commands
 
     async with bot:
         try:

@@ -50,7 +50,7 @@ def is_player_channel(player_role: Player, channel: Messageable) -> bool:
 def require_player_by_context(ctx: commands.Context, description: str):
     assert ctx.guild is not None and ctx.message is not None
     # FIXME cleaner way of doing this
-    board = manager.get_board(ctx.guild.id)
+    board = manager.get_game(ctx.guild.id).variant
     # return if in order channel
     weak_channel_checking = "weak channel checking" in board.data.get("flags", [])
     if board.fow or weak_channel_checking:

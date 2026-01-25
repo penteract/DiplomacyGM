@@ -424,7 +424,7 @@ class Manager(metaclass=SingletonMeta):
         if isinstance(member, User):
             return None
         for role in member.roles:
-            for player in self.get_board(member.guild.id).players:
+            for player in self.get_game(member.guild.id).variant.players:
                 if simple_player_name(player.name) == simple_player_name(role.name):
                     return player
         return None
