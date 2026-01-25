@@ -14,7 +14,7 @@ from DiploGM.map_parser.vector.utils import (
     get_unit_coordinates,
     initialize_province_resident_data,
 )
-from DiploGM.models import turn
+from DiploGM.models.turn import Turn
 from DiploGM.models.board import Board
 from DiploGM.models.game import Game
 from DiploGM.adjudicator.mapper import Mapper
@@ -117,16 +117,32 @@ class GameMapper:
 
     def draw_moves_map(self, player_restriction: Player | None, movement_only: bool = False, is_retreats: bool = True) \
             -> tuple[bytes, str]:
-        root = Element("svg")
-        i = 0
+        root = None
         for timeline in self.game.all_turns():
-            i += 1
-            # root.append(Element(tag="g"))
+            # root.append(create_element("g", {}))
+            i = 0
             for turn in timeline:
                 if is_retreats or not turn.is_retreats():
-                    element, _ = Mapper(self.game.get_board(turn), color_mode=self.color_mode).draw_moves_map(turn,
+                    i += 1
+                    svg, _ = Mapper(self.game.get_board(turn), color_mode=self.color_mode).draw_moves_map(turn,
                         player_restriction,
                         movement_only=movement_only)
-                    root.append(element)
+                    if root is None:
+                        root = svg
+                    else:
+                        group = create_element("g", {"transform": f"translate({1920 * i})"})
+                        root.append(group)
+                        for child in svg.getchildren():
+                            group.append(child)
+                    # print("\n", svg_element)
+                    # for element in svg_element:
+                    #     print("    ", element)
+                    #     for new_element in element:
+                    #         print("        ", new_element)
+                    #     root.append(element)
 
         return elementToString(root), "map.svg"
+
+def create_element(tag: str, attributes: dict[str, any]) -> etree.Element:
+    attributes_str = {key: str(val) for key, val in attributes.items()}
+    return etree.Element(tag, attributes_str)
