@@ -1,4 +1,6 @@
 import logging
+import os
+import tempfile
 from DiploGM.models.board import Board
 from DiploGM.models.game import Game
 from DiploGM.manager import Manager
@@ -22,16 +24,19 @@ import unittest
 
 logger = logging.getLogger(__name__)
 
-map_file = open("/tmp/map.html", mode="w")
+map_file = open(os.path.join(tempfile.gettempdir(), "map.html"), mode="w")
 print("<style>body{width:max-content;}</style>", file=map_file)
 
 def title(title):
     print(f"<h1>{title.upper()}</h1>", file = map_file)
 
+test_game_id = 0 #1457191421206593678
+
 # Allows for specifying units, uses the classic diplomacy board as that is used by DATC 
 # Only implements the subset of adjacencies necessary to run the DATC tests as of now
 class BoardBuilder():
     def _save(self):
+        raise Exception()
         self.board.board_id=1
         self._g.board_id = 1
         self._manager._database.save_board(1, self.board)
@@ -39,14 +44,14 @@ class BoardBuilder():
     def __init__(self, empty = True, variant="classic"):
         manager = Manager()
         try:
-            manager.total_delete(0)
-            manager.total_delete(1)
+            manager.total_delete(test_game_id)
+            #manager.total_delete(1)
         except Exception as e:
             #raise e
             pass
-        manager.create_game(0, variant, empty=empty)
-        self._g = manager.get_game(0)
-        self.board: Board = manager.get_game(0).get_board(self._g.all_turns()[0][0])
+        manager.create_game(test_game_id, variant, empty=empty)
+        self._g = manager.get_game(test_game_id)
+        self.board: Board = manager.get_game(test_game_id).get_board(self._g.all_turns()[0][0])
         self._manager = manager
         # here an illegal move is one that is caught and turned into a hold order, which includes supports and convoys 
         # which are missing the corresponding part
@@ -83,7 +88,7 @@ class BoardBuilder():
             self.turkey = player_list["Turkey"]
 
     def output(self):
-        print(self._manager.draw_map(0, draw_moves=True)[0].decode("utf-8"), file=map_file)
+        print(self._manager.draw_map(test_game_id, draw_moves=True)[0].decode("utf-8"), file=map_file)
 
     def army(self, land: str, player: Player) -> Unit:
         province, _ = self.board.get_province_and_coast(land)
@@ -356,6 +361,6 @@ class GameBuilder():
     def adjudicate(self):
         #input("adjudication" + str(self.game.all_turns()[0][-1]))
         self.bb._manager.adjudicate(self.game.board_id)
-        self.game = self.bb._manager.get_game(0)
+        self.game = self.bb._manager.get_game(test_game_id)
     def output(self,retreats=True):
-        print(self.bb._manager.draw_map(0, draw_moves=True)[0].decode("utf-8"), file=map_file)
+        print(self.bb._manager.draw_map(test_game_id, draw_moves=True)[0].decode("utf-8"), file=map_file)

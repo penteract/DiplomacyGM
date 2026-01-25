@@ -35,19 +35,19 @@ class PlayerCog(commands.Cog):
         player: Player | None,
     ) -> None:
         assert ctx.guild is not None
-        board = manager.get_board(ctx.guild.id)
+        game = manager.get_game(ctx.guild.id)
+        #TODO: allow locking orders
+        # if player and not board.orders_enabled:
+        #     log_command(logger, ctx, "Orders locked - not processing")
+        #     await send_message_and_file(
+        #         channel=ctx.channel,
+        #         title="Orders locked!",
+        #         message="If you think this is an error, contact a GM.",
+        #         embed_colour=config.ERROR_COLOUR,
+        #     )
+        #     return
 
-        if player and not board.orders_enabled:
-            log_command(logger, ctx, "Orders locked - not processing")
-            await send_message_and_file(
-                channel=ctx.channel,
-                title="Orders locked!",
-                message="If you think this is an error, contact a GM.",
-                embed_colour=config.ERROR_COLOUR,
-            )
-            return
-
-        message = parse_order(ctx.message.content, player, board)
+        message = parse_order(ctx.message.content, player, game)
         if "title" in message:
             log_command(logger, ctx, message=message["title"], level=logging.DEBUG)
         elif "message" in message:
