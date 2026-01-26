@@ -17,7 +17,7 @@ from DiploGM.map_parser.vector.utils import (
 from DiploGM.models.turn import PhaseName, Turn
 from DiploGM.models.board import Board
 from DiploGM.models.game import Game
-from DiploGM.adjudicator.mapper import Mapper
+from DiploGM.adjudicator.mapper import Mapper, get_offset
 from DiploGM.db.database import logger
 from DiploGM.models.order import (
     Hold,
@@ -150,16 +150,16 @@ class GameMapper:
             for turn in timeline :
                 # if is_retreats or not turn.is_retreats():
                 if is_retreats or not turn.is_retreats():
-                    svg, _ = Mapper(self.game.get_board(turn), color_mode=self.color_mode).draw_moves_map(turn,
+                    svg, _ = Mapper(self.game.get_board(turn), color_mode=self.color_mode, dimensions=self.svg_size).draw_moves_map(turn,
                         player_restriction,
                         movement_only=movement_only)
                     if needs_attribs:
                         needs_attribs = False
                         root = create_element("svg", svg.attrib)
 
-                    w, h = self._turn_to_offset(turn)
+                    w, h = get_offset(turn, dims=self.svg_size, year_offset = self.game.variant.year_offset) #self._turn_to_offset(turn)
                     group = create_element("g", {"transform": f"translate({w}, {h})"})
-                    arrow_group = create_element("g", {"transform": f"translate({w}, {h})"})
+                    arrow_group = create_element("g",{})
                     arrow_groups.append(arrow_group)
 
                     root.append(group)
@@ -188,9 +188,9 @@ class GameMapper:
             timeline=len(all_turns)
         )
         
-        w, h = self._turn_to_offset(newest_board_turn)
+        w, h = get_offset(newest_board_turn, dims=self.svg_size,year_offset = self.game.variant.year_offset) #self._turn_to_offset(newest_board_turn)
         
-        root.set("viewBox", f"0 0 {w + self.svg_size[0] + BOARD_PADDING_X} {h + self.svg_size[1] + BOARD_PADDING_Y}")
+        root.set("viewBox", f"0 0 {w + self.svg_size[0] + BOARD_PADDING_X + 1000} {h + self.svg_size[1] + BOARD_PADDING_Y}") # 1000 covers the scoreboard for the last boards
         return elementToString(root), "map.svg"
 
 def create_element(tag: str, attributes: dict[str, any]) -> etree.Element:

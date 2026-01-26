@@ -57,12 +57,22 @@ SVG_CONFIG_KEY: str = "svg config"
 BOARD_PADDING_X = 25
 BOARD_PADDING_Y = 25
 
+def get_offset(turn:Turn, dims: tuple[float,float], year_offset: int):
+    height = (turn.timeline - 1) * (dims[1]+BOARD_PADDING_Y*2) + BOARD_PADDING_Y*2
+    #height = turn.timeline * 2 * BOARD_PADDING_Y + (turn.timeline - 1) * self.svg_size[1]
+
+    years_prior = turn.year - year_offset
+    width = (years_prior + (turn.phase.value+1) // 2) * (dims[0] + BOARD_PADDING_X * 2)
+    return (width, height)
+
+
 class Mapper:
-    def __init__(self, board: Board, restriction: Player | None = None, color_mode: str | None = None):
+    def __init__(self, board: Board, dimensions : tuple[float,float], restriction: Player | None = None, color_mode: str | None = None):
         register_namespace('', "http://www.w3.org/2000/svg")
         register_namespace('inkscape', "http://www.inkscape.org/namespaces/inkscape")
         register_namespace('sodipodi', "http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd")
         register_namespace('xlink', "http://www.w3.org/1999/xlink")
+        self.dimensions: tuple[float,float] = dimensions
         
         self.board: Board = board
         self.board_svg: ElementTree = etree.parse(self.board.data["file"])
@@ -1254,16 +1264,19 @@ class Mapper:
             coords = next(iter(coord_list.values()))
 
         closest_loc = self.get_closest_loc(coords, current)
-        return self.shift_coords_to_correct_board(closest_loc, order_turn, loc.turn)
+        return self.shift_coords_to_correct_board(closest_loc, loc.turn)
 
-    def shift_coords_to_correct_board(self, coords: tuple[float, float], current_turn: Turn, dest_turn: Turn):
-        x_offset_boards = 2 * (dest_turn.year - current_turn.year)
-        if dest_turn.phase == PhaseName.SPRING_MOVES and current_turn.phase == PhaseName.FALL_MOVES:
-            x_offset_boards -= 1
-        elif dest_turn.phase == PhaseName.FALL_MOVES and current_turn.phase == PhaseName.SPRING_MOVES:
-            x_offset_boards += 1
-        y_offset_boards = dest_turn.timeline - current_turn.timeline
-        return [coords[0] + x_offset_boards * (self.board.data['svg config']['map_width'] - 2 * BOARD_PADDING_X), coords[1] + y_offset_boards * (self.board.data['svg config']['map_height'] - BOARD_PADDING_Y)]
+    def shift_coords_to_correct_board(self, coords: tuple[float, float], dest_turn: Turn):
+        dx, dy = get_offset(dest_turn,  self.dimensions, self.board.year_offset)
+        # x_offset_boards = 2 * (dest_turn.year - current_turn.year)
+        # if dest_turn.phase == PhaseName.SPRING_MOVES and current_turn.phase == PhaseName.FALL_MOVES:
+        #     x_offset_boards -= 1
+        # elif dest_turn.phase == PhaseName.FALL_MOVES and current_turn.phase == PhaseName.SPRING_MOVES:
+        #     x_offset_boards += 1
+        # y_offset_boards = dest_turn.timeline - current_turn.timeline
+        # + x_offset_boards * (self.dimensions[0] - 2 * BOARD_PADDING_X)
+        # + y_offset_boards * (self.dimensions[1] - BOARD_PADDING_Y)
+        return [coords[0] + dx, coords[1] + dy]
 
     def pull_coordinate(
         self, anchor: tuple[float, float], coordinate: tuple[float, float], pull=None, limit=0.25
