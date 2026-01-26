@@ -46,7 +46,7 @@ class TestGame(unittest.TestCase):
                         if line.startswith("TURN") and g.game.can_skip_retreats():
                             g.adjudicate()
                         g.output(retreats=True)
-                        if "4" in line:
+                        if "2" in line:
                             #break
                             pass
                     title(line)

@@ -62,7 +62,7 @@ def get_offset(turn:Turn, dims: tuple[float,float], year_offset: int):
     #height = turn.timeline * 2 * BOARD_PADDING_Y + (turn.timeline - 1) * self.svg_size[1]
 
     years_prior = turn.year - year_offset
-    width = (years_prior*2 + (turn.phase.value+1) // 2) * (dims[0] + BOARD_PADDING_X * 2)
+    width = (years_prior*2 + (turn.phase.value+1)//2 ) * (dims[0] + BOARD_PADDING_X * 2)
     return (width, height)
 
 
@@ -172,10 +172,10 @@ class Mapper:
                         continue
                     # if something returns, that means it could potentially go across the edge
                     # copy it 3 times (-1, 0, +1)
-                    lval = copy.deepcopy(val)
-                    rval = copy.deepcopy(val)
-                    lval.attrib["transform"] = f"translate({-self.board.data['svg config']['map_width']}, 0)"
-                    rval.attrib["transform"] = f"translate({self.board.data['svg config']['map_width']}, 0)"
+                    # lval = copy.deepcopy(val)
+                    # rval = copy.deepcopy(val)
+                    # lval.attrib["transform"] = f"translate({-self.board.data['svg config']['map_width']}, 0)"
+                    # rval.attrib["transform"] = f"translate({self.board.data['svg config']['map_width']}, 0)"
 
                     # TODO: Figure out how to handle orders that wrap around the world map in 5D. For now, this is commented out to avoid showing the duplicate arrows.
                     #arrow_layer.append(lval)
@@ -769,7 +769,7 @@ class Mapper:
                 else:
                     destloc = order.source.all_locs[order.source.unit.unit_type]
                 for coord in destloc:
-                    self._draw_hold(self.shift_coords_to_correct_board(coord, unit.province.turn, order.source.turn), False)
+                    self._draw_hold(self.shift_coords_to_correct_board(coord, order.source.turn), False)
 
             # if two units are support-holding each other
             destorder = order.destination.unit.order
@@ -1225,11 +1225,13 @@ class Mapper:
 
     # returns closest point in a set
     # will wrap horizontally
-    def get_closest_loc(self, possibilities: set[tuple[float, float]], coord: tuple[float, float]) -> tuple[float, float]:
+    def get_closest_loc(self, possibilities: set[tuple[float, float]], coord: tuple[float, float], turn: Turn | None = None) -> tuple[float, float]:
         possibilities_list = list(possibilities)
         crossed_pos = []
         crossed = []
         for p in possibilities_list:
+            if turn is not None:
+                p = self.shift_coords_to_correct_board(p,turn)
             x = p[0]
             cx = coord[0]
             if abs(x - cx) > self.board.data[SVG_CONFIG_KEY]["map_width"] / 2:
@@ -1264,8 +1266,8 @@ class Mapper:
         else:
             coords = next(iter(coord_list.values()))
 
-        closest_loc = self.get_closest_loc(coords, current)
-        return self.shift_coords_to_correct_board(closest_loc, loc.turn)
+        closest_loc = self.get_closest_loc(coords, current, loc.turn)
+        return closest_loc #self.shift_coords_to_correct_board(closest_loc, loc.turn)
 
     def shift_coords_to_correct_board(self, coords: tuple[float, float], dest_turn: Turn):
         dx, dy = get_offset(dest_turn,  self.dimensions, self.board.year_offset)

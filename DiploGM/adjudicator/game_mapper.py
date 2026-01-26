@@ -123,21 +123,21 @@ class GameMapper:
         parts = self.game_svg.getroot().get("viewBox").split()
         return (float(parts[2]), float(parts[3]))
     
-    def _turn_to_offset(self, turn: Turn) -> tuple[int, int]:
-        height = turn.timeline * 2 * BOARD_PADDING_Y + (turn.timeline - 1) * self.svg_size[1] 
-        
-        width = 0
-        years_prior = turn.year - self.game.variant.year_offset
-        width += years_prior * 2 * (BOARD_PADDING_X * 2 + self.svg_size[0])
-        match turn.phase:
-            case PhaseName.SPRING_MOVES:
-                pass
-            case PhaseName.SPRING_RETREATS | PhaseName.FALL_MOVES:
-                width += (BOARD_PADDING_X * 2 + self.svg_size[0])
-            case PhaseName.FALL_RETREATS | PhaseName.WINTER_BUILDS:
-                width += 2 * (BOARD_PADDING_X * 2 + self.svg_size[0])
-        
-        return (width, height)        
+#     def _turn_to_offset(self, turn: Turn) -> tuple[int, int]:
+#         height = turn.timeline * 2 * BOARD_PADDING_Y + (turn.timeline - 1) * self.svg_size[1]
+#
+#         width = 0
+#         years_prior = turn.year - self.game.variant.year_offset
+#         width += years_prior * 2 * (BOARD_PADDING_X * 2 + self.svg_size[0])
+#         match turn.phase:
+#             case PhaseName.SPRING_MOVES:
+#                 pass
+#             case PhaseName.SPRING_RETREATS | PhaseName.FALL_MOVES:
+#                 width += (BOARD_PADDING_X * 2 + self.svg_size[0])
+#             case PhaseName.FALL_RETREATS | PhaseName.WINTER_BUILDS:
+#                 width += 2 * (BOARD_PADDING_X * 2 + self.svg_size[0])
+#
+#         return (width, height)
     
     def draw_moves_map(self, player_restriction: Player | None, movement_only: bool = False, is_retreats: bool = True) \
             -> tuple[bytes, str]:
