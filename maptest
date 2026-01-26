@@ -1,6 +1,10 @@
 #!/bin/bash
 
-python -m unittest test/test_game_and_maps.py && ( chromium /tmp/map.html &> /dev/null & disown )
+if [[ -n $1 ]]; then
+  python -m unittest test/test_game_and_maps.py && ( chromium /tmp/map.html &> /dev/null & disown )
+else
+  python -m unittest test/imperial_maps.py && ( chromium /tmp/map.html &> /dev/null & disown )
+fi
 
 # if [[ -n $HYPRLAND_INSTANCE_SIGNATURE ]]; then
 #   hyprctl dispatch fullscreen
