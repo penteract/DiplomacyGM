@@ -2,6 +2,16 @@ import copy
 import itertools
 import re
 import sys
+
+class AttrDict(dict):
+    def __getattr__(self, key):
+        return self[key]
+
+    def __setattr__(self, key, value):
+        self[key] = value
+
+
+
 from xml.etree.ElementTree import ElementTree, Element, register_namespace
 from xml.etree.ElementTree import tostring as elementToString
 
@@ -735,25 +745,31 @@ class Mapper:
             raise ValueError("Trying to draw a non-support order as a support")
         order: Support = unit.order
         if order.source.unit is None:
-            v2 = self.loc_to_point(order.source, unit.province.turn, unit.unit_type, None, coordinate)
+            osu = AttrDict(
+                coast=None,
+                order=None,
+                #!!!TODO: check if combination of coast and unit type is important enough to matter
+                unit_type = UnitType.FLEET if ProvinceType.SEA in [order.source.type,order.destination.type] else UnitType.ARMY
+                )
+            #v2 = self.loc_to_point(order.source, unit.province.turn, unit.unit_type, None, coordinate)
         else:
-
-            v2 = self.loc_to_point(order.source, unit.province.turn, unit.unit_type, order.source.unit.coast, coordinate)
+            osu = order.source.unit
+        v2 = self.loc_to_point(order.source, unit.province.turn, unit.unit_type, osu.coast, coordinate)
         #     raise ValueError("Support order has no source unit")
             #return None
         x1 = coordinate[0]
         y1 = coordinate[1]
         # Compute where the supported unit would be locally on the supporting unit's board, to use for finding the closest location of the destination location before shifting
-        same_board_v2 = self.loc_to_point(order.source, order.source.turn, unit.unit_type, order.source.unit.coast, coordinate)
+        same_board_v2 = self.loc_to_point(order.source, order.source.turn, unit.unit_type, osu.coast, coordinate)
         x2, y2 = v2
-        if (isinstance(order.source.unit.order, (Move, ConvoyMove))
-            and order.source.unit.order.destination == order.destination
+        if (isinstance(osu.order, (Move, ConvoyMove))
+            and osu.order.destination == order.destination
             and (not order.destination_coast
-                 or order.source.unit.order.destination_coast == order.destination_coast)):
-            dest_coast = order.source.unit.order.destination_coast
+                 or osu.order.destination_coast == order.destination_coast)):
+            dest_coast = osu.order.destination_coast
         else:
             dest_coast = order.destination_coast
-        v3 = self.loc_to_point(order.destination, unit.province.turn, order.source.unit.unit_type, dest_coast, same_board_v2)
+        v3 = self.loc_to_point(order.destination, unit.province.turn, osu.unit_type, dest_coast, same_board_v2)
         x3, y3 = v3
         marker_start = ""
         ball_type = "redball" if hasFailed else "ball"
@@ -765,12 +781,12 @@ class Mapper:
                 (x3, y3) = self.pull_coordinate((x2, y2), (x3, y3))
             # Draw hold around unit that can be support-held
             if (order.source == order.destination
-                and isinstance(order.source.unit.order, (ConvoyTransport, Support))
-                and self.is_moveable(order.source.unit)):
-                if order.source.unit.coast:
-                    destloc = order.source.all_locs[order.source.unit.coast]
+                and isinstance(osu.order, (ConvoyTransport, Support))
+                and self.is_moveable(osu)):
+                if osu.coast:
+                    destloc = order.source.all_locs[osu.coast]
                 else:
-                    destloc = order.source.all_locs[order.source.unit.unit_type]
+                    destloc = order.source.all_locs[osu.unit_type]
                 for coord in destloc:
                     self._draw_hold(self.shift_coords_to_correct_board(coord, order.source.turn), False)
 
@@ -1237,7 +1253,7 @@ class Mapper:
                 p = self.shift_coords_to_correct_board(p,turn)
             x = p[0]
             cx = coord[0]
-            if abs(x - cx) > self.board.data[SVG_CONFIG_KEY]["map_width"] / 2:
+            if False: #abs(x - cx) > self.board.data[SVG_CONFIG_KEY]["map_width"] / 2:
                 crossed += [1]
                 if x > cx:
                     x -= self.board.data[SVG_CONFIG_KEY]["map_width"]

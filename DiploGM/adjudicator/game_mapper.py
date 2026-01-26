@@ -189,8 +189,11 @@ class GameMapper:
         )
         
         w, h = get_offset(newest_board_turn, dims=self.svg_size,year_offset = self.game.variant.year_offset) #self._turn_to_offset(newest_board_turn)
-        
-        root.set("viewBox", f"0 0 {w + self.svg_size[0] + BOARD_PADDING_X + 1000} {h + self.svg_size[1] + BOARD_PADDING_Y}") # 1000 covers the scoreboard for the last boards
+        w += self.svg_size[0] + BOARD_PADDING_X + 1000 # + 1000 covers the scoreboard for the last boards
+        h += self.svg_size[1] + BOARD_PADDING_Y
+        root.set("viewBox", f"0 0 {w} {h}")
+        root.set("width", str(w))
+        root.set("height", str(h))
         return elementToString(root), "map.svg"
 
 def create_element(tag: str, attributes: dict[str, any]) -> etree.Element:
