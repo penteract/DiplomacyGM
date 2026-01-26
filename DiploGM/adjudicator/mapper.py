@@ -73,7 +73,7 @@ class Mapper:
         register_namespace('sodipodi', "http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd")
         register_namespace('xlink', "http://www.w3.org/1999/xlink")
         self.dimensions: tuple[float,float] = dimensions
-        
+
         self.board: Board = board
         self.board_svg: ElementTree = etree.parse(self.board.data["file"])
         self.player_restriction: Player | None = None
@@ -125,7 +125,7 @@ class Mapper:
     def clean_layers(self, svg: ElementTree):
         for element_name in self.board.data[SVG_CONFIG_KEY]["delete_layer"]:
             clear_svg_element(svg, self.board.data[SVG_CONFIG_KEY][element_name])
-    
+
     def is_moveable(self, unit: Unit):
         if unit.province.name not in self.adjacent_provinces:
             return False
@@ -196,7 +196,7 @@ class Mapper:
         arrow_layer = get_svg_element(self._moves_svg, self.board.data[SVG_CONFIG_KEY]["arrow_output"])
         if arrow_layer is None:
             raise ValueError("Arrow layer not found in SVG")
-        
+
         if not current_turn.is_builds():
             self.draw_moves_and_retreats(arrow_layer, current_turn, movement_only)
         else:
@@ -265,7 +265,7 @@ class Mapper:
             else:
                 raise ValueError(f"Unknown province type {province.type} for province {province.name}")
             province_to_province_type[province.name] = province_type
-        
+
         immediate = [unit.province.get_name(unit.coast)
                      for unit in self.board.units
                      if self.is_moveable(unit)]
@@ -331,7 +331,7 @@ class Mapper:
             else:
                 color = player.render_color
             self.player_colors[player.name] = color
-        
+
         #TODO: draw dual monarchies as stripes
         if color_mode == "empires":
             for player in self.board.players:
@@ -355,7 +355,7 @@ class Mapper:
             self.neutral_color = neutral_colors
         else:
             self.neutral_color = neutral_colors[color_mode] if color_mode in neutral_colors else neutral_colors["standard"]
-        
+
         self.clear_seas_color = self.board.data[SVG_CONFIG_KEY]["default_sea_color"]
         if (self.replacements is not None
             and self.clear_seas_color in self.replacements
@@ -378,8 +378,8 @@ class Mapper:
                         self.color_element(element, self.replacements[color][color_mode])
                 elif color_mode == "dark":
                     self.color_element(element, "ffffff")
-                
-                    
+
+
 
         # Difficult to detect correctly using either geometry or province names
         # Marking manually would work, but for all svgs is time consuming. TODO
@@ -426,7 +426,7 @@ class Mapper:
         all_power_banners_element = get_svg_element(root, self.board.data[SVG_CONFIG_KEY]["power_banners"])
         if all_power_banners_element is None:
             return
-        
+
         if self.board.fow and self.restriction != None:
             # don't get info
             players = sorted(self.board.players, key=lambda sort_player: sort_player.name)
@@ -735,17 +735,20 @@ class Mapper:
             raise ValueError("Trying to draw a non-support order as a support")
         order: Support = unit.order
         if order.source.unit is None:
-            raise ValueError("Support order has no source unit")
+            v2 = self.loc_to_point(order.source, unit.province.turn, unit.unit_type, None, coordinate)
+        else:
+
+            v2 = self.loc_to_point(order.source, unit.province.turn, unit.unit_type, order.source.unit.coast, coordinate)
+        #     raise ValueError("Support order has no source unit")
             #return None
         x1 = coordinate[0]
         y1 = coordinate[1]
-        v2 = self.loc_to_point(order.source, unit.province.turn, unit.unit_type, order.source.unit.coast, coordinate)
         # Compute where the supported unit would be locally on the supporting unit's board, to use for finding the closest location of the destination location before shifting
         same_board_v2 = self.loc_to_point(order.source, order.source.turn, unit.unit_type, order.source.unit.coast, coordinate)
         x2, y2 = v2
         if (isinstance(order.source.unit.order, (Move, ConvoyMove))
             and order.source.unit.order.destination == order.destination
-            and (not order.destination_coast 
+            and (not order.destination_coast
                  or order.source.unit.order.destination_coast == order.destination_coast)):
             dest_coast = order.source.unit.order.destination_coast
         else:
@@ -1159,7 +1162,7 @@ class Mapper:
         )
         ball_marker.append(ball_def)
         defs.append(ball_marker)
-        
+
         red_ball_marker: Element = self.create_element(
             "marker",
             {
