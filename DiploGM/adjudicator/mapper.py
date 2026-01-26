@@ -62,7 +62,7 @@ def get_offset(turn:Turn, dims: tuple[float,float], year_offset: int):
     #height = turn.timeline * 2 * BOARD_PADDING_Y + (turn.timeline - 1) * self.svg_size[1]
 
     years_prior = turn.year - year_offset
-    width = (years_prior + (turn.phase.value+1) // 2) * (dims[0] + BOARD_PADDING_X * 2)
+    width = (years_prior*2 + (turn.phase.value+1) // 2) * (dims[0] + BOARD_PADDING_X * 2)
     return (width, height)
 
 
