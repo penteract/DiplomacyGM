@@ -529,6 +529,7 @@ class Mapper:
         self._moves_svg = copy.deepcopy(self.board_svg)
 
     def _draw_order(self, unit: Unit, coordinate: tuple[float, float], current_turn: turn.Turn) -> None:
+        coordinate = self.shift_coords_to_correct_board(coordinate, current_turn)
         order = unit.order
         if isinstance(order, Hold):
             self._draw_hold(coordinate, order.hasFailed)
