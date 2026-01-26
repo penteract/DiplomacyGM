@@ -55,7 +55,7 @@ SVG_CONFIG_KEY: str = "svg config"
 # if you make any rendering changes,
 # make sure to sync them with mapper.js
 
-# Padding around the boards
+# Padding around the boards, must match the same properties in mapper.js
 BOARD_PADDING_X = 25
 BOARD_PADDING_Y = 25
 
@@ -144,7 +144,8 @@ class GameMapper:
         root = None
         
         needs_attribs = True
-        
+        arrow_groups = []
+
         for timeline in self.game.all_turns():
             for turn in timeline :
                 # if is_retreats or not turn.is_retreats():
@@ -158,21 +159,29 @@ class GameMapper:
 
                     w, h = self._turn_to_offset(turn)
                     group = create_element("g", {"transform": f"translate({w}, {h})"})
-                    
+                    arrow_group = create_element("g", {"transform": f"translate({w}, {h})"})
+                    arrow_groups.append(arrow_group)
+
                     root.append(group)
                     for child in svg.getchildren():
-                        group.append(child)
+                        if child.get("id") == self.game.data[SVG_CONFIG_KEY]["arrow_output"]:
+                            arrow_group.append(child)
+                        else:
+                            group.append(child)
                     # print("\n", svg_element)
                     # for element in svg_element:
                     #     print("    ", element)
                     #     for new_element in element:
                     #         print("        ", new_element)
                     #     root.append(element)
+
+        for arrow_group in arrow_groups:
+            root.append(arrow_group)
             
-        
+
         all_turns = self.game.all_turns()
         newest_board_turn = all_turns[0][len(all_turns[0]) - 1]
-        newest_board_turn = Turn( # Adjust tumeline
+        newest_board_turn = Turn( # Adjust timeline
             year=newest_board_turn.year,
             start_year=newest_board_turn.start_year,
             phase=newest_board_turn.phase,

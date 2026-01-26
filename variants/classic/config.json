@@ -2,8 +2,8 @@
     "name": "Classic",
     "file": "classic.svg",
     "svg config": {
-		"year": 1901,
-		
+        "year": 1901,
+
         "land_layer": "layer2",
         "sea_borders": "layer4",
         "province_names": "layer7",
@@ -11,22 +11,22 @@
         "starting_units": "layer11",
         "unit_output": "layer12",
         "arrow_output": "layer13",
-		"background": "MapLayer",
+        "background": "MapLayer",
 
         "army": "layer8",
         "retreat_army": "g914",
         "fleet": "layer9",
         "retreat_fleet": "g690",
-		
-		"island_borders": "layer15",
-		"island_fill_layer": "layer15",
-		"island_ring_layer": "layer15",
-		"season": "layer4-1",
-		
-		"power_banners": "layer16",
-		"power_sc_index": 2,
-		"power_iscc_index": -1,
-		"power_vscc_index": -1,
+
+        "island_borders": "layer15",
+        "island_fill_layer": "layer15",
+        "island_ring_layer": "layer15",
+        "season": "layer4-1",
+
+        "power_banners": "layer16",
+        "power_sc_index": 2,
+        "power_iscc_index": -1,
+        "power_vscc_index": -1,
 
         "detect_starting_units": true,
         "unit_type_labeled": false,
@@ -39,13 +39,14 @@
         "border_margin_hint": 1,
 
         "map_width": 1920,
+        "map_height": 1433.249,
         "unit_radius": 20,
         "order_stroke_width": 4,
         "neutral": "f5deb3",
         "neutral_sc": "ffffff",
         "loc_x_offset": 7.7655,
         "loc_y_offset": 7.033,
-        "delete_layer": ["army", "retreat_army", "fleet", "retreat_fleet"]
+        "delete_layer": [ "army", "retreat_army", "fleet", "retreat_fleet" ]
     },
     "build_options": "classic",
 	"victory_conditions": "classic",
