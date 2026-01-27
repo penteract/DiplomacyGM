@@ -2,6 +2,16 @@ import copy
 import itertools
 import re
 import sys
+
+class AttrDict(dict):
+    def __getattr__(self, key):
+        return self[key]
+
+    def __setattr__(self, key, value):
+        self[key] = value
+
+
+
 from xml.etree.ElementTree import ElementTree, Element, register_namespace
 from xml.etree.ElementTree import tostring as elementToString
 
@@ -15,6 +25,7 @@ import math
 from DiploGM.map_parser.vector.utils import clear_svg_element, get_element_color, get_svg_element, get_unit_coordinates, initialize_province_resident_data
 from DiploGM.models import turn
 from DiploGM.models.board import Board
+from DiploGM.models.turn import PhaseName, Turn
 from DiploGM.db.database import logger
 from DiploGM.models.order import (
     Hold,
@@ -50,15 +61,29 @@ SVG_CONFIG_KEY: str = "svg config"
 
 
 # if you make any rendering changes,
-# make sure to sync them with mapper.js
+# make sure to sync them with game_mapper.js
+
+# Padding around the boards, must match the same properties in game_mapper.js
+BOARD_PADDING_X = 25
+BOARD_PADDING_Y = 25
+
+def get_offset(turn:Turn, dims: tuple[float,float], year_offset: int):
+    height = (turn.timeline - 1) * (dims[1]+BOARD_PADDING_Y*2) + BOARD_PADDING_Y*2
+    #height = turn.timeline * 2 * BOARD_PADDING_Y + (turn.timeline - 1) * self.svg_size[1]
+
+    years_prior = turn.year - year_offset
+    width = (years_prior*2 + (turn.phase.value+1)//2 ) * (dims[0] + BOARD_PADDING_X * 2)
+    return (width, height)
+
 
 class Mapper:
-    def __init__(self, board: Board, restriction: Player | None = None, color_mode: str | None = None):
+    def __init__(self, board: Board, dimensions : tuple[float,float], restriction: Player | None = None, color_mode: str | None = None):
         register_namespace('', "http://www.w3.org/2000/svg")
         register_namespace('inkscape', "http://www.inkscape.org/namespaces/inkscape")
         register_namespace('sodipodi', "http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd")
         register_namespace('xlink', "http://www.w3.org/1999/xlink")
-        
+        self.dimensions: tuple[float,float] = dimensions
+
         self.board: Board = board
         self.board_svg: ElementTree = etree.parse(self.board.data["file"])
         self.player_restriction: Player | None = None
@@ -110,7 +135,7 @@ class Mapper:
     def clean_layers(self, svg: ElementTree):
         for element_name in self.board.data[SVG_CONFIG_KEY]["delete_layer"]:
             clear_svg_element(svg, self.board.data[SVG_CONFIG_KEY][element_name])
-    
+
     def is_moveable(self, unit: Unit):
         if unit.province.name not in self.adjacent_provinces:
             return False
@@ -157,13 +182,14 @@ class Mapper:
                         continue
                     # if something returns, that means it could potentially go across the edge
                     # copy it 3 times (-1, 0, +1)
-                    lval = copy.deepcopy(val)
-                    rval = copy.deepcopy(val)
-                    lval.attrib["transform"] = f"translate({-self.board.data['svg config']['map_width']}, 0)"
-                    rval.attrib["transform"] = f"translate({self.board.data['svg config']['map_width']}, 0)"
+                    # lval = copy.deepcopy(val)
+                    # rval = copy.deepcopy(val)
+                    # lval.attrib["transform"] = f"translate({-self.board.data['svg config']['map_width']}, 0)"
+                    # rval.attrib["transform"] = f"translate({self.board.data['svg config']['map_width']}, 0)"
 
-                    arrow_layer.append(lval)
-                    arrow_layer.append(rval)
+                    # TODO: Figure out how to handle orders that wrap around the world map in 5D. For now, this is commented out to avoid showing the duplicate arrows.
+                    #arrow_layer.append(lval)
+                    #arrow_layer.append(rval)
                     arrow_layer.append(val)
             except Exception as err:
                 logger.error(f"Drawing move failed for {unit}", exc_info=err)
@@ -180,7 +206,7 @@ class Mapper:
         arrow_layer = get_svg_element(self._moves_svg, self.board.data[SVG_CONFIG_KEY]["arrow_output"])
         if arrow_layer is None:
             raise ValueError("Arrow layer not found in SVG")
-        
+
         if not current_turn.is_builds():
             self.draw_moves_and_retreats(arrow_layer, current_turn, movement_only)
         else:
@@ -195,8 +221,7 @@ class Mapper:
         self.clean_layers(self._moves_svg)
 
         svg_file_name = f"{str(self.board.turn).replace(' ', '_')}_moves_map.svg"
-        return elementToString(t, encoding="utf-8"), svg_file_name
-        #return t, svg_file_name
+        return t, svg_file_name
 
     def draw_gui_map(self, current_turn: turn.Turn, player_restriction: Player | None) -> tuple[bytes, str]:
         self.player_restriction = player_restriction
@@ -250,7 +275,7 @@ class Mapper:
             else:
                 raise ValueError(f"Unknown province type {province.type} for province {province.name}")
             province_to_province_type[province.name] = province_type
-        
+
         immediate = [unit.province.get_name(unit.coast)
                      for unit in self.board.units
                      if self.is_moveable(unit)]
@@ -316,7 +341,7 @@ class Mapper:
             else:
                 color = player.render_color
             self.player_colors[player.name] = color
-        
+
         #TODO: draw dual monarchies as stripes
         if color_mode == "empires":
             for player in self.board.players:
@@ -340,7 +365,7 @@ class Mapper:
             self.neutral_color = neutral_colors
         else:
             self.neutral_color = neutral_colors[color_mode] if color_mode in neutral_colors else neutral_colors["standard"]
-        
+
         self.clear_seas_color = self.board.data[SVG_CONFIG_KEY]["default_sea_color"]
         if (self.replacements is not None
             and self.clear_seas_color in self.replacements
@@ -363,8 +388,8 @@ class Mapper:
                         self.color_element(element, self.replacements[color][color_mode])
                 elif color_mode == "dark":
                     self.color_element(element, "ffffff")
-                
-                    
+
+
 
         # Difficult to detect correctly using either geometry or province names
         # Marking manually would work, but for all svgs is time consuming. TODO
@@ -411,7 +436,7 @@ class Mapper:
         all_power_banners_element = get_svg_element(root, self.board.data[SVG_CONFIG_KEY]["power_banners"])
         if all_power_banners_element is None:
             return
-        
+
         if self.board.fow and self.restriction != None:
             # don't get info
             players = sorted(self.board.players, key=lambda sort_player: sort_player.name)
@@ -514,6 +539,7 @@ class Mapper:
         self._moves_svg = copy.deepcopy(self.board_svg)
 
     def _draw_order(self, unit: Unit, coordinate: tuple[float, float], current_turn: turn.Turn) -> None:
+        coordinate = self.shift_coords_to_correct_board(coordinate, current_turn)
         order = unit.order
         if isinstance(order, Hold):
             self._draw_hold(coordinate, order.hasFailed)
@@ -530,7 +556,7 @@ class Mapper:
         elif isinstance(order, ConvoyTransport):
             self._draw_convoy(order, coordinate, order.hasFailed)
         elif isinstance(order, RetreatMove):
-            return self._draw_retreat_move(order, unit.unit_type, coordinate)
+            return self._draw_retreat_move(order, unit, coordinate)
         elif isinstance(order, RetreatDisband):
             self._draw_force_disband(coordinate, self._moves_svg)
         else:
@@ -556,7 +582,8 @@ class Mapper:
             logger.error(f"Could not draw player order {order}")
 
     def _draw_hold(self, coordinate: tuple[float, float], hasFailed: bool) -> None:
-        element = self._moves_svg.getroot()
+        # Holds must be drawn on the arrow layer so that cross-board support holds are drawn on top of the maps
+        element = get_svg_element(self._moves_svg, self.board.data[SVG_CONFIG_KEY]["arrow_output"])
         assert element is not None
         drawn_order = self.create_element(
             "circle",
@@ -589,8 +616,8 @@ class Mapper:
         )
         element.append(drawn_order)
 
-    def _draw_retreat_move(self, order: RetreatMove, unit_type: UnitType, coordinate: tuple[float, float], use_moves_svg=True) -> None:
-        destination = self.loc_to_point(order.destination, unit_type, order.destination_coast, coordinate)
+    def _draw_retreat_move(self, order: RetreatMove, unit: Unit, coordinate: tuple[float, float], use_moves_svg=True) -> None:
+        destination = self.loc_to_point(order.destination, unit.province.turn, unit.unit_type, order.destination_coast, coordinate)
         if order.destination.unit:
             destination = self.pull_coordinate(coordinate, destination)
         order_path = self.create_element(
@@ -678,8 +705,10 @@ class Mapper:
             p = [coordinate]
             start = coordinate
             for loc in path[1:]:
-                p += [self.loc_to_point(loc, unit.unit_type, None, start)]
-                start = p[-1]
+                local_board_pos = self.loc_to_point(loc, loc.turn, unit.unit_type, None, start)
+                shifted_board_pos = self.loc_to_point(loc, unit.province.turn, unit.unit_type, None, start)
+                p += [shifted_board_pos]
+                start = local_board_pos
 
             if path[-1].unit:
                 p[-1] = self.pull_coordinate(p[-2], p[-1])
@@ -716,20 +745,31 @@ class Mapper:
             raise ValueError("Trying to draw a non-support order as a support")
         order: Support = unit.order
         if order.source.unit is None:
-            raise ValueError("Support order has no source unit")
+            osu = AttrDict(
+                coast=None,
+                order=None,
+                #!!!TODO: check if combination of coast and unit type is important enough to matter
+                unit_type = UnitType.FLEET if ProvinceType.SEA in [order.source.type,order.destination.type] else UnitType.ARMY
+                )
+            #v2 = self.loc_to_point(order.source, unit.province.turn, unit.unit_type, None, coordinate)
+        else:
+            osu = order.source.unit
+        v2 = self.loc_to_point(order.source, unit.province.turn, unit.unit_type, osu.coast, coordinate)
+        #     raise ValueError("Support order has no source unit")
             #return None
         x1 = coordinate[0]
         y1 = coordinate[1]
-        v2 = self.loc_to_point(order.source, unit.unit_type, order.source.unit.coast, coordinate)
+        # Compute where the supported unit would be locally on the supporting unit's board, to use for finding the closest location of the destination location before shifting
+        same_board_v2 = self.loc_to_point(order.source, order.source.turn, unit.unit_type, osu.coast, coordinate)
         x2, y2 = v2
-        if (isinstance(order.source.unit.order, (Move, ConvoyMove))
-            and order.source.unit.order.destination == order.destination
-            and (not order.destination_coast 
-                 or order.source.unit.order.destination_coast == order.destination_coast)):
-            dest_coast = order.source.unit.order.destination_coast
+        if (isinstance(osu.order, (Move, ConvoyMove))
+            and osu.order.destination == order.destination
+            and (not order.destination_coast
+                 or osu.order.destination_coast == order.destination_coast)):
+            dest_coast = osu.order.destination_coast
         else:
             dest_coast = order.destination_coast
-        v3 = self.loc_to_point(order.destination, order.source.unit.unit_type, dest_coast, v2)
+        v3 = self.loc_to_point(order.destination, unit.province.turn, osu.unit_type, dest_coast, same_board_v2)
         x3, y3 = v3
         marker_start = ""
         ball_type = "redball" if hasFailed else "ball"
@@ -741,14 +781,14 @@ class Mapper:
                 (x3, y3) = self.pull_coordinate((x2, y2), (x3, y3))
             # Draw hold around unit that can be support-held
             if (order.source == order.destination
-                and isinstance(order.source.unit.order, (ConvoyTransport, Support))
-                and self.is_moveable(order.source.unit)):
-                if order.source.unit.coast:
-                    destloc = order.source.all_locs[order.source.unit.coast]
+                and isinstance(osu.order, (ConvoyTransport, Support))
+                and self.is_moveable(osu)):
+                if osu.coast:
+                    destloc = order.source.all_locs[osu.coast]
                 else:
-                    destloc = order.source.all_locs[order.source.unit.unit_type]
+                    destloc = order.source.all_locs[osu.unit_type]
                 for coord in destloc:
-                    self._draw_hold(coord, False)
+                    self._draw_hold(self.shift_coords_to_correct_board(coord, order.source.turn), False)
 
             # if two units are support-holding each other
             destorder = order.destination.unit.order
@@ -1051,7 +1091,7 @@ class Mapper:
         for retreat_province, retreat_coast in unit.retreat_options or []:
             root.append(
                 self._draw_retreat_move(
-                    RetreatMove(retreat_province, retreat_coast), unit.unit_type, unit.province.get_retreat_unit_coordinates(unit.unit_type, unit.coast), use_moves_svg=False
+                    RetreatMove(retreat_province, retreat_coast), unit, unit.province.get_retreat_unit_coordinates(unit.unit_type, unit.coast), use_moves_svg=False
                 )
             )
 
@@ -1138,7 +1178,7 @@ class Mapper:
         )
         ball_marker.append(ball_def)
         defs.append(ball_marker)
-        
+
         red_ball_marker: Element = self.create_element(
             "marker",
             {
@@ -1204,14 +1244,16 @@ class Mapper:
 
     # returns closest point in a set
     # will wrap horizontally
-    def get_closest_loc(self, possibilities: set[tuple[float, float]], coord: tuple[float, float]) -> tuple[float, float]:
+    def get_closest_loc(self, possibilities: set[tuple[float, float]], coord: tuple[float, float], turn: Turn | None = None) -> tuple[float, float]:
         possibilities_list = list(possibilities)
         crossed_pos = []
         crossed = []
         for p in possibilities_list:
+            if turn is not None:
+                p = self.shift_coords_to_correct_board(p,turn)
             x = p[0]
             cx = coord[0]
-            if abs(x - cx) > self.board.data[SVG_CONFIG_KEY]["map_width"] / 2:
+            if False: #abs(x - cx) > self.board.data[SVG_CONFIG_KEY]["map_width"] / 2:
                 crossed += [1]
                 if x > cx:
                     x -= self.board.data[SVG_CONFIG_KEY]["map_width"]
@@ -1229,7 +1271,7 @@ class Mapper:
         short_ind = np.argmin(np.linalg.norm(dists, axis=1) + 500 * crossed)
         return crossed_pos[short_ind].tolist()
 
-    def loc_to_point(self, loc: Province, unit_type: UnitType, coast: str | None, current: tuple[float, float], use_retreats=False) -> tuple[float, float]:
+    def loc_to_point(self, loc: Province, order_turn: Turn, unit_type: UnitType, coast: str | None, current: tuple[float, float], use_retreats=False) -> tuple[float, float]:
         # If we're moving to somewhere that's inhabitted, draw to the proper coast
         if loc.unit:
             unit_type = loc.unit.unit_type
@@ -1243,7 +1285,20 @@ class Mapper:
         else:
             coords = next(iter(coord_list.values()))
 
-        return self.get_closest_loc(coords, current)
+        closest_loc = self.get_closest_loc(coords, current, loc.turn)
+        return closest_loc #self.shift_coords_to_correct_board(closest_loc, loc.turn)
+
+    def shift_coords_to_correct_board(self, coords: tuple[float, float], dest_turn: Turn):
+        dx, dy = get_offset(dest_turn,  self.dimensions, self.board.year_offset)
+        # x_offset_boards = 2 * (dest_turn.year - current_turn.year)
+        # if dest_turn.phase == PhaseName.SPRING_MOVES and current_turn.phase == PhaseName.FALL_MOVES:
+        #     x_offset_boards -= 1
+        # elif dest_turn.phase == PhaseName.FALL_MOVES and current_turn.phase == PhaseName.SPRING_MOVES:
+        #     x_offset_boards += 1
+        # y_offset_boards = dest_turn.timeline - current_turn.timeline
+        # + x_offset_boards * (self.dimensions[0] - 2 * BOARD_PADDING_X)
+        # + y_offset_boards * (self.dimensions[1] - BOARD_PADDING_Y)
+        return [coords[0] + dx, coords[1] + dy]
 
     def pull_coordinate(
         self, anchor: tuple[float, float], coordinate: tuple[float, float], pull=None, limit=0.25

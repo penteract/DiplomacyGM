@@ -435,7 +435,7 @@ Qing:
 
 T1W42:
 
-+ A has
++ F has
 + A hoh
 + A qiq
 + F she

@@ -153,7 +153,10 @@ class Game():
         return self._all_turns
 
     def is_retreats(self) -> bool:
-        print("\x1b[31mFunction Game.is_retreats() is not implemented; returning True\x1b[0m")
+        try:
+            next(self.get_current_retreat_boards())
+        except StopIteration:
+            return False
         return True
 
     def get_moves_boards(self) -> Iterator[Board]:

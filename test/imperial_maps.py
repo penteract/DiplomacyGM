@@ -12,7 +12,7 @@ def orders_from_file(game, file):
     c = {}
     for line in file:
         line = line.strip()
-        if not line:
+        if not line or line.startswith("#"):
             continue
         elif line[-1]==":":
             if line[:-1] in orders:
@@ -21,8 +21,9 @@ def orders_from_file(game, file):
             else:
                 assert line.startswith("T")
                 #print("reading T", line)
-                #for os in orders.values():
-                orders[c].append(line[:-1].strip())
+                for os in orders.values():
+                    os.append(line[:-1].strip())
+                #orders[c].append(line[:-1].strip())
         else:
             """line = line.replace("_S"," sc")
             line = line.replace("_E"," ec")
@@ -80,7 +81,9 @@ class TestGame(unittest.TestCase):
         orders_from_file(g.game, open("test/GAME/Phase 3.txt"))
         g.adjudicate()
         #g.output(retreats=True)
-        title("Turn 4")
         orders_from_file(g.game, open("test/GAME/Phase 3 Retreats.txt"))
+        g.adjudicate()
+        orders_from_file(g.game, open("test/GAME/Phase 4.txt"))
+        title("Awaiting Turn 4 retreats")
         g.adjudicate()
         g.output(retreats=True)

@@ -82,7 +82,30 @@ def get_move_orders(player: Player, player_restriction: Player | None, ctx: Cont
             body += f"{unit} {unit.order}\n"
     return title, body
 
-def get_orders(
+def get_orders_game(
+    game:Game,
+    player_restriction: Player | None,
+    ctx: Context,
+    fields: bool = False,
+    subset: str | None = None,
+    blind: bool = False,
+) -> str | List[Tuple[str, str]]:
+    if fields:
+        response = []
+    else:
+        response = ""
+    is_retreats = game.is_retreats()
+    for tl in game.all_turns():
+        if tl[-1].is_retreats() == is_retreats:
+            if isinstance(response, list):
+                response.append(("",str(tl[-1])+"\n"))
+            else:
+                response += str(tl[-1])+"\n"
+            response += get_orders_board(game.get_board(tl[-1]),
+                player_restriction, ctx, fields, subset, blind)
+    return response
+
+def get_orders_board(
     board: Board,
     player_restriction: Player | None,
     ctx: Context,
@@ -94,6 +117,7 @@ def get_orders(
         response = []
     else:
         response = ""
+
     #TODO: Lots of duplicated code here
     if board.turn.is_builds():
         for player in sorted(board.players, key=lambda sort_player: sort_player.get_name()):

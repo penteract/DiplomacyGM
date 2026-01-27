@@ -21,7 +21,7 @@ from DiploGM.parse_edit_state import parse_edit_state
 from DiploGM.parse_board_params import parse_board_params
 from DiploGM import perms
 from DiploGM.utils import (
-    get_orders,
+    get_orders_game,
     log_command,
     send_message_and_file,
     upload_map_to_archive,
@@ -583,9 +583,9 @@ class GameManagementCog(commands.Cog):
     @perms.gm_only("rollback")
     async def rollback(self, ctx: commands.Context) -> None:
         assert ctx.guild is not None
-        message, file, file_name = manager.rollback(ctx.guild.id)
+        message = manager.rollback(ctx.guild.id)
         log_command(logger, ctx, message=message)
-        await send_message_and_file(channel=ctx.channel, message=message, file=file, file_name=file_name)
+        await send_message_and_file(channel=ctx.channel, message=message)
 
     @commands.command(brief="Reloads the current board with what is in the DB")
     @perms.gm_only("reload")

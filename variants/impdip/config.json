@@ -36,23 +36,41 @@
         "default_sea_color": "d4dae1",
 
         "color replacements": {
-            "c6b7ab": {"dark": "B7AB80", "blue": "FFF3F3"},
-            "b2bdd1": {"dark": "325B68", "blue": "D2BDAE"},
-            "b99a82": {"dark": "8a836b", "blue": "EFDFDF"},
-            "333333": {"dark": "0A3542"},
-            "d4dae1": {"dark": "396B70", "blue": "E4D1C5"}
+            "c6b7ab": {
+                "dark": "B7AB80",
+                "blue": "FFF3F3"
+            },
+            "b2bdd1": {
+                "dark": "325B68",
+                "blue": "D2BDAE"
+            },
+            "b99a82": {
+                "dark": "8a836b",
+                "blue": "EFDFDF"
+            },
+            "333333": { "dark": "0A3542" },
+            "d4dae1": {
+                "dark": "396B70",
+                "blue": "E4D1C5"
+            }
         },
 
         "border_margin_hint": 1,
 
         "map_width": 4375,
+        "map_height": 1829.492,
         "unit_radius": 10,
         "order_stroke_width": 2,
-        "neutral": {"standard": "c6b7ab", "dark": "B7AB80", "pink": "c6b7ab", "blue": "FFF3F3"},
+        "neutral": {
+            "standard": "c6b7ab",
+            "dark": "B7AB80",
+            "pink": "c6b7ab",
+            "blue": "FFF3F3"
+        },
         "neutral_sc": "ffffff",
         "loc_x_offset": 7.7655,
         "loc_y_offset": 7.033,
-        "delete_layer": ["army", "retreat_army", "fleet", "retreat_fleet"]
+        "delete_layer": [ "army", "retreat_army", "fleet", "retreat_fleet" ]
     },
     "build_options": "cores",
     "victory_conditions": "vscc",
