@@ -703,6 +703,7 @@ class _DatabaseConnection:
         self._connection.commit()
 
     def delete_board(self, board: Board):
+        logger.info(f"deleting {board.board_id} {board.turn}")
         cursor = self._connection.cursor()
         cursor.execute(
             "DELETE FROM boards WHERE board_id=? AND phase=?",

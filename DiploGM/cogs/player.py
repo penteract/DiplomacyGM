@@ -5,7 +5,7 @@ from discord.ext import commands
 from DiploGM import config
 from DiploGM import perms
 from DiploGM.parse_order import parse_order, parse_remove_order
-from DiploGM.utils import get_orders, log_command, parse_season, send_message_and_file
+from DiploGM.utils import get_orders_game, log_command, parse_season, send_message_and_file
 from DiploGM.manager import Manager, SEVERENCE_A_ID, SEVERENCE_B_ID
 from DiploGM.models.player import Player
 
@@ -112,10 +112,10 @@ class PlayerCog(commands.Cog):
         )
 
         try:
-            board = manager.get_board(ctx.guild.id)
+            game = manager.get_game(ctx.guild.id)
 
             blind = "blind" in arguments
-            order_text = get_orders(board, player, ctx, subset=subset, blind=blind)
+            order_text = get_orders_game(game, player, ctx, subset=subset, blind=blind)
 
         except RuntimeError as err:
             logger.error(err, exc_info=True)
@@ -134,12 +134,12 @@ class PlayerCog(commands.Cog):
         log_command(
             logger,
             ctx,
-            message=f"Success - generated orders for {board.turn}",
+            message=f"Success - generated orders for {game.all_turns()[0][-1]}",
         )
         assert isinstance(order_text, str)
         await send_message_and_file(
             channel=ctx.channel,
-            title=f"{board.turn}",
+            title=f"{game.all_turns()[0][-1]}",
             message=order_text,
         )
 

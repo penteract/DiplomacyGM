@@ -5,7 +5,7 @@ from typing import Optional
 
 from discord import Member, User
 
-from DiploGM.utils import SingletonMeta
+from DiploGM.utils import SingletonMeta, get_orders_game
 from DiploGM.adjudicator.adjudicator import RetreatsAdjudicator, BuildsAdjudicator, MovesAdjudicator, boards_equal
 from DiploGM.adjudicator.mapper import Mapper
 from DiploGM.adjudicator.game_mapper import GameMapper
@@ -360,33 +360,38 @@ class Manager(metaclass=SingletonMeta):
         elapsed = time.time() - start
         logger.info(f"manager.draw_moves_map.{server_id}.{elapsed}s")
         return svg, file_name
-    """
-    def rollback(self, server_id: int) -> tuple[str, bytes, str]:
+    def rollback(self, server_id: int) -> str: #tuple[str, bytes, str]:
         logger.info(f"Rolling back in server {server_id}")
-        board = self.get_board(server_id)
-        # TODO: what happens if we're on the first phase?
-        last_turn = board.turn.get_previous_turn()
+        game = self.get_game(server_id)
+        print("begin rollback", len(game.all_turns()))
+        timelines = game.all_turns()
+        if len(timelines[0])<2:
+            raise ValueError("Cannot roll back, there haven't been any adjudicated turns")
 
-        old_board = self._database.get_board(
-            board.board_id,
-            last_turn,
-            board.fish,
-            board.name,
-            board.datafile,
-            clear_status=True,
-        )
-        if old_board is None:
-            raise ValueError(
-                f"There is no {last_turn} board for this server"
-            )
+        if game.is_retreats():
+            for tl in timelines:
+                self._database.delete_board(game.get_board(tl[-1]))
+        else:
+            for tl in timelines:
+                if len(tl)>1 and tl[-2].is_retreats():
+                    self._database.delete_board(game.get_board(tl[-1]))
 
-        self._database.delete_board(board)
-        self._boards[old_board.board_id] = old_board
-        mapper = Mapper(old_board)
+        g = self.get_game(server_id,reload=True)
+        print("end_rollback",len(g.all_turns()))
 
-        message = f"Rolled back to {old_board.turn.get_indexed_name()}"
-        file, file_name = mapper.draw_current_map()
-        return message, file, file_name
+        message = f"Rolled back to {timelines[0][-2].get_indexed_name()}"
+        # TODO: add rendered map file , file, file_name
+        return message
+    def print_orders(self,server_id:int) -> str:
+        game = self.get_game(server_id)
+        class C():
+            pass
+        ctx=C()
+        ctx.guild=ctx
+        ctx.roles=[]
+        return get_orders_game(game,player_restriction=None,ctx=ctx)
+
+    """
 
     def get_previous_board(self, server_id: int) -> Board | None:
         board = self.get_board(server_id)
