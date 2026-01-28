@@ -31,10 +31,10 @@ To clone the repo and install dependencies, run the following on the Command Lin
 
 ```bash
 #Clone the bot locally
-git clone https://github.com/Imperial-Diplomacy/DiplomacyGM.git
+git clone https://github.com/penteract/DiplomacyGM.git
 cd DiplomacyGM
 
-#Create virtual environment
+#Create virtual environment (3.13 or 3.14 should also work fine)
 virtualenv venv -p=3.12 
 
 #Start virtual environment
