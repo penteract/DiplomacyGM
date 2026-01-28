@@ -136,7 +136,7 @@ def get_orders_board(
         if player_restriction is None:
             players = board.players
         else:
-            players = {player_restriction}
+            players = {p for p in board.players if p.name==player_restriction.name}
 
         for player in sorted(players, key=lambda p: p.get_name()):
             if board.data["players"][player.name].get("hidden", "false") == "true":
