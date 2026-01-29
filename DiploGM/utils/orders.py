@@ -98,7 +98,7 @@ def get_orders_game(
     for tl in game.all_turns():
         if tl[-1].is_retreats() == is_retreats:
             if isinstance(response, list):
-                response.append(("",str(tl[-1])+"\n"))
+                response.append(("","\n"+str(tl[-1])))
             else:
                 response += str(tl[-1])+"\n"
             response += get_orders_board(game.get_board(tl[-1]),
