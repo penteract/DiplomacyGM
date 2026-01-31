@@ -36,10 +36,10 @@ class TestParseOrder(unittest.TestCase):
         #game.variant = BoardBuilder()
 
         parsed_orders = parse_order(order, b.russia, game)
-        print("test_move_order")
-        print(parsed_orders["messages"])
-        for x in parsed_orders["messages"]:
-            print(x)
+        # print("test_move_order")
+        # print(parsed_orders["messages"])
+        # for x in parsed_orders["messages"]:
+        #     print(x)
 
 
         self.assertIsInstance(a_sevastopol.order, Move, "Sevastopol army order not parsed correctly")
@@ -116,14 +116,17 @@ class TestParseOrder(unittest.TestCase):
         self.assertEqual(messages,
                          ['```ansi',
 '',
-'\x1b[0;32mA Sevastopol - T1sm1901 Ankara',
-'\x1b[0;32mF Black Sea Convoys T1fm1901 Sevastopol - T1sm1901 Ankara',
-'\x1b[0;32mA Armenia Supports T13fm1921 Sevastopol - T13fm1901 Ankara',
+'\x1b[0;32mTimeline 1 Spring 1901:',
+'\x1b[0;32mT1S1901 Sevastopol - T1S1901 Ankara',
+'\x1b[0;32mT1S1901 Black Sea Convoys T1F1901 Sevastopol - T1S1901 Ankara',
+'\x1b[0;32mT1S1901 Armenia Supports T13F1921 Sevastopol - T13F1901 Ankara',
+'\x1b[0;32mTimeline 3 Spring 1901:',
 '\x1b[0;31mf rumania s black sea holds',
+'\x1b[0;32mTimeline 1 Spring 1903:',
 '\x1b[0;31ma Moscow h',
 '```',
-"`f rumania s black sea holds`: Can't order T3sm1901 Rumania because the board does not exist",
-"`a Moscow h`: Can't order T1sm1903 Moscow because the board does not exist"]
+"`f rumania s black sea holds`: Can't order T3S1901 Rumania because the board does not exist",
+"`a Moscow h`: Can't order T1S1903 Moscow because the board does not exist"]
                          )
 
     def test_build_order(self):
@@ -166,10 +169,11 @@ class TestParseOrder(unittest.TestCase):
         #game.variant = BoardBuilder()
 
         parsed_orders = parse_order(order, b.russia, game)
-        print("test_move_order")
-        print(parsed_orders["messages"])
+        #print("test_move_order")
+        #print(parsed_orders["messages"])
         for x in parsed_orders["messages"]:
-            print(x)
+            #print(x)
+            pass
 
     def test_remove_order(self):
         b = BoardBuilder()

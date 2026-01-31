@@ -333,14 +333,19 @@ def parse_order(message: str, player_restriction: Player | None, game: Game) -> 
                        "edit#heading=h.7u3tx93dufet) for examples and syntax.",
             "embed_colour": ERROR_COLOUR
         }
-    generator.set_state(game, player_restriction, Turn(timeline=(float("nan"))))
+    generator.set_state(game, player_restriction, Turn(timeline=None))
     orderlist = ordertext[1].strip().splitlines()
     movement = []
     orderoutput = []
     errors = []
     is_retreats = any(game.get_current_retreat_boards())
 
+
     for order in orderlist:
+        if not order.strip():
+            orderoutput.append(f"")
+            continue
+
         #print("parsing line", order)
         # Take a single-line timeline specifier if present
         try:
@@ -348,17 +353,29 @@ def parse_order(message: str, player_restriction: Player | None, game: Game) -> 
             new_turn: Turn = generator.transform(cmd)
             if is_retreats and new_turn.is_moves():
                 new_turn = new_turn.get_next_turn()
+            #if generator.turn is not None: orderoutput.append(f"")
             generator.set_state(game, player_restriction, new_turn)
-            orderoutput.append(f"")
             orderoutput.append(f"\u001b[0;32m{new_turn.to_string(short=False, move_type=False)}:")
             continue
         except UnexpectedCharacters as e:
             #print("UC", e)
             #raise e
+            if generator.turn is None:
+                orderoutput.append(f"\u001b[0;31m{order}")
+                errors.append(f"`{order}`: First line of orders must be a timeline specifier")
+                break
             pass
         except UnexpectedEOF as e:
+            if generator.turn is None:
+                orderoutput.append(f"\u001b[0;31m{order}")
+                errors.append(f"`{order}`: First line of orders must be a timeline specifier")
+                break
             pass
         except VisitError as e:
+            if generator.turn is None:
+                orderoutput.append(f"\u001b[0;32m{order}")
+                errors.append(f"`{order}`: First line of orders must be a timeline specifier")
+                break
             pass
         #print(order)
         if generator.turn.is_builds(): #TODO: If game is in retreats phase, don't allow build orders
@@ -424,14 +441,14 @@ def parse_order(message: str, player_restriction: Player | None, game: Game) -> 
 
     paginator = Paginator(prefix="```ansi\n", suffix="```", max_size=4096)
     
-    i = 0
-    for line in orderoutput: # Remove leading blank lines (not sure where the ones I didn't put in are coming from, but this fixes it anywhosles)
-        if line:
-            paginator.add_line(orderoutput[0])
-            break
-        else: 
-            i += 1
-    for line in orderoutput[i::]:
+    # i = 0
+    # for line in orderoutput: # Remove leading blank lines (not sure where the ones I didn't put in are coming from, but this fixes it anywhosles)
+    #     if line:
+    #         paginator.add_line(orderoutput[0])
+    #         break
+    #     else:
+    #         i += 1
+    for line in orderoutput:
         paginator.add_line(line)
 
     output = paginator.pages
