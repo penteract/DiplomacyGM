@@ -3,7 +3,7 @@ import re
 
 from discord.ext.commands import Paginator
 from lark import Lark, Transformer, UnexpectedEOF, UnexpectedCharacters,Token
-from lark.exceptions import VisitError
+from lark.exceptions import VisitError,LarkError
 
 from DiploGM.config import ERROR_COLOUR, PARTIAL_ERROR_COLOUR
 from DiploGM.utils import get_unit_type, _manage_coast_signature
@@ -304,8 +304,8 @@ class TreeToOrder(Transformer):
             if not isinstance(x,Token):
                 important_parts.append(x)
         timeline, phase, year = important_parts
-        turn = Turn(start_year = self.turn.start_year, year=year, timeline=timeline, phase=phase)
-        if self.turn.is_retreats():
+        turn = Turn(start_year = self.game.variant.year_offset, year=year, timeline=timeline, phase=phase)
+        if self.game.is_retreats() and turn.is_moves():
             turn = turn.get_next_turn()
 
         return turn # parse_season(important_parts, self.turn)
@@ -338,7 +338,7 @@ def parse_order(message: str, player_restriction: Player | None, game: Game) -> 
     movement = []
     orderoutput = []
     errors = []
-    is_retreats = any(game.get_current_retreat_boards())
+    is_retreats = game.is_retreats()
 
 
     for order in orderlist:
@@ -353,30 +353,33 @@ def parse_order(message: str, player_restriction: Player | None, game: Game) -> 
             new_turn: Turn = generator.transform(cmd)
             if is_retreats and new_turn.is_moves():
                 new_turn = new_turn.get_next_turn()
-            #if generator.turn is not None: orderoutput.append(f"")
-            generator.set_state(game, player_restriction, new_turn)
-            orderoutput.append(f"\u001b[0;32m{new_turn.to_string(short=False, move_type=False)}:")
+            tls = game.all_turns()
+            #game.get_board(new_turn).isFake
+            if new_turn.timeline<1 or new_turn.timeline>len(tls):
+                orderoutput.append(f"\u001b[0;31m{new_turn.to_string(short=False, move_type=False)}:")
+                errors.append(f"`{order}`: Timeline does not exist")
+                generator.set_state(game, player_restriction, "bad")
+            elif tls[new_turn.timeline-1][-1]!=new_turn:
+                orderoutput.append(f"\u001b[0;31m{new_turn.to_string(short=False, move_type=False)}:")
+                errors.append(f"`{order}`: Not the final board of timeline")
+                generator.set_state(game, player_restriction, "bad")
+            elif is_retreats != new_turn.is_retreats(): # I think this only happens if someone enters a winter board during retreats
+                orderoutput.append(f"\u001b[0;31m{new_turn.to_string(short=False, move_type=False)}:")
+                errors.append(f"`{order}`: Not a retreats board")
+                generator.set_state(game, player_restriction, "bad")
+            else:
+                #if generator.turn is not None: orderoutput.append(f"")
+                generator.set_state(game, player_restriction, new_turn)
+                orderoutput.append(f"\u001b[0;32m{new_turn.to_string(short=False, move_type=False)}:")
             continue
-        except UnexpectedCharacters as e:
-            #print("UC", e)
-            #raise e
+        except LarkError as e:
             if generator.turn is None:
                 orderoutput.append(f"\u001b[0;31m{order}")
                 errors.append(f"`{order}`: First line of orders must be a timeline specifier")
                 break
-            pass
-        except UnexpectedEOF as e:
-            if generator.turn is None:
-                orderoutput.append(f"\u001b[0;31m{order}")
-                errors.append(f"`{order}`: First line of orders must be a timeline specifier")
-                break
-            pass
-        except VisitError as e:
-            if generator.turn is None:
-                orderoutput.append(f"\u001b[0;32m{order}")
-                errors.append(f"`{order}`: First line of orders must be a timeline specifier")
-                break
-            pass
+        if generator.turn == "bad":
+            orderoutput.append(f"\u001b[0;31m{order} (skipped due to bad turn info)")
+            continue
         #print(order)
         if generator.turn.is_builds(): #TODO: If game is in retreats phase, don't allow build orders
             parser = retreats_parser

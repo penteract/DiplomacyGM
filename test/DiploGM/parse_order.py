@@ -120,14 +120,13 @@ class TestParseOrder(unittest.TestCase):
 '\x1b[0;32mT1S1901 Sevastopol - T1S1901 Ankara',
 '\x1b[0;32mT1S1901 Black Sea Convoys T1F1901 Sevastopol - T1S1901 Ankara',
 '\x1b[0;32mT1S1901 Armenia Supports T13F1921 Sevastopol - T13F1901 Ankara',
-'\x1b[0;32mTimeline 3 Spring 1901:',
-'\x1b[0;31mf rumania s black sea holds',
-'\x1b[0;32mTimeline 1 Spring 1903:',
-'\x1b[0;31ma Moscow h',
+'\x1b[0;31mTimeline 3 Spring 1901:',
+'\x1b[0;31mf rumania s black sea holds (skipped due to bad turn info)',
+'\x1b[0;31mTimeline 1 Spring 1903:',
+'\x1b[0;31ma Moscow h (skipped due to bad turn info)',
 '```',
-"`f rumania s black sea holds`: Can't order T3S1901 Rumania because the board does not exist",
-"`a Moscow h`: Can't order T1S1903 Moscow because the board does not exist"]
-                         )
+'`Timeline 3: Spring 1901`: Timeline does not exist',
+'`Timeline 1: Spring 1903`: Not the final board of timeline']
 
     def test_build_order(self):
         g = GameBuilder()

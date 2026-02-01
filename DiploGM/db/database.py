@@ -427,7 +427,6 @@ class _DatabaseConnection:
     def save_board(self, board_id: int, board: Board):
         # TODO: Check if board already exists
         cursor = self._connection.cursor()
-        print("b",board.turn,"par",board.parent)
         cursor.execute(
             "INSERT INTO boards (board_id, phase, data_file, fish, name, parent_phase) VALUES (?, ?, ?, ?, ?, ?)",
             (board_id, board.turn.get_indexed_name(), board.datafile, board.fish, board.name, board.parent and board.parent.get_indexed_name()),
