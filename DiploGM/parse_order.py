@@ -333,7 +333,7 @@ def parse_order(message: str, player_restriction: Player | None, game: Game) -> 
                        "edit#heading=h.7u3tx93dufet) for examples and syntax.",
             "embed_colour": ERROR_COLOUR
         }
-    generator.set_state(game, player_restriction, Turn(timeline=None))
+    generator.set_state(game, player_restriction, None)
     orderlist = ordertext[1].strip().splitlines()
     movement = []
     orderoutput = []
@@ -377,6 +377,8 @@ def parse_order(message: str, player_restriction: Player | None, game: Game) -> 
                 orderoutput.append(f"\u001b[0;31m{order}")
                 errors.append(f"`{order}`: First line of orders must be a timeline specifier")
                 break
+        except Exception as e:
+            raise e
         if generator.turn == "bad":
             orderoutput.append(f"\u001b[0;31m{order} (skipped due to bad turn info)")
             continue
