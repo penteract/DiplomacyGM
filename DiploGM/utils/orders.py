@@ -100,7 +100,7 @@ def get_orders_game(
             if isinstance(response, list):
                 response.append(("","\n"+str(tl[-1])))
             else:
-                response += str(tl[-1])+"\n"
+                response += "\n"+str(tl[-1])
             response += get_orders_board(game.get_board(tl[-1]),
                 player_restriction, ctx, fields, subset, blind)
     return response

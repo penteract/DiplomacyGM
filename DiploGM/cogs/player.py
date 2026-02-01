@@ -18,7 +18,7 @@ class PlayerCog(commands.Cog):
         self.bot = bot
 
     @commands.command(
-        brief="Submits orders; there must be one and only one order per line.",
+        brief="Submits orders; there must be only one order per line, grouped by timeline of the ordered unit with a heading per timeline.",
         description="""Submits orders: 
     There must be one and only one order per line.
     A variety of keywords are supported: e.g. '-', '->', 'move', and 'm' are all supported for a move command.
