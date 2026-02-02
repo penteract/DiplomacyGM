@@ -38,9 +38,9 @@ def get_build_orders(player: Player, player_restriction: Player | None, ctx: Con
     for unit in player.build_orders | set(
         player.vassal_orders.values()
     ):
-        body += f"\n{unit}"
+        body += f"{unit}\n"
     if player.waived_orders > 0:
-        body += f"\nWaive {player.waived_orders}"
+        body += f"Waive {player.waived_orders}\n"
     return title, body
 
 def get_move_orders(player: Player, player_restriction: Player | None, ctx: Context, subset: str | None, blind: bool, is_retreats: bool) -> tuple[str | None, str | None]:
@@ -82,6 +82,39 @@ def get_move_orders(player: Player, player_restriction: Player | None, ctx: Cont
             body += f"{unit} {unit.order}\n"
     return title, body
 
+def get_orders_board(
+    board: Board,
+    player_restriction: Player | None,
+    ctx: Context,
+    fields: bool = False,
+    subset: str | None = None,
+    blind: bool = False,
+) -> str | List[Tuple[str, str]]:
+    if fields:
+        response = []
+    else:
+        response = ""
+    if player_restriction is None:
+        players = sorted(board.players,key=lambda p: p.get_name())
+    else:
+        players = [p for p in board.players if p.name==player_restriction.name]
+
+    if board.turn.is_builds():
+        get_orders = lambda p: get_build_orders(p, player_restriction, ctx, subset, blind)
+    else:
+        get_orders = lambda p: get_move_orders(p, player_restriction, ctx, subset, blind, board.turn.is_retreats())
+    for player in players:
+        if board.data["players"][player.name].get("hidden", "false") == "true":
+            continue
+        title, body = get_orders(player)
+        if title is None:
+            continue
+        if isinstance(response, list):
+            response.append((f"", f"{title}\n{body}"))
+        else:
+            response += f"{title}\n{body}"
+    return response
+
 def get_orders_game(
     game:Game,
     player_restriction: Player | None,
@@ -98,58 +131,12 @@ def get_orders_game(
     for tl in game.all_turns():
         if tl[-1].is_retreats() == is_retreats:
             if isinstance(response, list):
-                response.append(("","\n"+str(tl[-1])))
+                response.append(("",f"**{tl[-1]}**\n"))
             else:
-                response += "\n"+str(tl[-1])
+                response += f"**{str(tl[-1])}**\n"
             response += get_orders_board(game.get_board(tl[-1]),
                 player_restriction, ctx, fields, subset, blind)
     return response
-
-def get_orders_board(
-    board: Board,
-    player_restriction: Player | None,
-    ctx: Context,
-    fields: bool = False,
-    subset: str | None = None,
-    blind: bool = False,
-) -> str | List[Tuple[str, str]]:
-    if fields:
-        response = []
-    else:
-        response = ""
-
-    #TODO: Lots of duplicated code here
-    if board.turn.is_builds():
-        for player in sorted(board.players, key=lambda sort_player: sort_player.get_name()):
-            if board.data["players"][player.name].get("hidden", "false") == "true":
-                continue
-            title, body = get_build_orders(player, player_restriction, ctx, subset, blind)
-            if title is None:
-                continue
-            if isinstance(response, list):
-                response.append((f"", f"{title}{body}"))
-            else:
-                response += f"\n{title}{body}"
-        return response
-    else:
-
-        if player_restriction is None:
-            players = board.players
-        else:
-            players = {p for p in board.players if p.name==player_restriction.name}
-
-        for player in sorted(players, key=lambda p: p.get_name()):
-            if board.data["players"][player.name].get("hidden", "false") == "true":
-                continue
-            title, body = get_move_orders(player, player_restriction, ctx, subset, blind, board.turn.is_retreats())
-            if title is None:
-                continue
-            if isinstance(response, list):
-                response.append((f"", f"{title}\n{body}"))
-            else:
-                response += f"{title}\n{body}"
-
-        return response
 
 
 def get_filtered_orders(board: Board, player_restriction: Player) -> str:
