@@ -21,7 +21,7 @@ from DiploGM.parse_edit_state import parse_edit_state
 from DiploGM.parse_board_params import parse_board_params
 from DiploGM import perms
 from DiploGM.utils import (
-    get_orders_game,
+    log_orders,
     log_command,
     send_message_and_file,
     upload_map_to_archive,
@@ -32,6 +32,8 @@ from DiploGM.db.database import get_connection
 from DiploGM.models.order import Disband, Build
 from DiploGM.models.player import Player
 from DiploGM.manager import Manager, SEVERENCE_A_ID, SEVERENCE_B_ID
+
+
 
 logger = logging.getLogger(__name__)
 manager = Manager()
@@ -65,6 +67,18 @@ class GameManagementCog(commands.Cog):
         manager.total_delete(ctx.guild.id)
         log_command(logger, ctx, message="Deleted game")
         await send_message_and_file(channel=ctx.channel, title="Deleted game")
+
+    @commands.command(brief="produces a log")
+    @perms.gm_only("log orders")
+    async def log_orders(self, ctx: commands.Context) -> None:
+        assert ctx.guild is not None
+        game = manager.get_game(ctx.guild.id)
+        order_text = log_orders(game)
+        await send_message_and_file(
+            channel=ctx.channel,
+            title=f"{game.all_turns()[0][-1]}",
+            message=order_text,
+        )
 
     @commands.command(brief="")
     @perms.gm_only("archive the category")

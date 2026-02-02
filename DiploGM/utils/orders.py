@@ -3,6 +3,7 @@ from typing import List, Tuple
 from DiploGM.models.order import PlayerOrder
 from discord.ext.commands import Context
 
+from DiploGM.models.game import Game
 from DiploGM.models.board import Board
 from DiploGM.models.player import Player
 
@@ -189,3 +190,30 @@ def get_filtered_orders(board: Board, player_restriction: Player) -> str:
                         response += f"{unit} {unit.order}\n"
 
         return response
+
+
+def log_orders(game:Game):
+    """log the orders for a turn in a way that the parser can read"""
+    response = ""
+    is_retreats = game.is_retreats()
+    for tl in game.all_turns():
+        if tl[-1].is_retreats() != is_retreats:
+            continue
+        response += str(tl[-1])+":\n"
+        for player in game.get_board(tl[-1]).players:
+            response += player.name+":\n"
+            if tl[-1].is_builds():
+                for order in player.build_orders:
+                    response += f"{order}\n"
+                if player.waived_orders > 0:
+                    response += f"Waive {player.waived_orders}\n"
+            else:
+                if tl[-1].is_retreats():
+                    moving_units = [u for u in player.units if u == u.province.dislodged_unit]
+                else:
+                    moving_units = list(player.units)
+
+                ordered = [unit for unit in moving_units if unit.order is not None]
+                for unit in sorted(ordered, key=lambda _unit: _unit.province.name):
+                    response += f"{unit} {unit.order}\n"
+    return response
