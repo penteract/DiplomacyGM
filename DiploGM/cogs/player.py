@@ -69,22 +69,32 @@ class PlayerCog(commands.Cog):
     @perms.player("remove orders")
     async def remove_order(self, ctx: commands.Context, player: Player | None) -> None:
         assert ctx.guild is not None
-        board = manager.get_board(ctx.guild.id)
+        game = manager.get_game(ctx.guild.id)
 
-        if player and not board.orders_enabled:
-            log_command(logger, ctx, "Orders locked - not processing")
-            await send_message_and_file(
-                channel=ctx.channel,
-                title="Orders locked!",
-                message="If you think this is an error, contact a GM.",
-                embed_colour=config.ERROR_COLOUR,
-            )
-            return
+        #TODO: allow locking orders
+        # if player and not board.orders_enabled:
+        #     log_command(logger, ctx, "Orders locked - not processing")
+        #     await send_message_and_file(
+        #         channel=ctx.channel,
+        #         title="Orders locked!",
+        #         message="If you think this is an error, contact a GM.",
+        #         embed_colour=config.ERROR_COLOUR,
+        #     )
+        #     return
 
         content = ctx.message.content.removeprefix(f"{ctx.prefix}{ctx.invoked_with}")
 
-        message = parse_remove_order(content, player, board)
-        log_command(logger, ctx, message=message["message"])
+        message = parse_remove_order(content, player, game)
+        if "title" in message:
+            log_command(logger, ctx, message=message["title"], level=logging.DEBUG)
+        elif "message" in message:
+            log_command(
+                logger, ctx, message=message["message"][:100], level=logging.DEBUG
+            )
+        elif "messages" in message and len(message["messages"]) > 0:
+            log_command(
+                logger, ctx, message=message["messages"][0][:100], level=logging.DEBUG
+            )
         await send_message_and_file(channel=ctx.channel, **message)
 
     @commands.command(

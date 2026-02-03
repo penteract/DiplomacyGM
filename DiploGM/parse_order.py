@@ -384,7 +384,7 @@ def parse_order(message: str, player_restriction: Player | None, game: Game) -> 
             continue
         #print(order)
         if generator.turn.is_builds(): #TODO: If game is in retreats phase, don't allow build orders
-            parser = retreats_parser
+            #parser = retreats_parser (not sure why this line was herer
             if not order.strip():
                 continue
             try:
@@ -473,116 +473,105 @@ def parse_order(message: str, player_restriction: Player | None, game: Game) -> 
                 "messages": output,
         }
 
-def parse_remove_order(message: str, player_restriction: Player | None, board: Board) -> dict[str, ...]:
-    invalid: list[tuple[str, Exception]] = []
-    commands = message.splitlines()
-    updated_units: set[Unit] = set()
-    provinces_with_removed_builds: set[str] = set()
-    for command in commands:
-        if not command.strip():
+def parse_remove_order(message: str, player_restriction: Player | None, game: Game) -> dict[str, ...]:
+    if not message.strip(): #
+        return {
+            "message": """to remove build/disband orders, write:
+TIMELINE
+province
+province""",
+            "embed_colour": ERROR_COLOUR
+        }
+    generator.set_state(game, player_restriction, None)
+    orderlist = message.strip().splitlines()
+    movement = []
+    orderoutput = []
+    provinces_with_removed_builds = []
+    errors = []
+    if game.is_retreats():
+        return {
+            "message": "Can only remove build orders, and it is a retreats phase",
+            "embed_colour": ERROR_COLOUR
+        }
+
+    for order in orderlist:
+        if not order.strip():
+            orderoutput.append(f"")
             continue
+
+        #print("parsing line", order)
+        # Take a single-line timeline specifier if present
         try:
-            removed = _parse_remove_order(command, player_restriction, board)
-            if isinstance(removed, Unit):
-                updated_units.add(removed)
-            elif isinstance(removed, str):
-                provinces_with_removed_builds.add(removed)
-        except Exception as error:
-            invalid.append((command, error))
+            cmd = timeline_specifier_parser.parse(order.strip().lower())
+            new_turn: Turn = generator.transform(cmd)
+
+            tls = game.all_turns()
+            #game.get_board(new_turn).isFake
+            if not new_turn.is_builds():
+                orderoutput.append(f"\u001b[0;31m{new_turn.to_string(short=False, move_type=False)}:")
+                errors.append(f"`{order}`: Can only remove build orders. This is not a winter board")
+                generator.set_state(game, player_restriction, "bad")
+            elif new_turn.timeline<1 or new_turn.timeline>len(tls):
+                orderoutput.append(f"\u001b[0;31m{new_turn.to_string(short=False, move_type=False)}:")
+                errors.append(f"`{order}`: Timeline does not exist")
+                generator.set_state(game, player_restriction, "bad")
+            elif tls[new_turn.timeline-1][-1]!=new_turn:
+                orderoutput.append(f"\u001b[0;31m{new_turn.to_string(short=False, move_type=False)}:")
+                errors.append(f"`{order}`: Not the final board of timeline")
+                generator.set_state(game, player_restriction, "bad")
+            else:
+                #if generator.turn is not None: orderoutput.append(f"")
+                generator.set_state(game, player_restriction, new_turn)
+                orderoutput.append(f"\u001b[0;32m{new_turn.to_string(short=False, move_type=False)}:")
+            continue
+        except LarkError as e:
+            if generator.turn is None:
+                orderoutput.append(f"\u001b[0;31m{order}")
+                errors.append(f"`{order}`: First line of removed orders must be a timeline specifier (e.g T1W42)")
+                break
+        except Exception as e:
+            raise e
+        if generator.turn == "bad":
+            orderoutput.append(f"\u001b[0;31m{order} (skipped due to bad turn info)")
+            continue
+        #print(order)
+        if generator.turn.is_builds(): #TODO: If game is in retreats phase, don't allow build orders
+            try:
+                board = generator.get_current_board()
+                province, coast = board.get_province_and_coast(order.strip())
+                if player_restriction is not None and province.owner != player_restriction:
+                    raise Exception("You do not own this province so cannot affect builds/disbands there")
+                provinces_with_removed_builds.append(province)
+                orderoutput.append(f"\u001b[0;32m{province}")
+            except Exception as e: # TODO: limit exceptions better.
+                orderoutput.append(f"\u001b[0;31m{order}")
+                errors.append(f"`{order}`: {str(e).splitlines()[-1]}")
 
     database = get_connection()
-    database.save_order_for_units(board, list(updated_units))
     for province in provinces_with_removed_builds:
         database.execute_arbitrary_sql(
             "DELETE FROM builds WHERE board_id=? and phase=? and location=?",
-            (board.board_id, board.turn.get_indexed_name(), province),
+            (board.board_id, province.turn.get_indexed_name(), province.name),
         )
 
-    if invalid:
-        response = "The following order removals were invalid:"
-        response_colour = ERROR_COLOUR
-        for command in invalid:
-            response += f"\n- {command[0]} - {command[1]}"
-        if updated_units:
-            response += "\nOrders for the following units were removed:"
-            response_colour = PARTIAL_ERROR_COLOUR
-            for unit in updated_units:
-                response += f"\n- {unit.province}"
-        return {"message": response, "embed_colour": response_colour}
+    paginator = Paginator(prefix="```ansi\n", suffix="```", max_size=4096)
+
+    for line in orderoutput:
+        paginator.add_line(line)
+
+    output = paginator.pages
+    if errors:
+        output[-1] += "\n" + "\n".join(errors)
+        if len(provinces_with_removed_builds) > 0:
+            embed_colour = PARTIAL_ERROR_COLOUR
+        else:
+            embed_colour = ERROR_COLOUR
+        return {
+            "messages": output,
+            "embed_colour": embed_colour,
+        }
     else:
-        return {"message": "Orders removed successfully."}
-
-
-def _parse_remove_order(command: str, player_restriction: Player | None, board: Board) -> Player | Unit | str:
-    command = command.lower().strip()
-    province, coast = board.get_province_and_coast(command)
-    if command.startswith("relationship"):
-        if player_restriction is None:
-            raise RuntimeError("Relationship orders can only be removed in a player's orders channel")
-        command = command.split(" ", 1)[1]
-        target_player = None
-        for player in board.players:
-            if player.name.lower() == command.lower().strip() or player.get_name().lower() == command.lower().strip():
-                target_player = player
-        if target_player == None:
-            raise RuntimeError(f"No such player: {command}")
-        if not target_player in player_restriction.vassal_orders:
-            raise RuntimeError(f"No relationship order with {target_player}")
-        remove_relationship_order(board, player_restriction.vassal_orders[target_player], player_restriction)
-        return target_player
-
-
-    elif board.turn.is_builds():
-        # remove build order
-        player = province.owner
-        if player is None or (player_restriction is not None and player != player_restriction):
-            raise PermissionError(
-                f"{player_restriction.name if player_restriction else 'Someone'} " +
-                f"does not control the unit in {command} which belongs to {player.name if player else 'no one'}"
-            )
-
-        remove_player_order_for_province(board, player, province)
-
-        return province.get_name(coast)
-    else:
-        # remove unit's order
-        # assert that the command user is authorized to order this unit
-        unit = province.unit
-        if unit is not None:
-            player = unit.player
-            if player_restriction is None or player == player_restriction:
-                unit.order = None
-                return unit
-        unit = province.dislodged_unit
-        if unit is not None:
-            player = unit.player
-            if player_restriction is None or player == player_restriction:
-                unit.order = None
-                return unit
-        raise Exception(f"You control neither a unit nor a dislodged unit in {province.name}")
-
-
-def remove_player_order_for_province(board: Board, player: Player, province: Province) -> bool:
-    if province is None:
-        return False
-    for player_order in player.build_orders:
-        if not isinstance(player_order, order.PlayerOrder):
-            continue
-        if player_order.province == province:
-            player.build_orders.remove(player_order)
-            database = get_connection()
-            database.execute_arbitrary_sql(
-                "DELETE FROM builds WHERE board_id=? and phase=? and location=?",
-                (board.board_id, board.turn.get_indexed_name(), player_order.province.name),
-            )
-            return True
-    return False
-
-def remove_relationship_order(board: Board, order: order.RelationshipOrder, player: Player):
-    if order.player in player.vassal_orders:
-        del player.vassal_orders[order.player]
-    database = get_connection()
-    database.execute_arbitrary_sql(
-        "DELETE FROM vassal_orders WHERE board_id=? and phase=? and player=? and target_player=?",
-        (board.board_id, board.turn.get_indexed_name(), player.name, order.player.name)
-    )
+        return {
+                "title": "**Orders removed successfully.**",
+                "messages": output,
+        }

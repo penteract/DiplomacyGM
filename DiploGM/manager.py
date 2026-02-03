@@ -5,7 +5,7 @@ from typing import Optional
 
 from discord import Member, User
 
-from DiploGM.utils import SingletonMeta, get_orders_game
+from DiploGM.utils import SingletonMeta, get_orders_game, log_orders
 from DiploGM.adjudicator.adjudicator import RetreatsAdjudicator, BuildsAdjudicator, MovesAdjudicator, boards_equal
 from DiploGM.adjudicator.mapper import Mapper
 from DiploGM.adjudicator.game_mapper import GameMapper
@@ -384,12 +384,7 @@ class Manager(metaclass=SingletonMeta):
         return message
     def print_orders(self,server_id:int) -> str:
         game = self.get_game(server_id)
-        class C():
-            pass
-        ctx=C()
-        ctx.guild=ctx
-        ctx.roles=[]
-        return get_orders_game(game,player_restriction=None,ctx=ctx)
+        return log_orders(game)
 
     """
 
