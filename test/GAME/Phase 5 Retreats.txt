@@ -1,0 +1,182 @@
+Timeline 1 Fall Retreats 1643:
+Portugal:
+A Porto Disbands
+Athapasca:
+Ottoman:
+Safavid:
+Mughal:
+Ayutthaya:
+Netherlands:
+Poland-Lithuania:
+A Berlin - T1F1643 Krakow
+Spain:
+F Tangier - T1F1643 Oran
+Mapuche:
+Ajuuraan:
+A Mahra - T1F1643 Kathiri
+Austria:
+Tokugawa:
+Aymara:
+Ming:
+A Zaisan - T1F1643 Balkhash
+Sweden:
+Qing:
+A Hanyang - T1F1643 Pyeongyang
+Russia:
+A Kyiv - T1F1643 Jassy
+Ute-Shoshone:
+France:
+Kongo:
+Abyssinia:
+England:
+Inuit:
+Guarani:
+F Buenos Aires - T1F1643 Charrua
+Timeline 2 Spring Retreats 1643:
+Portugal:
+A Porto Disbands
+Athapasca:
+Ottoman:
+Safavid:
+Mughal:
+Ayutthaya:
+Netherlands:
+Poland-Lithuania:
+Spain:
+Mapuche:
+Ajuuraan:
+Austria:
+Tokugawa:
+Aymara:
+Ming:
+Sweden:
+A Narva - T2S1643 Pskov
+Qing:
+Russia:
+Ute-Shoshone:
+France:
+F English Channel - T2S1643 Normandy
+F Tyrrhenian Sea - T2S1643 Ionian Sea
+Kongo:
+Abyssinia:
+England:
+Inuit:
+Guarani:
+Timeline 4 Spring Retreats 1643:
+Portugal:
+Athapasca:
+Ottoman:
+Safavid:
+Mughal:
+Ayutthaya:
+Netherlands:
+Poland-Lithuania:
+Spain:
+Mapuche:
+Ajuuraan:
+Austria:
+Tokugawa:
+Aymara:
+Ming:
+Sweden:
+Qing:
+Russia:
+A Kyiv - T4S1643 Ruthenia
+A Smolensk - T4S1643 Bryansk
+Ute-Shoshone:
+France:
+Kongo:
+A Ngala - T4S1643 Pango
+Abyssinia:
+England:
+Inuit:
+A Tutchone - T4S1643 Sekani
+Guarani:
+Timeline 7 Fall Retreats 1642:
+Portugal:
+Athapasca:
+Ottoman:
+Safavid:
+Mughal:
+Ayutthaya:
+F Malacca Strait - T7F1642 Andaman Islands
+Netherlands:
+F Ryukyu Islands - T7F1642 Okinawa Trough
+Poland-Lithuania:
+Spain:
+F Rome wc Disbands
+Mapuche:
+Ajuuraan:
+Austria:
+Tokugawa:
+Aymara:
+Ming:
+Sweden:
+Qing:
+Russia:
+Ute-Shoshone:
+France:
+Kongo:
+Abyssinia:
+England:
+Inuit:
+Guarani:
+Timeline 8 Fall Retreats 1642:
+Portugal:
+Athapasca:
+Ottoman:
+Safavid:
+Mughal:
+Ayutthaya:
+Netherlands:
+F Ryukyu Islands - T8F1642 Qiantang Estuary
+Poland-Lithuania:
+Spain:
+F Rome wc Disbands
+Mapuche:
+Ajuuraan:
+Austria:
+Tokugawa:
+Aymara:
+Ming:
+Sweden:
+Qing:
+Russia:
+Ute-Shoshone:
+France:
+Kongo:
+Abyssinia:
+England:
+F English Channel - T8F1642 Southern Bight
+F St. Anthony - T8F1642 Placentia Bay
+Inuit:
+Guarani:
+Timeline 9 Spring Retreats 1643:
+Portugal:
+F Puri Disbands
+Athapasca:
+Ottoman:
+Safavid:
+Mughal:
+Ayutthaya:
+Netherlands:
+Poland-Lithuania:
+Spain:
+A Japura - T9S1643 Huitoto
+Mapuche:
+Ajuuraan:
+Austria:
+Tokugawa:
+Aymara:
+Ming:
+Sweden:
+Qing:
+Russia:
+Ute-Shoshone:
+France:
+Kongo:
+Abyssinia:
+England:
+Inuit:
+Guarani:
+

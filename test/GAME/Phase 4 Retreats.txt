@@ -1,0 +1,113 @@
+Timeline 1 Spring Retreats 1643:
+Mapuche:
+Kongo:
+Russia:
+Ayutthaya:
+Guarani:
+Mughal:
+Athapasca:
+Ottoman:
+Qing:
+Aymara:
+France:
+Sweden:
+Netherlands:
+Inuit:
+Austria:
+Poland-Lithuania:
+Spain:
+Safavid:
+Ute-Shoshone:
+Ajuuraan:
+Ming:
+Tokugawa:
+Portugal:
+Abyssinia:
+England:
+Timeline 3 Fall Retreats 1642:
+Mapuche:
+Kongo:
+Russia:
+Ayutthaya:
+Guarani:
+Mughal:
+Athapasca:
+Ottoman:
+Qing:
+Aymara:
+France:
+Sweden:
+Netherlands:
+F Ryukyu Islands - T3F1642 Qiantang Estuary
+Inuit:
+Austria:
+Poland-Lithuania:
+Spain:
+Safavid:
+Ute-Shoshone:
+Ajuuraan:
+Ming:
+Tokugawa:
+Portugal:
+Abyssinia:
+England:
+F English Channel - T3F1642 Southern Bight
+F St. Anthony - T3F1642 Placentia Bay
+Timeline 5 Fall Retreats 1642:
+Mapuche:
+Kongo:
+Russia:
+Ayutthaya:
+Guarani:
+Mughal:
+Athapasca:
+A Tutchone - T5F1642 Tanana
+Ottoman:
+Qing:
+Aymara:
+France:
+Sweden:
+Netherlands:
+Inuit:
+Austria:
+Poland-Lithuania:
+Spain:
+Safavid:
+Ute-Shoshone:
+Ajuuraan:
+A Bunyoro - T5F1642 Oromo
+Ming:
+Tokugawa:
+Portugal:
+Abyssinia:
+England:
+Timeline 6 Fall Retreats 1642:
+Mapuche:
+Kongo:
+Russia:
+Ayutthaya:
+F Malacca Strait - T6F1642 Andaman Islands
+Guarani:
+Mughal:
+Athapasca:
+Ottoman:
+Qing:
+Aymara:
+France:
+Sweden:
+Netherlands:
+F Ryukyu Islands - T6F1642 Okinawa Trough
+Inuit:
+Austria:
+Poland-Lithuania:
+Spain:
+F Rome wc - T6F1642 Ligurian Sea
+Safavid:
+Ute-Shoshone:
+Ajuuraan:
+Ming:
+Tokugawa:
+Portugal:
+Abyssinia:
+England:
+

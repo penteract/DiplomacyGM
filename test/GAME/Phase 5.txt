@@ -1,0 +1,1330 @@
+Timeline 1 Fall Moves 1643:
+Ming:
+A Bhamo - T1F1643 Ava
+F East China Sea - T1F1643 Ryukyu Islands
+F Fusan Supports T1F1643 Yellow Sea - T1F1643 Hanyang
+A Kunming Supports T1F1643 Bhamo - T1F1643 Ava
+A Rinpungpa - T1F1643 Bhamo
+A Turfan - T1S1643 Yarkand
+A Xining Holds
+F Yellow Sea - T1F1643 Hanyang
+A Zaisan Supports T1F1643 Karakorum - T1F1643 Tumeds
+Athapasca:
+A Chipewyan Holds
+F Michif Piyii Supports T1F1643 Chipewyan Hold
+A Sahtu Supports T1F1643 Tutchone Hold
+A Tanana Supports T1F1643 Tutchone Hold
+A Tutchone Supports T1F1643 Tanana Hold
+Ayutthaya:
+F Andaman Islands Supports T1F1643 Malacca Strait - T1F1643 Aceh
+F Andaman Sea Supports T1S1645 Andaman Sea - T1F1643 Ganges Delta
+A Ava Supports T1F1643 Mrauk Hold
+F Gulf of Siam - T1F1643 Natuna Sea
+A Lan Sang - T1F1643 Oudong
+F Malacca Strait - T1F1643 Aceh
+A Mrauk Supports T1F1643 Ava Hold
+F Sambas - T1F1643 Banjarmasin
+Spain:
+F Algerian Basin Supports T1F1643 Barbary Coast - T1F1643 Tunis
+A Apache - T1F1643 Caddo
+A Axura - T1F1643 Wamanga
+F Barbary Coast - T1F1643 Tunis
+F Bay of Panama - T1F1643 Cartagena
+F Cadiz Bay - T1F1643 Lisbon
+F Canaries Supports T1S1644 Canaries - T1S1644 Canaries
+F Caracas Supports T1S1644 Caracas - T1S1644 Caracas
+F Celebes Sea - T1F1643 Manado
+F Galapagos Cores
+A Galicia Supports T1F1643 Lisbon - T1F1643 Porto
+F Gulf of Guayaquil - T1F1643 Colon Ridge
+F Gulf of Mexico - T1F1643 Havana
+A Japura Supports T1F1643 Quechua - T1F1643 Madeira
+F Lisbon - T1F1643 Porto
+F Luzon Strait - T1F1643 Formosa
+F Marrakech Supports T1S1644 Marrakech - T1S1644 Marrakech
+A Merida Supports T1F1643 Lisbon - T1F1643 Porto
+A Nueva Vizcaya - T1F1643 Sonora
+F Peru Basin - T1F1643 NPO4
+F Philippine Sea - T1F1643 Bonin Islands
+A Shipibo Supports T1F1643 Japura Hold
+F Strait of Bonifacio - T1F1643 Baleares
+F Tangier - T1F1643 Sea of Azores
+F Tyrrhenian Sea - T1F1643 Sicily
+F Yucatan nc - T1F1643 Belize
+F Zamboanga Cores
+England:
+F Andhra Coast - T1F1643 Orissa
+F Antilles Current Supports T1F1643 Windward Passage - T1F1643 Cap-Haitien
+F Boston - T1F1643 Delaware Bay
+A Cherokee Holds
+A Djenne - T1F1643 Niani
+A Edinburgh Cores
+A Estrie - T1F1643 Quebec
+F Guadeloupe - T1F1643 St. Maarten
+F Gulf of Honduras - T1F1643 Jamaica
+F Gulf of Maine - T1F1643 Port Royal
+F Iceland Holds
+A Masulipatnam - T1F1643 Raichur
+A Mohawk - T1F1643 Ville Marie
+A New Amsterdam - T1F1643 Philadelphia
+F North Sea - T1F1643 Norwegian Sea
+F Palembang - T1F1643 Java
+F Plymouth - T1F1643 English Channel
+A Rajamahendri Supports T1F1643 Masulipatnam - T1F1643 Raichur
+F Rockall Rise Holds
+F Santee - T1F1643 St. Augustine
+F St. Anthony Supports T1F1643 St. John's - T1F1643 Placentia Bay
+F St. John's - T1F1643 Placentia Bay
+A Wagadugu Supports T1F1643 Djenne - T1F1643 Niani
+F Windward Passage - T1F1643 Cap-Haitien
+Ajuuraan:
+A Bunyoro - T1F1643 Azande
+F Dhambalin Shore - T1F1643 Gulf of Tadjoura
+A Galla Supports T1F1643 Socotra - T1F1643 Warsangali
+A Kismayo - T1F1643 Zanzibar
+A Mahra Cores
+F Seychelles - T1F1643 Somali Basin
+F Seychelles Sea - T1F1643 INO4
+A Sidamo - T1F1643 Debre Birhan
+F Socotra - T1F1643 Warsangali
+France:
+A Bara Supports T1F1643 Seychelles Sea - T1F1643 Sakalava
+F Guiana Current - T1F1643 Antigua
+F Ligurian Sea - T1F1643 Corse
+A Menominee - T1F1643 Ojibwe
+F Nantes - T1F1643 English Channel
+A Papinachois Supports T1F1643 Montagnais - T1F1643 Cree
+A Paris - T1F1643 Strasburg
+F Port Royal - T1F1643 Cabot Strait
+F Reunion - T1F1643 INO1
+A Seneca - T1F1643 Ville Marie
+F St. Domingo - T1F1643 Cap-Haitien
+F St. Lawrence - T1F1643 Quebec
+A Strasburg - T1F1643 Luxembourg
+A Tukulor - T1F1643 Ndakaaru
+Poland-Lithuania:
+F Barbados Supports T1S1644 Barbados - T1S1644 Guiana Current
+A Berlin Cores
+A Courland - T1F1643 Smolensk
+A Gdansk - T1F1643 Konigsberg
+A Geba - T1S1643 Niani
+A Ochakiv - T1F1643 Bakchisarai
+A Ruthenia Supports T1F1643 Volhynia - T1F1643 Kyiv
+A Volhynia - T1F1643 Kyiv
+A Wilno Supports T1F1643 Courland - T1F1643 Smolensk
+Russia:
+A Aldan - T1F1643 Yakutsk
+A Bakchisarai - T1F1643 Ochakiv
+A Bratsk - T1F1643 Karakorum
+A Kabardia - T1F1643 Tiflis
+A Kharkov - T1F1643 Voronezh
+A Krasnoyarsk Supports T1F1643 Tumeds - T1F1643 Zaisan
+A Kyiv - T1F1643 Smolensk
+A Pskov - T1F1643 Novgorod
+A Tumeds - T1F1643 Zaisan
+Portugal:
+A Arguin - T1F1643 Regeibat
+A Ballari Supports T1F1643 Goa - T1F1643 Hyderabad
+A Barotse - T1F1643 Matamba
+F Bay of Paranagua Supports T1S1644 Bay of Paranagua - T1S1644 Rio Grande Rise
+A Burundi - T1F1643 Mongo
+F Canary Basin - T1F1643 Tiguert Bay
+F Comoros Sea - T1F1643 Zanzibar
+A Delagoa - T1F1643 Cape Khoe
+F Flores Supports T1F1643 Banda Sea - T1S1643 Flores
+A Goa - T1F1643 Hyderabad
+F Guangxi - T1F1643 Dong Kinh
+F Hainan Supports T1F1643 Guangxi - T1F1643 Dong Kinh
+F Halmahera Sea - T1F1643 Manado
+F Iberian Current - T1F1643 Azores
+A Kahngag Supports T1S1644 Kahngag - T1S1644 Caipira
+F Laccadive Plateau Holds
+A Lunda-Luba - T1F1643 Mpemba
+F Madeira Plain - T1F1643 Rabat
+F Manden - T1F1643 Cormantin
+F Mozambique Channel - T1F1643 Sakalava
+A Nokugu Supports T1F1643 Kahngag Hold
+A Porto Supports T1F1643 GPL1 - T1F1643 Goa
+F Puri Supports T1S1643 Puri - T1S1643 Laklano
+A Sao Paulo Supports T1F1643 Puri Hold
+F Sea of Azores - T1F1643 Tangier
+F Seewarte Seamounts - T1F1643 Canary Basin
+A Tafilalt Supports T1F1643 Sea of Azores - T1F1643 Tangier
+Inuit:
+F Dena'ina - T1F1643 Tutchone
+A Enticosty Supports T1F1643 St. Lawrence - T1F1643 Papinachois
+A Evenki Cores
+F Gulf of Anadyr - T1F1643 Aleuts
+F Hudson Bay Supports T1F1643 Nunavut - T1F1643 Chipewyan
+A Koyukon Supports T1F1643 Dena'ina - T1F1643 Tutchone
+F Kuril Islands - T1F1643 Ainu
+A Michikamau Supports T1F1643 Enticosty Hold
+F Montagnais - T1F1643 Cree
+F Nunavut - T1F1643 Chipewyan
+F Sea of Okhotsk Supports T1F1643 Kuril Islands - T1F1643 Ainu
+F Tunumiisut - T1F1643 Brattahlid
+F Yakutat Bay Supports T1F1643 Dena'ina - T1F1643 Tutchone
+Mughal:
+A Bharuch - T1F1643 Surat
+A Burhanpur - T1F1643 Hyderabad
+F Cuttack - T1F1643 Circar Coast
+A Gondwana Supports T1F1643 Burhanpur - T1F1643 Hyderabad
+A Kolkata Holds
+A Sasaram Supports T1F1643 Kolkata Hold
+Guarani:
+F Buenos Aires Supports T1F1643 Moqoit - T1F1643 Puelche
+A Caipira - T1S1643 Puri
+A Mbya Supports T1S1643 Mbya - T1S1643 Laklano
+A Moqoit - T1F1643 Puelche
+A Ofaye - T1F1643 Caipira
+A Qom Cores
+F Rio Grande Rise - T1F1643 SAO2
+A Xeta Supports T1F1643 Caipira - T1S1643 Puri
+Safavid:
+A Bukhara - T1F1643 Uzgen
+A Derbent Supports T1F1643 Kabardia - T1F1643 Tiflis
+A Ghor - T1F1643 Kabul
+A Isfahan - T1F1643 Khuzestan
+F Rustaq - T1S1643 Muscat
+F Strait of Hormuz - T1F1643 Muscat
+A Tabriz - T1F1643 Kurdistan
+A Turkestan - T1F1643 Verkhoturye
+A Uzgen - T1F1643 Yarkand
+Sweden:
+A Abo Supports T1F1643 Gulf of Riga - T1F1643 Narva
+F Baltic Sea - T1F1643 Gulf of Gdansk
+F Christiania Supports T2S1643 Christiania - T2S1643 North Sea
+F Gulf of Riga - T1F1643 Narva
+F Kiel - T1F1643 Bremen
+F Lubeck Supports T1F1643 Bremen - T1F1643 Berlin
+A Riga Cores
+Aymara:
+A Chiquitano Holds
+A Chuyma - T1S1643 Huarpe
+A Likatanai Supports T1F1643 Chuyma - T1S1643 Huarpe
+F Nazca Ridge Convoys T1F1643 Chuyma - T1S1643 Huarpe
+A Quechua - T1S1643 Wamanga
+A Quella Kollu - T1F1643 Chuyma
+Kongo:
+F Angola Basin - T1F1643 Gold Coast
+A Benguela - T1F1643 Kalahari
+F Cape Basin - T1F1643 Cape Khoe
+F Lopez Bay - T1F1643 Gulf of Guinea
+A Mbanza - T1F1643 Mpemba
+A Ngala Supports T1S1644 Ngala - T1F1643 Baya
+A Sangha Supports T1S1644 Sangha - T1F1643 Nri
+Netherlands:
+A Amazonia Supports T2S1643 Amazonia - T1S1643 Japura
+F Amsterdam - T1F1643 Southern Bight
+F Banda Sea - T1S1643 Flores
+F Banjarmasin Supports T1S1643 Banjarmasin - T1S1643 Sambas
+A Baya Supports T1F1643 Mandara Hold
+A Bremen - T1F1643 Berlin
+A Ceylon - T1S1643 Venad
+F Flores Sea Supports T1F1643 Banda Sea - T1S1643 Flores
+F Ghent Supports T1F1643 Amsterdam - T1F1643 Southern Bight
+F Gulf of Guinea - T1S1643 Sao Tome
+A Karib Supports T2S1643 Amazonia - T1S1643 Japura
+F Kyushu Supports T1S1643 Ryukyu Islands - T1S1643 Kyushu
+F Madurai - T1S1643 Palyakkar
+A Mandara Supports T1F1643 Baya Hold
+A Mauritsstad - T1S1643 Bahia
+A Notse - T1S1643 Cormantin
+A Orinoco - T1F1643 Bogota
+F St. Maarten - T1F1643 Leeward Sea
+F Sunda Strait - T1S1643 Timor Sea
+Abyssinia:
+A Aussa - T1S1643 Sanaa
+A Darfur - T1S1643 Kanem-Bornu
+F Gulf of Tadjoura Convoys T1F1643 Aussa - T1S1643 Sanaa
+A Hawwara - T1S1643 Zaghawa
+Austria:
+A Florence Holds
+A Freiburg - T1F1643 Bern
+F Rome ec Cores
+A Transylvania - T1S1643 Jassy
+F Trieste - T1S1643 Split
+Mapuche:
+F Golfo San Jorge Supports T1F1643 Teushen - T1F1643 Buenos Aires
+A Henia-Kamiare - T1F1643 Huarpe
+A Puelche Supports T1F1643 Teushen - T1F1643 Buenos Aires
+F Teushen - T1F1643 Buenos Aires
+Tokugawa:
+F Kuroshio Current Supports T1F1643 Kyushu Hold
+F Mutsu Bay Supports T1F1643 Kuril Islands - T1F1643 Ainu
+F Oki Sea - T1S1643 Oriental Sea
+Qing:
+A Buryatia - T1S1643 Yakutsk
+A Hanyang Holds
+A Karakorum - T1F1643 Bratsk
+A Nivkhs - T1F1643 Ainu
+A Orgoo Holds
+F Oriental Sea Supports T1S1644 Oriental Sea - T1S1644 Aomori
+F Rishiri Supports T1F1643 Nivkhs - T1F1643 Ainu
+F Strait of Tartary Convoys T1F1643 Nivkhs - T1F1643 Ainu
+Ute-Shoshone:
+F Chinook - T1F1643 Chilcotin
+A Crow - T1F1643 Siksika
+A Dakota - T1F1643 GPL3
+A GPL1 - T1F1643 Ojibwe
+A Gosiute - T1F1643 Sonora
+F NPO5 - T1F1643 NAO2
+F North Equatorial Current - T1F1643 NPO2
+A Salish Supports T1F1643 Chinook - T1F1643 Chilcotin
+F Viscaino Bay - T1F1643 North Equatorial Current
+A Winipek - T1F1643 Oji-Cree
+Ottoman:
+A Constantinople - T1F1643 Salonica
+A Dhofar - T1F1643 Mahra
+F Gulf of Gabes - T1F1643 Skerki Banks
+F Ionian Sea - T1F1643 Naples
+F Oran - T1F1643 Strait of Gibraltar
+A Riyadh Supports T1F1643 Dhofar - T1F1643 Mahra
+F Strait of Otranto Supports T1F1643 Ionian Sea - T1F1643 Naples
+A Targoviste Supports T1S1644 Targoviste - T1S1644 Targoviste
+A Tiflis - T1S1643 Shapsugh
+A Timbuktu - T1F1643 Oualata
+A Trebizond - T1F1643 Tiflis
+A Van - T1F1643 Kurdistan
+Timeline 2 Spring Moves 1643:
+Ming:
+A Bhamo - T2F1642 Kolkata
+A Chengdu - T2S1643 Rinpungpa
+A Karakorum - T2F1642 Bratsk
+A Kunming - T2F1642 Dong Kinh
+F Kyoto Supports T2S1643 Kyushu - T2S1643 Shikoku
+F Kyushu - T2S1643 Shikoku
+A Lanzhou - T2S1643 Xining
+F Nanking - T2S1643 Qiantang Estuary
+A Rinpungpa - T2S1643 Himalayas
+F Yellow Sea - T2S1643 Tsushima
+Athapasca:
+A Assiniboine - T2S1643 Winipek
+A Chipewyan - T2F1642 Oji-Cree
+A GPL2 - T1S1643 Ojibwe
+A Nunavut - T2F1642 Iqaluit
+A Sekani Supports T2S1643 Tutchone Hold
+A Tutchone Holds
+Ayutthaya:
+F Andaman Islands Holds
+A Ava Holds
+F Ayutthaya - T2S1643 Gulf of Siam
+F Nakhon Si ec - T2S1643 Natuna Sea
+F Oudong - T2S1643 Lan Sang
+A Pegu Supports T2S1643 Ava Hold
+A Sukhothai - T2S1643 Lan Na
+F Tavoy - T2S1643 Nakhon Si wc
+Spain:
+A Apache - T2S1643 GPL2
+A Axura - T2S1643 Quechua
+F Baleares - T2S1643 Algerian Basin
+F Barcelona - T2S1643 Strait of Bonifacio
+F Canaries - T2S1643 Regeibat
+F Cartagena - T2S1643 Bay of Panama
+F Cebu - T2S1643 Sulu Sea
+A Cherokee - T2S1643 Catawba
+F Chitimacha - T2S1643 Gulf of Mexico
+F Gibraltar - T2S1643 Cadiz Bay
+F Guatemala Basin - T2S1643 Galapagos
+F Gulf of Guayaquil - T2S1643 Peru Basin
+A Japura - T2S1643 Karib
+F Lisbon - T2S1643 Porto
+A Madrid - T2S1643 Galicia
+F Manila - T2S1643 Luzon Strait
+F Marrakech - T2S1643 Anfa
+A Merida Supports T2S1643 Lisbon - T2S1643 Porto
+F Mexico City wc - T2S1643 Sea of Cortez
+F Naples Supports T2S1643 Rome Hold
+A Nueva Vizcaya - T2S1643 Sonora
+F Quito - T2S1643 Colon Ridge
+F Rome wc Supports T2F1643 Rome - T2F1643 Rome
+A Saltillo - T2S1643 Karankawa
+A St. Augustine Supports T2S1643 Cherokee - T2S1643 Catawba
+F Tangier - T2S1643 Sea of Azores
+F Valencia - T2S1643 Barbary Coast
+F Zamboanga Supports T2S1643 Cebu - T2S1643 Sulu Sea
+England:
+F Antigua - T2S1643 Guiana Current
+F Azores - T2S1643 NAO4
+F Bahamas - T2S1643 Antilles Current
+F Bay of Bengal Supports T3F1642 Bay of Bengal - T2F1642 Circar Coast
+F Boston - T2S1643 Gulf of Maine
+F Brattahlid - T2S1643 NAO5
+F Cabot Strait - T2S1643 Gaspe
+F Catawba - T2S1643 Gulf Stream
+A Cormantin - T1S1643 Notse
+A Edinburgh Cores
+A Falmouth - T2S1643 Maine
+F Guadeloupe - T2S1643 Mona Passage
+F Gulf of Honduras Supports T2S1643 Havana - T2S1643 Baracoa
+F Havana - T2S1643 Baracoa
+A Jamestown - T2S1643 Cherokee
+F London Supports T2S1643 Southern Bight - T2S1643 English Channel
+A Masulipatnam - T2S1643 Rajamahendri
+A Mohawk Supports T2S1643 New Amsterdam - T2S1643 Oneida
+A New Amsterdam - T2S1643 Oneida
+F Plymouth - T2S1643 Rockall Rise
+F Southern Bight - T2S1643 English Channel
+F St. Maarten - T2S1643 Puerto Rico
+A Wagadugu - T1S1643 Manden
+Ajuuraan:
+A Baidoa - T2S1643 Kismayo
+F Dhambalin Shore - T2S1643 Arabian Sea
+A Mahra - T2S1643 Kathiri
+F Mareeg - T2S1643 Somali Basin
+F Mogadishu - T2S1643 Seychelles Sea
+A Qalaafe - T2S1643 Baidoa
+F Seychelles Supports T2S1643 Mareeg - T2S1643 Somali Basin
+A Zanzibar - T2S1643 Makua
+France:
+A Anishinabek - T2S1643 Oji-Cree
+F Baracoa Supports T2S1643 Jamaica - T2S1643 Gulf of Honduras
+F Bay of Biscay - T2S1643 Iberian Current
+F Belem - T2S1643 St. Marcos Bay
+F Cap-Haitien - T2S1643 Antilles Current
+F Cape Khoe - T2S1643 SAO1
+F Cayenne - T2S1643 Guiana Current
+F Corse - T2S1643 Gulf of Lyon
+A Cree - T2S1643 Innus
+F English Channel Supports T2S1643 Bay of Biscay - T2S1643 Iberian Current
+F Enticosty Supports T2S1643 Papinachois - T2S1643 Michikamau
+A Florence - T2S1643 Venice
+A Fort Detroit - T2S1643 Miami
+F Jamaica - T2S1643 Gulf of Honduras
+F Kalina - T2S1643 Belem
+A Luxembourg - T2S1643 Koln
+F Maha - T2S1643 Mozambique Channel
+A Menominee - T2S1643 Ojibwe
+F Mpondo - T2S1643 Zulu
+A Ojibwe - T2S1643 Winipek
+A Oualata - T2S1643 Timbuktu
+F Papinachois - T2S1643 Michikamau
+A Paris - T2S1643 Reims
+F Port Royal - T2S1643 Cabot Strait
+A Quebec - T2S1643 Estrie
+F Sakalava Supports T2S1643 Maha - T2S1643 Mozambique Channel
+A Savoy - T2S1643 Chur
+A Seneca - T2S1643 Philadelphia
+F St. Anthony Supports T2S1643 Port Royal - T2S1643 Cabot Strait
+A St. Louis - T2S1643 Ndakaaru
+A Strasburg - T2S1643 Hesse
+F Tyrrhenian Sea Supports T3F1642 Ionian Sea - T2F1642 Naples
+A Ville Marie Supports T2S1643 Quebec - T2S1643 Estrie
+Poland-Lithuania:
+F Abo Supports T2S1643 Riga - T2S1643 Narva
+F Barbados - T2S1643 St. Lucia
+A Berlin - T2S1643 Lubeck
+F Caracas - T2S1643 Gulf of Paria
+A Djenne Supports T2F1643 Djenne - T2F1643 Timbuktu
+F Gdansk - T2S1643 Baltic Sea
+F Gulf of Riga - T2S1643 Gulf of Bothnia
+A Jacob Fort - T2S1643 Geba
+A Jassy - T2S1643 Ochakiv
+A Krakow - T2S1643 Silesia
+A Lubeck - T2S1643 Kiel
+F New Courland - T2S1643 Aves Ridge
+A Riga - T2S1643 Narva
+A Warsaw - T2S1643 Ruthenia
+A Wilno - T2S1643 Smolensk
+Russia:
+A Bayuly - T1S1643 Khiva
+A Bratsk - T2S1643 Karakorum
+A Bryansk - T1S1643 Bryansk
+A Kalmykia - T1S1643 Kalmykia
+A Krasnoyarsk - T2S1643 Zaisan
+A Ochakiv Supports T1S1643 Kyiv Hold
+A Smolensk - T1S1643 Latgale
+F Spitsbergen - T2S1643 Greenland Sea
+A Tumeds Supports T2S1643 Krasnoyarsk - T2S1643 Zaisan
+A Verkhoturye - T1S1643 Alimuly
+A Yakutsk - T2S1643 Buryatia
+Portugal:
+A Arguin - T2S1643 Regeibat
+A Barotse Supports T1S1643 Barotse Hold
+F Bermuda - T2S1643 Sargasso Sea
+A Burundi - T2S1643 Bunyoro
+F Cabo Verde - T2S1643 The Gambia
+F Cadiz Bay Supports T2S1643 Porto - T2S1643 Lisbon
+A Cochin - T2S1643 Ballari
+F Comoros Sea - T2S1643 Zanzibar
+F Dani - T2S1643 Coral Sea
+F Delagoa - T2S1643 Zulu
+A Goa Supports T2S1643 Cochin - T2S1643 Ballari
+F Hainan - T2S1643 Luzon Strait
+A Idjil - T2S1643 Tafilalt
+F Maldives - T2S1643 Gulf of Mannar
+A Maravi - T2S1643 Mutapa
+A Minas Gerais - T2S1643 Kahngag
+A Muscat - T2S1643 Rustaq
+F Niani - T2S1643 Geba
+A Nokugu Supports T2S1643 Minas Gerais - T2S1643 Kahngag
+A Porto - T2S1643 Lisbon
+F Puri - T2S1643 Bay of Paranagua
+A Rio de Janeiro - T2S1643 Sao Paulo
+F Rustaq - T2S1643 Riyadh
+A Sao Paulo - T2S1643 Puri
+F Sea of Azores Supports T2S1643 Porto - T2S1643 Lisbon
+F Timor - T2S1643 Flores
+Inuit:
+F Dena'ina - T2S1643 Yakutat Bay
+A Evenki - T2S1643 Aldan
+F Godthaab - T2S1643 Arctic Ocean
+F Iqaluit Supports T2S1643 Godthaab - T2S1643 Arctic Ocean
+A Kereks - T2S1643 Evenki
+A Koyukon - T2S1643 Paulatuk
+F Kuujjuaq - T2S1643 Naskapi
+A Naskapi - T2S1643 Michikamau
+A Nome - T2S1643 Koyukon
+A Quaqtaq - T2S1643 Innus
+F Salliq - T2S1643 Hudson Bay
+F Yupik - T2S1643 Dena'ina
+Mughal:
+A Ahmedabad - T2S1643 Surat
+A Bharuch - T2S1643 Khandesh
+F Circar Coast Supports T2S1643 Rajamahendri - T2S1643 Andhra Coast
+F Cuttack Supports T2S1643 Circar Coast Hold
+A Gondwana - T2S1643 Rajamahendri
+A Hyderabad Supports T2S1643 Gondwana - T2S1643 Rajamahendri
+A Kolkata Supports T2S1643 Sasaram - T2S1643 Bhutan
+F Rajamahendri - T2S1643 Andhra Coast
+A Sasaram - T2S1643 Bhutan
+A Uzgen - T2F1642 Khiva
+A Yarkand Supports T3F1642 Uzgen - T2F1642 Turkestan
+Guarani:
+F Buenos Aires Cores
+A Caipira Supports T1F1643 Caipira - T1S1643 Puri
+F Charrua - T2S1643 Rio Grande Rise
+A Chiripa - T2S1643 Xeta
+A Mbya - T2S1643 Laklano
+A Minuane - T2S1643 Moqoit
+A Qom Cores
+Safavid:
+F Bandar Abbas - T2S1643 Qeshm
+A Bukhara - T2S1643 Uzgen
+A Derbent - T2S1643 Kabardia
+A Herat - T2S1643 Multan
+F Isfahan - T2S1643 Persian Gulf
+A Qeshm - T2S1643 Riyadh
+A Tabriz - T2S1643 Derbent
+F Tehran - T2S1643 Caspian Sea
+Sweden:
+F Christiania - T2S1643 North Sea
+F Gothenburg - T2S1643 Skagerrak
+A Narva - T2S1643 Abo
+F Scania - T2S1643 Baltic Sea
+A Stockholm - T2S1643 Umea
+A Trondheim - T2S1643 Finnmark
+Aymara:
+A Chiquitano - T2F1642 Madeira
+A Chuyma Supports T2F1642 Nazca Ridge - T2F1642 Axura
+F Nazca Ridge Supports T2F1642 Nazca Ridge - T2F1642 Axura
+A Ofaye - T2F1642 Chiripa
+A Weenhayek - T2F1642 Ayoreo
+Kongo:
+A Baya Supports T2F1643 Baya - T2S1643 Darfur
+A Benguela - T2S1643 Kalahari
+A Mandara - T2S1643 Hausa States
+F Mbanza - T2S1643 Lopez Bay
+A Mpemba - T2S1643 Lunda-Luba
+A Ngala Supports T2F1643 Ngala - T2S1643 Azande
+A Pango - T2S1643 Mongo
+F Soyo - T2S1643 Angola Basin
+F St. Helena - T2S1643 Cape Basin
+Netherlands:
+F Aceh Supports T3F1642 Aceh - T2F1642 Andaman Islands
+A Amazonia - T1S1643 Japura
+F Amsterdam Supports T2S1643 Ghent - T2S1643 Southern Bight
+A Benin - T1S1643 Nri
+A Bremen - T2F1642 Kiel
+F Celebes Sea - T2F1642 Banjarmasin
+F Ceylon - T1S1643 Gulf of Mannar
+F Fernando Po - T1S1643 Gulf of Guinea
+F Ghent - T2S1643 Southern Bight
+F Java - T1S1643 Tenggara
+F Kota Batu - T2F1642 Natuna Sea
+F Makassar - T2F1642 Java Sea
+F Malacca Strait Supports T3F1642 Aceh - T2F1642 Andaman Islands
+F Manado - T1S1643 Halmahera Sea
+F Palembang - T2S1643 Riau Sea
+F Parmurbo - T1S1643 Gulf of Paria
+A Philadelphia - T2F1642 Maryland
+F Ryukyu Islands - T1S1643 East China Sea
+F SAO5 - T1S1643 Guanabara Bay
+F Utrecht - T2S1643 Wadden Sea
+Abyssinia:
+A Aksum - T1S1643 Suakin
+A Azande - T1S1643 Logone
+A Darfur - T1S1643 Sara
+A Gondar - T2S1643 Darfur
+A Hawwara - T1S1643 Beja
+F Mek'ele - T1S1643 Red Sea
+Austria:
+A Innsbruck - T2S1643 Trieste
+A Nuremberg - T2S1643 Freiburg
+A Pressburg - T1S1643 Alfold
+F Trieste - T2S1643 Split
+A Vienna - T1S1643 Pressburg
+Mapuche:
+F Chiloe - T2S1643 SPO3
+A Huarpe - T2S1643 Likatanai
+F Islas Malvinas - T2S1643 Argentine Basin
+A Rankulche - T2S1643 Henia-Kamiare
+A Tehuelche - T2S1643 Kawesqar
+F Teushen - T2S1643 Buenos Aires
+F Tucapel - T2S1643 Roggeveen Basin
+Tokugawa:
+F Bonin Islands - T2F1642 Philippine Sea
+A Fusan - T2S1643 Hanyang
+F Galapagos - T2F1642 NPO3
+F Koryaks - T2S1643 NPO3
+F Kuroshio Current - T2S1643 Shikoku
+F Mutsu Bay - T2S1643 Ainu
+F Osaka - T2S1643 Kyoto
+A Pyeongyang - T2F1642 Shengjing
+F Wurruk - T2F1642 Gulmerrogin
+Qing:
+A Hohhot - T2S1643 Shaanxi
+A Nivkhs Supports T2F1643 Nivkhs - T2S1643 Evenki
+A Orgoo - T2S1643 Gobi
+A Qiqihar - T2S1643 Shengjing
+A Shengjing - T2S1643 Liaodong
+F Strait of Tartary - T2S1643 Ainu
+Ute-Shoshone:
+F Akwa'ala - T2S1643 Sea of Cortez
+A Arapaho - T2S1643 GPL1
+A Gosiute - T2S1643 Arapaho
+A Lakota - T2S1643 Dakota
+A Miwok - T3F1642 Edo
+A Paiute - T2S1643 Sonora
+A Shoshone - T1S1643 Siksika
+F Yokuts - T2S1643 North Equatorial Current
+Ottoman:
+A Agadez - T2S1643 Hausa States
+A Anatolia Supports T2F1643 Anatolia - T2F1643 Anatolia
+A Cairo - T2S1643 Suakin
+F Constantinople - T2S1643 Black Sea
+A Mecca - T2S1643 Mek'ele
+F Red Sea Convoys T2S1643 Mecca - T2S1643 Mek'ele
+A Sarajevo - T2S1643 Slavonia
+F Sardinia - T2S1643 Strait of Bonifacio
+F Sicily Supports T2S1643 Skerki Banks - T2S1643 Tyrrhenian Sea
+F Skerki Banks - T2S1643 Tyrrhenian Sea
+A Split Supports T2S1643 Sarajevo - T2S1643 Slavonia
+A Tiflis - T2F1642 Kabardia
+A Trebizond - T2S1643 Tiflis
+F Tunis - T2S1643 Algerian Basin
+Timeline 3 Winter Builds 1642:
+Ming:
+Build A Peking
+Build F Nanking
+Build A Chengdu
+Build A Kunming
+Build A Lanzhou
+Athapasca:
+Build A Sahtu
+Ayutthaya:
+Build A Ayutthaya
+Build A Sukhothai
+Build A Nakhon Si ec
+Spain:
+Build F Barcelona
+Build A Canaries
+Build A Lima
+Build F Manila
+Build A Bogota
+Build A Quito
+Build A Saltillo
+Build F Valencia
+Build A Nueva Vizcaya
+Build F Gibraltar
+Build A St. Augustine
+England:
+Build F Plymouth
+Build F London
+Build A Madras
+Build A Jamestown
+Build F Oxford
+Build F St. John's
+Ajuuraan:
+Build F Mareeg
+Build A Mogadishu
+Build F Baidoa
+Build A Hobyo
+France:
+Build F Reunion
+Build F Cap-Haitien
+Build F St. Louis
+Build A Fort Detroit
+Poland-Lithuania:
+Build A Warsaw
+Build A Wilno
+Build F Gdansk
+Build A Kyiv
+Build F Jacob Fort
+Build F New Courland
+Russia:
+Build A Krasnoyarsk
+Build A Bratsk
+Build A Astrakhan
+Build A Novgorod
+Build A Kharkov
+Portugal:
+Build F Beira
+Build F Cochin
+Build F Macau
+Build F Cabo Verde
+Build A Arguin
+Build F Muscat
+Build F Salvador
+Build A Sao Paulo
+Build A Delagoa
+Build F Timor
+Build A Rio de Janeiro
+Inuit:
+Build F Kereks wc
+Build F Yupik
+Build A Kuujjuaq
+Build A Iqaluit
+Build A Chukchis
+Build F Quaqtaq
+Build A Nome
+Mughal:
+Build A Kabul
+Build A Kolkata
+Build A Delhi
+Build A Burhanpur
+Build A Sasaram
+Guarani:
+Build A Mbya
+Build F Charrua
+Build A Minuane
+Build A Chiripa
+Safavid:
+Build F Bandar Abbas
+Build A Isfahan
+Build A Tehran
+Build A Herat
+Build A Tabriz
+Sweden:
+Aymara:
+Build A Quella Kollu
+Build A Chuyma
+Build A Chipaya
+Kongo:
+Build A Mpemba
+Build F Soyo
+Build F Mbanza
+Build A Pango
+Netherlands:
+Build A Utrecht
+Build A Mauritsstad
+Build A Formosa
+Abyssinia:
+Build A Mek'ele
+Build A Debre Birhan
+Austria:
+Build A Vienna
+Build A Innsbruck
+Build A Trieste
+Build A Pressburg
+Mapuche:
+Build A Rankulche
+Build A Tucapel
+Build F Chiloe
+Tokugawa:
+Qing:
+Build A Shengjing
+Build A Hohhot
+Build A Qiqihar
+Build F Haishenwai
+Ute-Shoshone:
+Build F Miwok
+Build A Shoshone
+Build A Gosiute
+Ottoman:
+Build A Sarajevo
+Build F Constantinople
+Build A Salonica
+Build A Smyrna
+Build A Baghdad
+Timeline 4 Spring Moves 1643:
+Ming:
+A Bhamo - T4S1643 Kunming
+A Chengdu - T4S1643 Kunming
+F Hanyang - T4S1643 Yellow Sea
+A Lanzhou - T4S1643 Turfan
+A Nanking Cores
+F Peking - T4S1643 Beizhili Sea
+A Rinpungpa - T4S1643 Bhamo
+A Turfan - T4F1642 Yarkand
+Athapasca:
+A Chilcotin - T4S1643 Tutchone
+F Chipewyan - T4S1643 Nunavut
+A Sahtu Supports T4S1643 Chilcotin - T4S1643 Tutchone
+A Tanana Supports T4S1643 Chilcotin - T4S1643 Tutchone
+A Tsuu T'ina - T4S1643 Chipewyan
+Ayutthaya:
+A Ava - T4S1643 Lan Na
+F Ayutthaya - T4S1643 Gulf of Siam
+F Malacca Strait - T4S1643 Riau Sea
+F Nakhon Si ec - T4S1643 Natuna Sea
+A Pegu - T4S1643 Ava
+F Sambas Supports T4S1643 Malacca Strait - T4S1643 Riau Sea
+A Sukhothai - T4S1643 Lan Sang
+Spain:
+A Apache - T4S1643 Karankawa
+A Axura Supports T4F1643 Axura - T4F1643 Axura
+A Bogota - T4S1643 Orinoco
+F Bonin Islands - T4S1643 Philippine Sea
+F Canaries Supports T3S1643 Canaries - T3S1643 Regeibat
+F Cartagena - T4S1643 Caracas
+F Chitimacha - T4S1643 Gulf of Mexico
+A GPL2 - T4S1643 Cherokee
+F Galapagos Cores
+F Gibraltar - T4S1643 Cadiz Bay
+F Gulf of Guayaquil Supports T4S1643 Axura Hold
+A Japura Supports T4F1643 Japura - T4F1643 Japura
+A Lima Supports T4S1643 Quito - T4S1643 Shipibo
+F Lisbon Supports T5S1643 Lisbon - T5S1643 Porto
+A Madrid - T4S1643 Galicia
+F Marrakech - T4S1643 Anfa
+A Merida Supports T4S1643 Lisbon Hold
+A Nueva Vizcaya - T4S1643 Sonora
+F Philippine Sea - T4S1643 Zamboanga
+A Quito - T4S1643 Shipibo
+F Sardinia - T4S1643 Skerki Banks
+F St. Augustine Supports T4S1643 Chitimacha - T4S1643 Gulf of Mexico
+F Strait of Gibraltar - T4S1643 Tangier
+F Sulu Sea - T4S1643 Kota Batu
+F Valencia - T4S1643 Barbary Coast
+England:
+F Aceh - T4S1643 Palembang
+F Antigua - T4S1643 Guadeloupe
+F Bahamas - T4S1643 Antilles Current
+F Baracoa - T4S1643 Jamaica
+F Bermuda Supports T4S1643 Boston - T4S1643 Gulf of Maine
+F Boston - T4S1643 Gulf of Maine
+F Catawba - T4S1643 Santee
+A Connecticut - T4S1643 New Amsterdam
+A Cormantin - T4S1643 Wagadugu
+F Denmark Strait - T4S1643 Iceland
+A Djenne - T4S1643 Timbuktu
+A Edinburgh Cores
+A Falmouth - T4S1643 Estrie
+F Havana - T4S1643 Baracoa
+F Ireland - T4S1643 Rockall Rise
+A Jamestown - T4S1643 Cherokee
+F London - T4S1643 Southern Bight
+A Mohawk - T4S1643 Oneida
+F Oxford - T4S1643 North Sea
+F Plymouth - T4S1643 English Channel
+A Rajamahendri - T4S1643 Gondwana
+F St. Anthony Supports T4S1643 St. John's - T4S1643 Placentia Bay
+F St. John's - T4S1643 Placentia Bay
+Ajuuraan:
+A Azande Supports T4S1643 Bunyoro - T4S1643 Ngala
+A Baidoa Supports T4S1643 Qalaafe - T4S1643 Bunyoro
+F Dhambalin Shore Convoys T4S1643 Hobyo - T4S1643 Mahra
+A Hobyo - T4S1643 Mahra
+A Mahra - T4S1643 Kathiri
+A Oromo Supports T4S1643 Azande Hold
+A Qalaafe - T4S1643 Bunyoro
+F Seychelles - T4S1643 Somali Basin
+A Zanzibar - T4S1643 Kismayo
+France:
+F Cap-Haitien - T4S1643 St. Domingo
+F Cayenne - T4S1643 Guiana Current
+A Dijon - T4S1643 Strasburg
+A Fort Detroit - T4S1643 Menominee
+F Fort-Dauphin - T4S1643 Bara
+F Marseille - T4S1643 Ligurian Sea
+F Nantes - T4S1643 English Channel
+A Paris Supports T4S1643 Dijon - T4S1643 Strasburg
+F Port Royal - T4S1643 Cabot Strait
+F Reunion - T4S1643 INO1
+F St. Lawrence - T4S1643 Enticosty
+A St. Louis - T4S1643 Tukulor
+A Tadoussac - T4S1643 Papinachois
+A Ville Marie - T4S1643 Seneca
+Poland-Lithuania:
+A Berlin Supports T4S1643 Lubeck Hold
+A Courland - T4S1643 Smolensk
+F Jacob Fort - T4S1643 The Gambia
+A Krakow - T4S1643 Gdansk
+A Lubeck Supports T4F1643 Bremen - T4S1643 Bremen
+F New Courland - T4S1643 Aves Ridge
+A Warsaw - T4S1643 Volhynia
+A Wilno Supports T4S1643 Courland - T4S1643 Smolensk
+Russia:
+F Astrakhan - T4S1643 Caspian Sea
+A Bakchisarai Holds
+A Bratsk - T4S1643 Karakorum
+A Kalmykia Holds
+A Kharkov - T4S1643 Kabardia
+A Krasnoyarsk - T4S1643 Zaisan
+A Kyiv - T4S1643 Volhynia
+A Novgorod - T4S1643 Latgale
+A Smolensk - T4S1643 Kyiv
+F Spitsbergen - T4S1643 Greenland Sea
+A Tumeds Supports T4S1643 Krasnoyarsk - T4S1643 Zaisan
+A Turkestan - T4S1643 Bayuly
+A Yakutsk - T4S1643 Amur
+Portugal:
+A Arguin - T4S1643 Sahrawi
+F Azores - T4S1643 Madeira Plain
+A Ballari Supports T4F1643 Ballari - T4F1643 Hyderabad
+A Barotse - T4S1643 Kalahari
+A Burundi Supports T4F1643 Burundi - T4F1643 Burundi
+F Cabo Verde - T4S1643 The Gambia
+F Canary Basin Supports T4F1643 Canary Basin - T4F1643 Canaries
+F Dani - T4S1643 Halmahera Sea
+A Delagoa - T4S1643 Cape Khoe
+A Goa Supports T4F1643 Ballari - T4F1643 Hyderabad
+F Hainan - T4S1643 Luzon Strait
+F Iberian Current Supports T4F1643 Iberian Current - T4F1643 Porto
+A Idjil Supports T4F1643 Idjil - T4F1643 Oualata
+F Macau - T4S1643 Fokien Strait
+F Maldives - T4S1643 Somali Basin
+A Maravi - T4S1643 Bemba
+A Minas Gerais Supports T4F1643 Minas Gerais - T4F1643 Kahngag
+F Muscat Supports T4S1643 Rustaq - T4S1643 Strait of Hormuz
+F Niani Cores
+A Nokugu Supports T4F1643 Nokugu - T4F1643 Chiquitano
+A Porto - T4S1643 Lisbon
+F Puri - T4S1643 Bay of Paranagua
+F Rio de Janeiro - T4S1643 Guanabara Bay
+F Rustaq - T4S1643 Strait of Hormuz
+F Sakalava - T4S1643 Onilahy Bay
+A Sao Paulo Supports T4F1643 Sao Paulo - T4F1643 Puri
+F Sea of Azores Supports T4S1643 Porto - T4S1643 Lisbon
+F Timor - T4S1643 Flores
+Inuit:
+F Chukchis - T4S1643 Chukchi Sea
+F Dena'ina - T4S1643 Yakutat Bay
+A Evenki Cores
+F Godthaab - T4S1643 Labrador Sea
+F Iqaluit - T4S1643 Nunavut
+F Kereks wc - T4S1643 Sea of Okhotsk
+F Koryaks - T4S1643 NPO2
+A Kuujjuaq - T4S1643 Innus
+A Naskapi - T4S1643 Enticosty
+A Nome - T4S1643 Koyukon
+F Salliq - T4S1643 Hudson Bay
+F Sea of Okhotsk - T4S1643 Ainu
+A Tutchone - T1S1643 Chilcotin
+F Yupik - T4S1643 Dena'ina
+Mughal:
+A Burhanpur - T4S1643 Hyderabad
+F Cuttack - T4S1643 Ganges Delta
+A Gondwana Supports T4S1643 Burhanpur - T4S1643 Hyderabad
+A Kabul - T4S1643 Himalayas
+A Kolkata Supports T4S1643 Sasaram - T4S1643 Bhutan
+A Kunming - T4S1643 Dong Kinh
+A Sasaram - T4S1643 Bhutan
+Guarani:
+A Ayoreo - T4S1643 Weenhayek
+F Buenos Aires Cores
+A Caipira - T4S1643 Kahngag
+F Charrua - T4S1643 Rio Grande Rise
+A Chiquitano Supports T4S1643 Ayoreo - T4S1643 Weenhayek
+A Chiripa - T4S1643 Ayoreo
+A Mbya - T4S1643 Xeta
+A Minuane - T4S1643 Moqoit
+A Qom Cores
+Safavid:
+F Bandar Abbas - T4S1643 Arabian Sea
+A Derbent - T4S1643 Kabardia
+A Herat - T4S1643 Bukhara
+A Hissar - T4S1643 Yarkand
+A Khiva - T4S1643 Turkestan
+A Qeshm Supports T4S1643 Strait of Hormuz - T4S1643 Rustaq
+F Strait of Hormuz - T4S1643 Rustaq
+A Tabriz - T4S1643 Kurdistan
+A Uzgen Supports T4S1643 Khiva - T4S1643 Turkestan
+Sweden:
+F Abo - T4S1643 Gulf of Riga
+F Copenhagen - T4S1643 Lubeck
+F Gothenburg - T4S1643 Skagerrak
+F Kiel Supports T4S1643 Copenhagen - T4S1643 Lubeck
+A Riga - T4S1643 Courland
+F Stockholm - T4S1643 Baltic Sea
+A Umea - T4S1643 Abo
+Aymara:
+A Chipaya Supports T4S1643 Weenhayek - T4S1643 Wichi
+F Chuyma - T4S1643 Nazca Ridge
+F Likatanai Supports T4S1643 Chuyma - T4S1643 Nazca Ridge
+A Madeira - T4S1643 Shipibo
+A Quechua Supports T4S1643 Madeira - T4S1643 Shipibo
+A Weenhayek - T4S1643 Wichi
+Kongo:
+A Benguela - T3F1642 Kalahari
+A Mbanza - T3F1642 Loango
+A Ngala - T3F1642 Logone
+A Pango - T3F1642 Mongo
+F Soyo - T3F1642 Angola Basin
+F St. Helena - T3F1642 SAO3
+Netherlands:
+A Amazonia - T4S1643 Goias
+F Amsterdam - T4S1643 Southern Bight
+F Banjarmasin - T4S1643 Bangka
+F Bay of Bengal - T4S1643 Madras
+A Belem - T4S1643 Je
+A Bremen Supports T5S1643 Bremen - T4S1643 Hesse
+F Cape Khoe - T4S1643 SAO3
+F Ceylon - T4S1643 Venad
+F Fernando Po - T4S1643 Loango
+F Formosa - T4S1643 Qiantang Estuary
+F Ghent - T4S1643 Amsterdam
+A Great Ardra - T4S1643 Aja
+A Hausa States Supports T4S1643 Sangha - T4S1643 Baya
+A Kalina Supports T5S1643 Kalina - T5S1643 Cayenne
+F Madurai - T4S1643 Palyakkar
+A Mandara Supports T4S1643 Sangha - T4S1643 Baya
+F Mauritsstad - T4S1643 Todos os Santos Bay
+F NAO1 - T4S1643 SAO2
+A New Amsterdam - T4S1643 Boston
+F Parmurbo - T4S1643 Gulf of Paria
+A Philadelphia - T4S1643 Maryland
+F Puerto Rico Supports T4S1643 St. Maarten - T4S1643 Guadeloupe
+F Ryukyu Islands - T4S1643 East China Sea
+A Sangha - T4S1643 Baya
+A Sao Sebastiao - T4S1643 Mauritsstad
+F St. Maarten - T4S1643 Guadeloupe
+A Utrecht - T4S1643 Koln
+Abyssinia:
+A Aksum - T4S1643 Mek'ele
+A Bunyoro - T4S1643 Ngala
+F Cairo Supports T4F1643 Cairo - T4S1643 Levantine Sea
+A Darfur - T4S1643 Sara
+A Gondar - T4S1643 Gojjam
+F Mek'ele - T4S1643 Red Sea
+A Sannar - T4S1643 Darfur
+F Tripoli - T4S1643 Gulf of Gabes
+Austria:
+A Florence - T4S1643 Savoy
+A Freiburg Supports T4F1643 Freiburg - T4S1643 Strasburg
+F Naples Supports T4F1643 Naples - T4F1643 Ionian Sea
+A Nuremberg - T4S1643 Saxony
+A Pressburg - T4S1643 Slavonia
+F Rome ec - T4S1643 Adriatic Sea
+A Stuttgart - T4S1643 Hesse
+A Trieste Supports T4S1643 Pressburg - T4S1643 Slavonia
+A Venice Supports T4F1643 Trieste - T4F1643 Trieste
+A Vienna - T4S1643 Silesia
+Mapuche:
+A Chiloe Holds
+A Huarpe - T4S1643 Likatanai
+F Islas Malvinas - T4S1643 Bahia Grande
+F NPO5 - T4S1643 Mutsu Bay
+A Rankulche - T4S1643 Puelche
+A Tehuelche - T4S1643 Teushen
+F Teushen - T4S1643 Golfo San Jorge
+F Wurruk - T4S1643 SPO1
+Tokugawa:
+F Aomori - T4S1643 Tsugaru Strait
+A Edo - T2F1642 Yokuts
+F Kyoto - T4S1643 Kyushu
+F Osaka - T4S1643 Kuroshio Current
+Qing:
+A Fusan - T4S1643 Tsushima
+F Haishenwai - T4S1643 Oriental Sea
+A Hohhot - T4S1643 Xi'an
+A Nivkhs - T4S1643 Aldan
+A Orgoo - T4S1643 Outer Mongolia
+A Pyeongyang - T4S1643 Fusan
+A Qiqihar - T4S1643 Buryatia
+F Sahaliyan - T4S1643 Sea of Okhotsk
+A Shengjing - T4S1643 Pyeongyang
+Ute-Shoshone:
+F Akwa'ala - T4S1643 Sonora
+F Aleuts Holds
+A Arapaho - T4S1643 GPL1
+A Assiniboine - T4S1643 Gros Ventre
+A GPL1 - T4S1643 Ojibwe
+A Gosiute - T4S1643 Arapaho
+F Hawai'i - T4S1643 NPO2
+A Lakota - T4S1643 Dakota
+F Miwok - T4S1643 Chinook
+A Shoshone - T4S1643 Salish
+F Yokuts - T4S1643 North Equatorial Current
+Ottoman:
+A Baghdad - T4S1643 Khalidi
+A Constantinople - T4S1643 Targoviste
+A Jassy Supports T4S1643 Ochakiv - T4S1643 Kyiv
+A Mecca - T4S1643 Riyadh
+A Ochakiv - T4S1643 Kyiv
+A Riyadh - T4S1643 Sanaa
+F Salonica Supports T4F1643 Salonica - T4F1643 Salonica
+F Sanaa - T4S1643 Gulf of Tadjoura
+A Sarajevo - T4S1643 Slavonia
+F Smyrna - T4S1643 Constantinople
+A Split Supports T4S1643 Sarajevo - T4S1643 Slavonia
+A Tiflis - T4S1643 Derbent
+A Timbuktu - T4S1643 Djenne
+A Trebizond - T4S1643 Syunik
+A Tunis - T4S1643 Chaamba
+Timeline 5 Winter Builds 1642:
+Ming:
+Build A Peking
+Build A Lanzhou
+Build A Nanking
+Build A Chengdu
+Athapasca:
+Build A Tlicho
+Build F Chipewyan
+Ayutthaya:
+Build A Ayutthaya
+Build A Sukhothai
+Build F Nakhon Si ec
+Spain:
+Build F Barcelona
+Build F Canaries
+Build F Manila
+Build A Madrid
+Build A Bogota
+Build A Quito
+Build F Valencia
+Build F Gibraltar
+Build F St. Augustine
+England:
+Build F Plymouth
+Build F Belize
+Build A Cormantin
+Build F Madras
+Build A Jamestown
+Build F Boston
+Build A Masulipatnam
+Build F Bermuda
+Build A Falmouth
+Build F St. John's
+Build F Bahamas
+Ajuuraan:
+Build A Qalaafe
+Build F Mogadishu
+Build A Baidoa
+France:
+Build F Reunion
+Build A Dijon
+Build A Tadoussac
+Build F Cap-Haitien
+Build F Marseille
+Build A Ville Marie
+Build F Port Royal
+Build F Nantes
+Build A Fort Detroit
+Build F Fort-Dauphin
+Build F Cayenne
+Build A Paris
+Build A St. Louis
+Poland-Lithuania:
+Build A Warsaw
+Build F New Courland
+Build F Jacob Fort
+Build F Gdansk
+Russia:
+Build A Krasnoyarsk
+Portugal:
+Build F Beira
+Build F Azores
+Build F Cabo Verde
+Build A Arguin
+Build A Salvador
+Build A Maravi
+Build A Sao Paulo
+Build A Delagoa
+Build A Cochin
+Build F Timor
+Build F Rio de Janeiro
+Build A Goa
+Inuit:
+Build A Nome
+Build F Yupik
+Build F Kuujjuaq
+Build F Iqaluit
+Build F Chukchis
+Build A Quaqtaq
+Mughal:
+Build A Kabul
+Build A Delhi
+Build F Cuttack
+Guarani:
+Build A Mbya
+Build F Charrua
+Build A Minuane
+Build A Chiripa
+Safavid:
+Build A Herat
+Build F Tabriz
+Build F Tehran
+Sweden:
+Build A Stockholm
+Build A Abo
+Build F Gothenburg
+Build F Umea
+Aymara:
+Build A Chuyma
+Build A Chipaya
+Kongo:
+Build A Mpemba
+Build F Soyo
+Build A Mbanza
+Build A Pango
+Netherlands:
+Build A New Amsterdam
+Build F Ceylon
+Build F Great Ardra
+Build A Utrecht
+Build F Parmurbo
+Build F Fernando Po
+Build A Amsterdam
+Build F Formosa
+Abyssinia:
+Build F Mek'ele
+Build A Aksum
+Build A Debre Birhan
+Austria:
+Mapuche:
+Tokugawa:
+Build A Osaka
+Build F Edo
+Build A Kyoto
+Build F Aomori
+Qing:
+Build A Shengjing
+Build A Hohhot
+Build A Qiqihar
+Build F Haishenwai
+Ute-Shoshone:
+Build F Miwok
+Build A Paiute
+Build A Shoshone
+Build A Gosiute
+Ottoman:
+Build A Sarajevo
+Build F Tunis
+Timeline 6 Winter Builds 1642:
+Ming:
+Build A Lanzhou
+Build F Nanking
+Athapasca:
+Ayutthaya:
+Build A Ayutthaya
+Build A Sukhothai
+Build F Tavoy
+Build F Nakhon Si wc
+Spain:
+Build F Mexico City wc
+Build F Canaries
+Build F Panama sc
+Build F Manila
+Build A Madrid
+Build A Bogota
+Build A Quito
+Build F Valencia
+Build F Cebu
+Build F Gibraltar
+Build A St. Augustine
+England:
+Build F Plymouth
+Build F Belize
+Build F London
+Build A Jamestown
+Build F Antigua
+Build F Boston
+Build F Bermuda
+Build A Falmouth
+Build F St. John's
+Build F Bahamas
+Ajuuraan:
+Build F Mareeg
+Build A Mogadishu
+Build A Baidoa
+Build F Hobyo
+France:
+Build F Cap-Haitien
+Build A Ville Marie
+Build F Port Royal
+Build A Fort Detroit
+Build F Cayenne
+Build A Paris
+Poland-Lithuania:
+Build A Warsaw
+Build A Wilno
+Build F Gdansk
+Build A Kyiv
+Build F New Courland
+Portugal:
+Build F Beira
+Build A Porto
+Build A Cochin
+Build F Cabo Verde
+Build A Arguin
+Build F Maravi
+Build A Sao Paulo
+Build F Delagoa
+Build F Timor
+Inuit:
+Build F Iqaluit
+Build A Nome
+Mughal:
+Build A Sasaram
+Guarani:
+Build A Mbya
+Build F Charrua
+Build A Minuane
+Build A Chiripa
+Safavid:
+Build A Herat
+Build A Isfahan
+Build A Tabriz
+Sweden:
+Build A Umea
+Aymara:
+Build A Chuyma
+Build A Chipaya
+Kongo:
+Build A Mpemba
+Build F Soyo
+Build F Mbanza
+Build A Pango
+Netherlands:
+Build F Makassar
+Build F Manado
+Build A Utrecht
+Build F Parmurbo
+Build F Fernando Po
+Build F Amsterdam
+Abyssinia:
+Build A Gondar
+Build F Mek'ele
+Build A Aksum
+Build A Debre Birhan
+Austria:
+Build A Innsbruck
+Build F Trieste
+Build A Pressburg
+Mapuche:
+Build A Rankulche
+Build A Tucapel
+Build F Teushen
+Tokugawa:
+Build F Osaka
+Build F Edo
+Build F Kyoto
+Build F Aomori
+Qing:
+Build A Hohhot
+Build A Shengjing
+Build F Haishenwai
+Ute-Shoshone:
+Build F Yokuts
+Build F Miwok
+Build A Paiute
+Build A Shoshone
+Build A Gosiute
+Ottoman:
+Build A Cairo
+Build A Tripoli
+Build A Tunis
+Build A Baghdad
+
