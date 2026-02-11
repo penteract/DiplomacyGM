@@ -575,3 +575,19 @@ province""",
                 "title": "**Orders removed successfully.**",
                 "messages": output,
         }
+
+def remove_player_order_for_province(board: Board, player: Player, province: Province) -> bool:
+    if province is None:
+        return False
+    for player_order in player.build_orders:
+        if not isinstance(player_order, order.PlayerOrder):
+            continue
+        if player_order.province == province:
+            player.build_orders.remove(player_order)
+            database = get_connection()
+            database.execute_arbitrary_sql(
+                "DELETE FROM builds WHERE board_id=? and phase=? and location=?",
+                (board.board_id, board.turn.get_indexed_name(), player_order.province.name),
+            )
+            return True
+    return False

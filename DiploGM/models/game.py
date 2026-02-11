@@ -129,13 +129,17 @@ class Game():
                                 p.fleet_adjacent.add((other_board.name_to_province[ap.name.lower()] ,acoast))
                         # Province.adjacent: set[Province]
                         # Province.fleet_adjacent: set[tuple[Province, str | None]] | dict[str, set[tuple[Province, str | None]]]
-    def get_turn_province_and_coast(self, prov:str):
+    def get_turn_province_and_coast(self, prov:str, retreats:bool=False):
         t,p = get_turn(prov,self.start_year)
+        if retreats and t.is_moves():
+            t = t.get_next_turn()
         p = self.get_board(t).get_province_and_coast(p.strip())
         # assert not p[0].isFake
         return p
-    def get_turn_and_province(self, prov:str):
+    def get_turn_and_province(self, prov:str, retreats:bool=False):
         t,p = get_turn(prov,self.start_year)
+        if retreats and t.is_moves():
+            t = t.get_next_turn()
         p = self.get_board(t).get_province(p.strip())
         # assert not p.isFake
         return p
