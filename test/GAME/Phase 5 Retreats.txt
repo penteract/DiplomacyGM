@@ -1,4 +1,4 @@
-Timeline 1 Fall Retreats 1643:
+Timeline 1 Fall 1643:
 Portugal:
 A Porto Disbands
 Athapasca:
@@ -32,7 +32,7 @@ England:
 Inuit:
 Guarani:
 F Buenos Aires - T1F1643 Charrua
-Timeline 2 Spring Retreats 1643:
+Timeline 2 Spring 1643:
 Portugal:
 A Porto Disbands
 Athapasca:
@@ -62,7 +62,7 @@ Abyssinia:
 England:
 Inuit:
 Guarani:
-Timeline 4 Spring Retreats 1643:
+Timeline 4 Spring 1643:
 Portugal:
 Athapasca:
 Ottoman:
@@ -92,7 +92,7 @@ England:
 Inuit:
 A Tutchone - T4S1643 Sekani
 Guarani:
-Timeline 7 Fall Retreats 1642:
+Timeline 7 Fall 1642:
 Portugal:
 Athapasca:
 Ottoman:
@@ -121,7 +121,7 @@ Abyssinia:
 England:
 Inuit:
 Guarani:
-Timeline 8 Fall Retreats 1642:
+Timeline 8 Fall 1642:
 Portugal:
 Athapasca:
 Ottoman:
@@ -151,7 +151,7 @@ F English Channel - T8F1642 Southern Bight
 F St. Anthony - T8F1642 Placentia Bay
 Inuit:
 Guarani:
-Timeline 9 Spring Retreats 1643:
+Timeline 9 Spring 1643:
 Portugal:
 F Puri Disbands
 Athapasca:

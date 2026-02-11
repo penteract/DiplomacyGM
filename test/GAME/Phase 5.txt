@@ -1,4 +1,4 @@
-Timeline 1 Fall Moves 1643:
+Timeline 1 Fall 1643:
 Ming:
 A Bhamo - T1F1643 Ava
 F East China Sea - T1F1643 Ryukyu Islands
@@ -286,7 +286,7 @@ A Tiflis - T1S1643 Shapsugh
 A Timbuktu - T1F1643 Oualata
 A Trebizond - T1F1643 Tiflis
 A Van - T1F1643 Kurdistan
-Timeline 2 Spring Moves 1643:
+Timeline 2 Spring 1643:
 Ming:
 A Bhamo - T2F1642 Kolkata
 A Chengdu - T2S1643 Rinpungpa
@@ -613,7 +613,7 @@ A Split Supports T2S1643 Sarajevo - T2S1643 Slavonia
 A Tiflis - T2F1642 Kabardia
 A Trebizond - T2S1643 Tiflis
 F Tunis - T2S1643 Algerian Basin
-Timeline 3 Winter Builds 1642:
+Timeline 3 Winter 1642:
 Ming:
 Build A Peking
 Build F Nanking
@@ -747,7 +747,7 @@ Build F Constantinople
 Build A Salonica
 Build A Smyrna
 Build A Baghdad
-Timeline 4 Spring Moves 1643:
+Timeline 4 Spring 1643:
 Ming:
 A Bhamo - T4S1643 Kunming
 A Chengdu - T4S1643 Kunming
@@ -1063,7 +1063,7 @@ A Tiflis - T4S1643 Derbent
 A Timbuktu - T4S1643 Djenne
 A Trebizond - T4S1643 Syunik
 A Tunis - T4S1643 Chaamba
-Timeline 5 Winter Builds 1642:
+Timeline 5 Winter 1642:
 Ming:
 Build A Peking
 Build A Lanzhou
@@ -1202,7 +1202,7 @@ Build A Gosiute
 Ottoman:
 Build A Sarajevo
 Build F Tunis
-Timeline 6 Winter Builds 1642:
+Timeline 6 Winter 1642:
 Ming:
 Build A Lanzhou
 Build F Nanking
