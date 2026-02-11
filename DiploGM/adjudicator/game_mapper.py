@@ -158,7 +158,12 @@ class GameMapper:
                         root = create_element("svg", svg.attrib)
 
                     w, h = get_offset(turn, dims=self.svg_size, year_offset = self.game.variant.year_offset) #self._turn_to_offset(turn)
-                    group = create_element("g", {"transform": f"translate({w}, {h})"})
+                    props = {"transform": f"translate({w}, {h})"}
+                    if turn.is_retreats():
+                        props["filter"]="brightness(0.7)"
+                    if turn.is_builds():
+                        props["filter"]="contrast(0.54) brightness(1.3)"
+                    group = create_element("g", props)
                     arrow_group = create_element("g",{})
                     arrow_groups.append(arrow_group)
 
