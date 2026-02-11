@@ -98,7 +98,7 @@ class ConvoyMove(UnitOrder):
         self.destination_coast: None = None
 
     def __str__(self):
-        return f"Convoys - {self.get_destination_str()}"
+        return f"-> {self.get_destination_str()}"
     
     def get_destination_and_coast(self) -> tuple[Province, None]:
         return (self.destination, None)
