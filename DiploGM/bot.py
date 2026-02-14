@@ -311,6 +311,14 @@ class DiploGM(commands.Bot):
             )
             return
 
+        if isinstance(original, commands.CheckFailure):
+            await send_message_and_file(
+                channel=ctx.channel,
+                message="Most commands have been deliberately disabled for the sanity of bot developers.",
+                embed_colour=ERROR_COLOUR,
+            )
+            return
+
         if isinstance(original, CommandPermissionError):
             await send_message_and_file(
                 channel=ctx.channel,

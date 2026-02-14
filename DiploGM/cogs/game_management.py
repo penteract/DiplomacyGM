@@ -1,6 +1,7 @@
 import logging
 import random
 import re
+import datetime
 
 import discord.utils
 from discord import (
@@ -435,15 +436,9 @@ class GameManagementCog(commands.Cog):
             await upload_map_to_archive(ctx, guild.id, board, file)
 
     @commands.command(
-        brief="Adjudicates the game and outputs the moves and results maps.",
+        brief="Adjudicates the game.",
         description="""
-        GMs may append true as an argument to this command to instead get the base svg file.
-        * adjudicate {arguments}
-        Arguments: 
-        * pass true|t|svg|s to return an svg
-        * pass standard, dark, blue, or pink for different color modes if present
-        * pass test to view maps without doing an actual adjudication
-        * pass full to automatically publish orders and maps
+        Also creates a log file of the orders just before adjudication
         """,
     )
     @perms.gm_only("adjudicate")
@@ -451,147 +446,42 @@ class GameManagementCog(commands.Cog):
         guild = ctx.guild
         assert guild is not None
 
-        board = manager.get_board(guild.id)
+        g = manager.get_game(guild.id)
+        message = "adjudicating "
+        turnName = str(g.all_turns()[0][-1])
+        if g.is_retreats(): turnName += " (retreats)"
+        message += turnName
+        log_command(logger, ctx, message=message)
+        fileName = turnName+"--"+datetime.datetime.now().isoformat("T","seconds")+".txt"
+        with open(fileName,mode="w") as orderfile:
+            orderfile.write(manager.print_orders(guild.id))
+        await ctx.channel.send("orders logged to "+repr(fileName)+"\nstarting adjudication")
+        manager.adjudicate(guild.id)
+        #game = manager.get_game(guild.id)
+        await ctx.channel.send("adjudication complete")
 
-        arguments = (
-            ctx.message.content.removeprefix(f"{ctx.prefix}{ctx.invoked_with}")
-            .strip()
-            .lower()
-            .split()
-        )
-        return_svg = not ({"true", "t", "svg", "s"} & set(arguments))
-        color_arguments = list(config.color_options & set(arguments))
-        color_mode = color_arguments[0] if color_arguments else None
-        test_adjudicate = "test" in arguments
-        full_adjudicate = "full" in arguments
-        movement_adjudicate = "movement" in arguments
+    @commands.command(
+        brief="Creates a map file.",
+        description="""
+        Ask the server owner for the actual file. The file may be rather large.
+        """,
+    )
+    @perms.gm_only("draw map")
+    async def draw_map(self, ctx: commands.Context) -> None:
+        guild = ctx.guild
+        assert guild is not None
 
-        if test_adjudicate and full_adjudicate:
-            await send_message_and_file(
-                channel=ctx.channel,
-                title="Test and full adjudications are incompatable. Defaulting to test adjudication.",
-                embed_colour=config.PARTIAL_ERROR_COLOUR,
-            )
-            full_adjudicate = False
+        g = manager.get_game(guild.id)
+        message = "drawing map "
+        turnName = str(g.all_turns()[0][-1])
+        if g.is_retreats(): turnName += " (retreats)"
+        message += turnName
+        log_command(logger, ctx, message=message)
+        fileName = turnName+"--"+datetime.datetime.now().isoformat("T","seconds")+".svg"
 
-        if full_adjudicate:
-            await self.lock_orders(ctx)
-
-        old_turn = board.turn
-        new_board = manager.adjudicate(guild.id, test=test_adjudicate)
-
-        log_command(
-            logger,
-            ctx,
-            message=f"Adjudication Successful for {board.turn}",
-        )
-        file, file_name = manager.draw_map(
-            guild.id,
-            draw_moves=True,
-            player_restriction=None,
-            color_mode=color_mode,
-            turn=old_turn,
-        )
-        title = f"{board.name} — " if board.name else ""
-        title += f"{old_turn}"
-        await send_message_and_file(
-            channel=ctx.channel,
-            title=f"{title} Orders Map",
-            message="Test adjudication" if test_adjudicate else "",
-            file=file,
-            file_name=file_name,
-            convert_svg=return_svg,
-        )
-        if full_adjudicate and (map_channel := get_maps_channel(guild)):
-            map_message = await send_message_and_file(
-                channel=map_channel,
-                title=f"{title} Orders Map",
-                file=file,
-                file_name=file_name,
-                convert_svg=True,
-            )
-            try:
-                await map_message.publish()
-            except:
-                pass
-
-        if movement_adjudicate:
-            file, file_name = manager.draw_map(
-                guild.id,
-                draw_moves=True,
-                player_restriction=None,
-                color_mode=color_mode,
-                turn=old_turn,
-                movement_only=True,
-            )
-            title = f"{board.name} — " if board.name else ""
-            title += f"{old_turn}"
-            await send_message_and_file(
-                channel=ctx.channel,
-                title=f"{title} Movement Map",
-                message="Test adjudication" if test_adjudicate else "",
-                file=file,
-                file_name=file_name,
-                convert_svg=return_svg,
-            )
-
-        file, file_name = manager.draw_map_for_board(new_board, color_mode=color_mode)
-        await send_message_and_file(
-            channel=ctx.channel,
-            title=f"{title} Results Map",
-            message="Test adjudication results" if test_adjudicate else "",
-            file=file,
-            file_name=file_name,
-            convert_svg=return_svg,
-        )
-
-        if full_adjudicate and (map_channel := get_maps_channel(guild)):
-            map_message = await send_message_and_file(
-                channel=map_channel,
-                title=f"{title} Results Map",
-                file=file,
-                file_name=file_name,
-                convert_svg=True,
-            )      
-            try:
-                await map_message.publish()
-            except:
-                pass
-        
-        if full_adjudicate:
-            await self.publish_orders(ctx)
-            await self.unlock_orders(ctx)
-
-        # NOTE: Temporary for Meme's Severence Diplomacy Event
-        if guild.id in [SEVERENCE_A_ID, SEVERENCE_B_ID]:
-            seva = self.bot.get_guild(SEVERENCE_A_ID)
-            sevb = self.bot.get_guild(SEVERENCE_B_ID)
-            
-            seva_player = discord.utils.find(lambda r: r.name == "Player", seva.roles)
-            aperms = seva_player.permissions
-            sevb_player = discord.utils.find(lambda r: r.name == "Player", sevb.roles)
-            bperms = sevb_player.permissions
-
-            a_allowed = ("Spring" in new_board.turn.get_phase()
-                        or ("Winter" in new_board.turn.get_phase()
-                            and random.choice([0, 1]) == 0))
-            await send_message_and_file(channel=ctx.channel, message=f"Game {'A' if a_allowed else 'B'} is permitted to play.")
-            aperms.update(send_messages=a_allowed)
-            bperms.update(send_messages=(not a_allowed))
-
-        # AUTOMATIC SCOREBOARD OUTPUT FOR DATA SPREADSHEET
-        if new_board.turn.is_builds() and (guild.id != config.BOT_DEV_SERVER_ID and guild.name.startswith("Imperial Diplomacy")) and not test_adjudicate:
-            channel = self.bot.get_channel(config.IMPDIP_SERVER_WINTER_SCOREBOARD_OUTPUT_CHANNEL_ID)
-            if not channel:
-                await send_message_and_file(channel=ctx.channel, message="Couldn't automatically send off the Winter Scoreboard data", embed_colour=config.ERROR_COLOUR)
-                return
-            title = f"### {guild.name} Centre Counts (alphabetical order) | {new_board.turn}"
-
-            players = sorted(new_board.players, key=lambda p: p.get_name())
-            counts = "\n".join(map(lambda p: str(len(p.centers)), players))
-
-            await channel.send(title)
-            await channel.send(counts)
+        with open(fileName,mode="w") as f:
+            print(manager.draw_map(guild.id, draw_moves=True)[0].decode("utf-8"), file=f)
+        await ctx.channel.send(f"map drawn and saved to {repr(fileName)}")
 
     @commands.command(brief="Rolls back to the previous game state.")
     @perms.gm_only("rollback")

@@ -35,7 +35,7 @@ logger = logging.getLogger(__name__)
 output_config_logs()
 
 
-allowed_commands = {"help", "order", "rollback", "view_orders","log_orders", "remove_order"}
+allowed_commands = {"help", "order", "rollback", "view_orders","log_orders", "remove_order", "adjudicate", "draw_map"}
 async def main():
     token = DISCORD_TOKEN
     if not token:
