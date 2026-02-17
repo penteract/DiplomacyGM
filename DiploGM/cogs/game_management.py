@@ -453,6 +453,7 @@ class GameManagementCog(commands.Cog):
         message += turnName
         log_command(logger, ctx, message=message)
         fileName = turnName+"--"+datetime.datetime.now().isoformat("T","seconds")+".txt"
+        fileName = fileName.replace(":","-")
         with open(fileName,mode="w") as orderfile:
             orderfile.write(manager.print_orders(guild.id))
         await ctx.channel.send("orders logged to "+repr(fileName)+"\nstarting adjudication")
@@ -478,7 +479,7 @@ class GameManagementCog(commands.Cog):
         message += turnName
         log_command(logger, ctx, message=message)
         fileName = turnName+"--"+datetime.datetime.now().isoformat("T","seconds")+".svg"
-
+        fileName = fileName.replace(":","-")
         with open(fileName,mode="w") as f:
             print(manager.draw_map(guild.id, draw_moves=True)[0].decode("utf-8"), file=f)
         await ctx.channel.send(f"map drawn and saved to {repr(fileName)}")
