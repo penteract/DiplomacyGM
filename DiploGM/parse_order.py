@@ -549,10 +549,13 @@ province""",
 
     database = get_connection()
     for province in provinces_with_removed_builds:
-        database.execute_arbitrary_sql(
-            "DELETE FROM builds WHERE board_id=? and phase=? and location=?",
-            (board.board_id, province.turn.get_indexed_name(), province.name),
-        )
+        remove_player_order_for_province(board, province.owner, province)
+        #TODO: check this
+        # database.execute_arbitrary_sql(
+        #     "DELETE FROM builds WHERE board_id=? and phase=? and location=?",
+        #     (board.board_id, province.turn.get_indexed_name(), province.name),
+        # )
+    remove_player_order_for_province
 
     paginator = Paginator(prefix="```ansi\n", suffix="```", max_size=4096)
 
@@ -587,7 +590,7 @@ def remove_player_order_for_province(board: Board, player: Player, province: Pro
             database = get_connection()
             database.execute_arbitrary_sql(
                 "DELETE FROM builds WHERE board_id=? and phase=? and location=?",
-                (board.board_id, board.turn.get_indexed_name(), player_order.province.name),
+                (board.board_id, province.turn.get_indexed_name(), player_order.province.name),
             )
             return True
     return False
